@@ -25,6 +25,17 @@ const GetCamera = () => {
       return error.response;
     });
 };
+const GetCameraOnly = () => {
+  const url = `${API_HOST}${endPoint.CameraOnly}`;
+  return axios
+    .get(url)
+    .then(function (response) {
+      return response;
+    })
+    .catch(function (error) {
+      return error.response;
+    });
+};
 const GetCameraInfo = (data) => {
   const url = `${API_HOST}/api/camera/deviceinfo`;
   return axios
@@ -37,5 +48,5 @@ const GetCameraInfo = (data) => {
     });
 };
 
-const apiCamera = { PostCamera, GetCamera, GetCameraInfo };
+const apiCamera = { PostCamera, GetCamera, GetCameraInfo, GetCameraOnly };
 export default apiCamera;

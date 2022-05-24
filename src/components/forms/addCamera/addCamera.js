@@ -32,21 +32,22 @@ export default function AddCamera() {
   }, []);
 
   const handleSubmit = (values, { resetForm }) => {
-    values.isGoodCondition = checked;
-    values.dateInstallation = dateValue;
-    values.dateBuys = dateValueB;
-    apiCamera.PostCamera(values).then((res) => {
-      if (res.status === 400) {
-        toast.warning(res.data);
-      }
-      if (res.status === 200) {
-        toast("Registro Ingresado");
-        resetForm();
-      }
-    });
-    setData("");
-    setDataS("");
-    resetForm();
+    console.log(values);
+    // values.isGoodCondition = checked;
+    // values.dateInstallation = dateValue;
+    // values.dateBuys = dateValueB;
+    // apiCamera.PostCamera(values).then((res) => {
+    //   if (res.status === 400) {
+    //     toast.warning(res.data);
+    //   }
+    //   if (res.status === 200) {
+    //     toast("Registro Ingresado");
+    //     resetForm();
+    //   }
+    // });
+    // setData("");
+    // setDataS("");
+    // resetForm();
   };
 
   const getData = async () => {
@@ -73,11 +74,7 @@ export default function AddCamera() {
     <LocalizationProvider dateAdapter={DateAdapter}>
       <div className="form-class">
         <div className="title">Ingreso de Equipo</div>
-        <Form
-          initialValues={initialValues}
-          validationSchema={validationCamera}
-          onSubmit={handleSubmit}
-        >
+        <Form initialValues={initialValues} onSubmit={handleSubmit}>
           <Grid container spacing={3}>
             <Grid item xs={12} sm={6}>
               <FieldText name="ipAddress" label="Ip Address" type="text" />

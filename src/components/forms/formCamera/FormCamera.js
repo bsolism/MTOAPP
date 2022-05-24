@@ -36,6 +36,7 @@ export default function FormCamera() {
     values.isGoodCondition = checked;
     values.dateInstallation = dateValue;
     values.dateBuys = dateValueB;
+    console.log(values);
     apiCamera.PostCamera(values).then((res) => {
       if (res.status === 400) {
         toast.warning(res.data);
@@ -84,11 +85,7 @@ export default function FormCamera() {
             <React.Fragment>
               <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
                 <Grid container spacing={3}>
-                  <Form
-                    initialValues={initialValues}
-                    validationSchema={validationCamera}
-                    onSubmit={handleSubmit}
-                  >
+                  <Form initialValues={initialValues} onSubmit={handleSubmit}>
                     <Text required={true} name="ipAddress" label="Ip Address" />
                     <Text required={true} name="user" label="User" />
                     <Text required={true} name="password" label="Password" />
@@ -152,6 +149,7 @@ export default function FormCamera() {
                         marginBottom: "10px",
                       }}
                     />
+
                     <SubmitButton title="Save" />
                   </Form>
                 </Grid>
