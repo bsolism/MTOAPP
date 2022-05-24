@@ -1,0 +1,3 @@
+hostname="IPC 01"
+serial="4509897685"
+mac="44:35:65:y7:u8"

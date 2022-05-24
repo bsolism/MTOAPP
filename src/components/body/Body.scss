@@ -1,0 +1,13 @@
+@import "../../scss/index.scss";
+
+.body {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  height: 100%;
+  .content {
+    margin-top: 10px;
+    display: flex;
+    width: 80%;
+  }
+}

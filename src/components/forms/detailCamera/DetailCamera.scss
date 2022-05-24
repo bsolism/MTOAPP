@@ -1,0 +1,48 @@
+@import "../../../scss/index.scss";
+
+.form-class {
+    .title {
+      width: 100%;
+      margin-bottom: 50px;
+  
+      align-items: center;
+    }
+    .detailTop{
+       
+        width: 100%;        
+        display: flex;    
+       
+        .boxDetail{            
+          
+            width: 500px;
+            height: 200px;
+           
+           
+        }
+        .boxImage{
+            border: 1px solid;
+            width: 300px;
+            height: 200px;
+            margin-left: 2px;
+        }
+    }
+    
+    .content{
+      display: flex;
+      flex-direction: row;
+    }
+    .button {
+      margin-left: 10px;
+      width: 150px;
+      font-size: 11px;
+    }
+  
+    .form-group {
+      margin-top: 10px;
+  
+      .form-control-label {
+        margin: 5px;
+      }
+    }
+  }
+  

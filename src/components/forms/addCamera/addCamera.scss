@@ -1,0 +1,25 @@
+@import "../../../scss/index.scss";
+
+.form-class {
+  .title {
+    width: 100%;
+    margin-bottom: 5px;
+    align-items: center;
+  }
+  .content{
+    display: flex;
+  }
+  .button {
+    margin-left: 10px;
+    width: 150px;
+    font-size: 11px;
+  }
+
+  .form-group {
+    margin-top: 10px;
+
+    .form-control-label {
+      margin: 5px;
+    }
+  }
+}
