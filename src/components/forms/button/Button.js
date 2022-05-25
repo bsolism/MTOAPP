@@ -70,7 +70,7 @@ export default function FormButton({ source, press, ...otherProps }) {
     setFieldValue("model", "");
     setFieldValue("mac", "");
     setFieldValue("deviceId", "");
-    setFieldValue("deviceDescription", "");
+    if (source === "camera") setFieldValue("deviceDescription", "");
     setFieldValue("serialNumber", "");
     setFieldValue("firmwareVersion", "");
 
@@ -83,8 +83,10 @@ export default function FormButton({ source, press, ...otherProps }) {
 
     if (cred.brand === 5) {
       await apiDeviceInfo.GetCameraInfoHik(cred).then((res) => {
+        console.log(res);
         if (res) {
           var xmlData = new XMLParser().parseFromString(res.data);
+          console.log(xmlData);
 
           setXml(xmlData);
         }

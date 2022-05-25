@@ -5,9 +5,9 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Divider, Grid, CssBaseline } from "@mui/material";
 import { toast } from "react-toastify";
 import Form from "../form";
-import initialValues from "../../../models/camera";
+import initialValues from "../../../models/server";
 import validationCamera from "../../../validation/validationCamera";
-import { apiCamera, apiServer, apiBrand } from "../../../services";
+import { apiCamera, apiAgency, apiBrand, apiServer } from "../../../services";
 import Text from "../Field/Text";
 import FieldSelect from "../Field/FieldSelect";
 import Button from "../button";
@@ -19,7 +19,7 @@ import SubmitButton from "../SubmitButton";
 
 const theme = createTheme();
 
-export default function FormCamera() {
+export default function FormServer() {
   const [checked, setChecked] = useState(true);
   const [dateValue, setDateValue] = useState(new Date("2022-03-23T13:53"));
   const [dateValueB, setDateValueB] = useState(new Date("2022-03-23T13:53"));
@@ -31,27 +31,27 @@ export default function FormCamera() {
   useEffect(() => {
     getData();
   }, []);
-
   const handleSubmit = (values, { resetForm }) => {
     values.isGoodCondition = checked;
     values.dateInstallation = dateValue;
     values.dateBuys = dateValueB;
     console.log(values);
-    apiCamera.PostCamera(values).then((res) => {
+    apiServer.PostServer(values).then((res) => {
       if (res.status === 400) {
         toast.warning(res.data);
       }
       if (res.status === 200) {
         toast("Registro Ingresado");
         resetForm();
-        setData("");
-        setDataS("");
       }
     });
+    setData("");
+    setDataS("");
+    resetForm();
   };
 
   const getData = async () => {
-    await apiServer.GetServer().then((res) => {
+    await apiAgency.GetAgency().then((res) => {
       setdataSelectServer(res.data);
     });
 
@@ -69,6 +69,7 @@ export default function FormCamera() {
   const handleChangeDateB = (value) => {
     setDateValueB(value);
   };
+
   return (
     <LocalizationProvider dateAdapter={DateAdapter}>
       <ThemeProvider theme={theme}>
@@ -79,7 +80,7 @@ export default function FormCamera() {
             sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}
           >
             <Typography component="h1" variant="h6" align="center">
-              Agregar IPC
+              Agregar Server/NVR/DVR
             </Typography>
             <React.Fragment>
               <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
@@ -96,14 +97,13 @@ export default function FormCamera() {
                         setData={setData}
                       />
                     </Grid>
-                    <Button className="button" source="camera" />
+                    <Button className="button" source="server" />
                     <Divider style={{ width: "100%" }} />
                     <Text required={true} name="name" label="Name" />
                     <Text required={true} name="type" label="Type" />
                     <Text name="model" label="Model" />
                     <Text name="mac" label="Mac" />
                     <Text name="deviceId" label="DeviceId" />
-                    <Text name="deviceDescription" label="DeviceDescription" />
                     <Text name="serialNumber" label="SerialNumber" />
                     <Text name="firmwareVersion" label="FirmwareVersion" />
                     <Text name="location" label="Location" />
@@ -123,17 +123,21 @@ export default function FormCamera() {
                     </Grid>
                     <Grid item xs={12} sm={3}>
                       <FieldSelect
-                        origin="camera"
+                        origin="server"
                         source={dataSelectServer}
                         data={dataS}
                         setData={setDataS}
                       />
                     </Grid>
-                    <Text name="locationConnection" label="Location" />
-                    <Text name="idPatchPanel" label="Patch Panel" />
-                    <Text name="idSwitch" label="Switch" sm={2} />
-                    <Text name="portPatchPanel" label="Port PP" sm={2} />
-                    <Text name="portSwitch" label="Port Switch" sm={2} />
+                    <Text name="cameraCapacity" label="Cam. Cap." />
+                    <Text name="cameraAvailable" label="Cam. Disp." />
+                    <Text name="storage" label="Cap. Storage" />
+                    <Text
+                      name="storageAvailable"
+                      label="Storage Disp."
+                      sm={2}
+                    />
+                    <Text name="engravedDays" label="Days Engraved" sm={2} />
                     <Grid item xs={12} sm={12}>
                       <SwitchField
                         handleChange={handleChange}

@@ -41,7 +41,29 @@ const columns = [
     },
   },
 
-  { field: "cameraAvailable", headerName: "Cap. Cam", width: 100 },
+  {
+    field: "cameraCapacity",
+    headerName: "Camaras",
+    width: 100,
+    hide: true,
+  },
+  {
+    field: "cameras",
+    headerName: "Camaras",
+    width: 100,
+    hide: true,
+    renderCell: (params) => {
+      return params.value.length;
+    },
+  },
+  {
+    field: "camerasFull",
+    headerName: "Camaras",
+    width: 100,
+    sortable: false,
+    valueGetter: (params) =>
+      `${params.row.cameras.length}/${params.row.cameraCapacity}`,
+  },
   {
     field: "isGoodCondition",
     headerName: "Estado",
@@ -71,6 +93,7 @@ export default function Sever() {
 
   const getData = async () => {
     await apiServer.GetServer().then((res) => {
+      console.log(res.data);
       setData(res.data);
     });
   };

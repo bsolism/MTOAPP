@@ -4,6 +4,7 @@ import apiCamera from "../../services/apiCamera";
 import useApi from "../../hook/useApi";
 
 import PieChart from "../../components/Chart/Pie";
+import LineChart from "../../components/Chart/LineChart";
 
 import BasicLayout from "../../Layout";
 
@@ -29,6 +30,11 @@ export default function Dashboard() {
         <Grid item xs={12} sm={4}>
           <div className="chart-pie">
             <PieChart dataSource={data} />
+          </div>
+        </Grid>
+        <Grid item xs={12} sm={4}>
+          <div className="chart-pie">
+            <LineChart dataSource={data} />
           </div>
         </Grid>
       </Grid>
