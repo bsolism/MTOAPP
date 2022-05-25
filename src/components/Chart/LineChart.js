@@ -48,12 +48,12 @@ export default function LineChart({ dataSource }) {
       {
         label: "Buenas",
         data: [7, 16],
-        backgroundColor: "rgba(53, 162, 235, 0.5)",
+        backgroundColor: "rgba(53, 162, 235, 0.8)",
       },
       {
         label: "Malas",
         data: [1, 2],
-        backgroundColor: "rgba(255, 99, 132, 0.5)",
+        backgroundColor: "rgba(255, 99, 132, 0.8)",
       },
     ],
     labels: ["3era ", "Procahsa"],

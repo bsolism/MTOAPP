@@ -10,7 +10,7 @@ export default function PieChart({ dataSource }) {
     datasets: [
       {
         data: [bueno, malo],
-        backgroundColor: ["blue", "red"],
+        backgroundColor: ["rgba(53, 162, 235, 0.8)", "rgba(255, 99, 132, 0.8)"],
       },
     ],
     labels: ["Bueno " + bueno, "Malo " + malo],
