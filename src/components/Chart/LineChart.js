@@ -11,6 +11,7 @@ import {
   Filler,
 } from "chart.js";
 import { Bar } from "react-chartjs-2";
+
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -27,11 +28,13 @@ const scores2 = [1, 3, 2, 2, 4, 4, 5, 3, 2];
 const labels = [100, 200, 300, 400, 500, 600, 700];
 
 const options = {
-  fill: true,
   responsive: true,
-  scales: {
+  scale: {
     y: {
-      min: 0,
+      ticks: {
+        max: 100,
+        stepSize: 10,
+      },
     },
   },
   plugins: {
@@ -40,6 +43,7 @@ const options = {
     },
   },
 };
+
 export default function LineChart({ dataSource }) {
   const [bueno, setBueno] = useState(0);
   const [malo, setMalo] = useState(0);
@@ -47,16 +51,16 @@ export default function LineChart({ dataSource }) {
     datasets: [
       {
         label: "Buenas",
-        data: [7, 16],
+        data: [7, 16, 82],
         backgroundColor: "rgba(53, 162, 235, 0.8)",
       },
       {
         label: "Malas",
-        data: [1, 2],
+        data: [1, 2, 0],
         backgroundColor: "rgba(255, 99, 132, 0.8)",
       },
     ],
-    labels: ["3era ", "Procahsa"],
+    labels: ["3era ", "Procahsa", "La Ceiba"],
   };
 
   useEffect(() => {
@@ -81,5 +85,5 @@ export default function LineChart({ dataSource }) {
       labels,
     };
   }, []);
-  return <Bar data={data} />;
+  return <Bar data={data} options={options} width={"30%"} height={"30%"} />;
 }
