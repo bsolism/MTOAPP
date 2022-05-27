@@ -6,7 +6,12 @@ import apiDeviceInfo from "../../../services/apiDeviceInfo";
 
 import "./Button.scss";
 
-export default function FormButton({ source, press, ...otherProps }) {
+export default function FormButton({
+  source,
+  press,
+
+  ...otherProps
+}) {
   const { setFieldValue, values } = useFormikContext();
   const [xml, setXml] = useState({
     children: [],
@@ -20,9 +25,9 @@ export default function FormButton({ source, press, ...otherProps }) {
   });
   const [data, setData] = useState({});
 
-  useEffect(() => {
-    setValue();
-  }, [xml, dataText]);
+  // useEffect(() => {
+  //   setValue();
+  // }, [xml, dataText]);
 
   const setValue = () => {
     if (values.brandId === 5) {
@@ -55,6 +60,9 @@ export default function FormButton({ source, press, ...otherProps }) {
     }
     if (values.brandId === 11) {
       setFieldValue("name", dataText.system_hostname);
+      setFieldValue("type", "IPCamera");
+      setFieldValue("deviceId", "n/a");
+      setFieldValue("deviceDescription", "n/a");
       setFieldValue("model", dataText.system_info_modelname);
       setFieldValue("serialNumber", dataText.system_info_serialnumber);
       setFieldValue("mac", dataText.system_info_serialnumber);
@@ -65,6 +73,7 @@ export default function FormButton({ source, press, ...otherProps }) {
   };
 
   const testConection = async () => {
+    console.log(xml);
     setFieldValue("name", "");
     setFieldValue("type", "");
     setFieldValue("model", "");
@@ -83,10 +92,8 @@ export default function FormButton({ source, press, ...otherProps }) {
 
     if (cred.brand === 5) {
       await apiDeviceInfo.GetCameraInfoHik(cred).then((res) => {
-        console.log(res);
         if (res) {
           var xmlData = new XMLParser().parseFromString(res.data);
-          console.log(xmlData);
 
           setXml(xmlData);
         }

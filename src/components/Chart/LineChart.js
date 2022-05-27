@@ -45,30 +45,62 @@ const options = {
 };
 
 export default function LineChart({ dataSource }) {
-  const [bueno, setBueno] = useState(0);
-  const [malo, setMalo] = useState(0);
+  const [bueno, setBueno] = useState([]);
+  const [malo, setMalo] = useState([]);
+  const [agencia, setAgencia] = useState([]);
+  console.log(dataSource);
+
+  useEffect(() => {
+    setAgencia([]);
+    setBueno([]);
+    setMalo([]);
+    dataSource.map((res) => {
+      setAgencia((agencia) => [...agencia, res.nombre]);
+
+      let count = 0;
+      res.servers.map((dta) => {
+        const good = dta.cameras.filter(
+          (camera) => camera.isGoodCondition === true
+        );
+        count = count + good.length;
+      });
+
+      setBueno((bueno) => [...bueno, count]);
+
+      // res.servers.map((dta) => {
+      //   const good = dta.cameras.filter(
+      //     (camera) => camera.isGoodCondition === true
+      //   );
+
+      //   setBueno((bueno) => [...bueno, good.length]);
+      // });
+      let count2 = 0;
+      res.servers.map((dta) => {
+        const bad = dta.cameras.filter(
+          (camera) => camera.isGoodCondition === false
+        );
+        count2 = count2 + bad.length;
+      });
+      setMalo((malo) => [...malo, count2]);
+    });
+  }, [dataSource]);
+
   const data = {
     datasets: [
       {
         label: "Buenas",
-        data: [7, 16, 82],
+        data: bueno,
         backgroundColor: "rgba(53, 162, 235, 0.8)",
       },
       {
         label: "Malas",
-        data: [1, 2, 0],
+        data: malo,
         backgroundColor: "rgba(255, 99, 132, 0.8)",
       },
     ],
-    labels: ["3era ", "Procahsa", "La Ceiba"],
+    labels: agencia,
   };
 
-  useEffect(() => {
-    const good = dataSource.filter((camera) => camera.isGoodCondition == 1);
-    const bad = dataSource.filter((camera) => camera.isGoodCondition == 0);
-    setBueno(good.length);
-    setMalo(bad.length);
-  }, [dataSource]);
   const datas = useMemo(function () {
     return {
       datasets: [

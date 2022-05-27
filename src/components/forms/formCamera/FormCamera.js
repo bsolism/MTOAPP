@@ -27,6 +27,9 @@ export default function FormCamera() {
   const [dataSelectBrand, setdataSelectBrand] = useState([]);
   const [data, setData] = useState("");
   const [dataS, setDataS] = useState("");
+  const [xml, setXml] = useState({
+    children: [],
+  });
 
   useEffect(() => {
     getData();
@@ -38,7 +41,10 @@ export default function FormCamera() {
     values.dateBuys = dateValueB;
     console.log(values);
     apiCamera.PostCamera(values).then((res) => {
+      console.log(res);
       if (res.status === 400) {
+        console.log("Llegando aqui");
+        console.log(res.data);
         toast.warning(res.data);
       }
       if (res.status === 200) {

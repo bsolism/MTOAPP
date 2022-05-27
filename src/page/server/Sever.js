@@ -16,9 +16,9 @@ import { apiAgency } from "../../services";
 import "./Server.scss";
 
 const columns = [
-  { field: "name", headerName: "Nombre", width: 100 },
+  { field: "name", headerName: "Nombre", width: 130 },
   { field: "location", headerName: "Ubicación", width: 160 },
-  { field: "type", headerName: "Tipo", width: 110 },
+  { field: "type", headerName: "Tipo", width: 90 },
   {
     field: "brand",
     headerName: "Marca",
