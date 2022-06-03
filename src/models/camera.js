@@ -1,4 +1,5 @@
 export default {
+  id: 0,
   name: "",
   user: "",
   password: "",

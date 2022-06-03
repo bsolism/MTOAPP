@@ -27,6 +27,9 @@ export default function FormServer() {
   const [dataSelectBrand, setdataSelectBrand] = useState([]);
   const [data, setData] = useState("");
   const [dataS, setDataS] = useState("");
+  const [xml, setXml] = useState({
+    children: [],
+  });
 
   useEffect(() => {
     getData();
@@ -35,7 +38,6 @@ export default function FormServer() {
     values.isGoodCondition = checked;
     values.dateInstallation = dateValue;
     values.dateBuys = dateValueB;
-    console.log(values);
     apiServer.PostServer(values).then((res) => {
       if (res.status === 400) {
         toast.warning(res.data);
@@ -97,7 +99,7 @@ export default function FormServer() {
                         setData={setData}
                       />
                     </Grid>
-                    <Button className="button" source="server" />
+                    <Button className="button" source="server" toast={toast} />
                     <Divider style={{ width: "100%" }} />
                     <Text required={true} name="name" label="Name" />
                     <Text required={true} name="type" label="Type" />

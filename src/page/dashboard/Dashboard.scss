@@ -1,9 +1,18 @@
 @import "../../scss/index.scss";
 
-
+.body-chart{
+    
+    justify-content: center;
+.chart{
+   
+   border: 1px solid;
+    margin-left: 10px;
+}
 .chart-pie{
-    width: 400px;
-    height: 400px;
-    align-items: center;
+    border: 1px solid;
+    margin-left: 10px;
+   
+
+}
     
 }

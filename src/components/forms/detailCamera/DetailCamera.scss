@@ -3,17 +3,13 @@
 .form-class {
     .title {
       width: 100%;
-      margin-bottom: 50px;
-  
+      margin-bottom: 50px;  
       align-items: center;
     }
-    .detailTop{
-       
+    .detailTop{       
         width: 100%;        
-        display: flex;    
-       
-        .boxDetail{            
-          
+        display: flex;       
+        .boxDetail{         
             width: 500px;
             height: 200px;
            
@@ -24,6 +20,10 @@
             width: 300px;
             height: 200px;
             margin-left: 2px;
+            .pict{
+              width: 300px;
+              height: 200px;
+            }
         }
     }
     

@@ -6,4 +6,5 @@ export const endPoint = {
   Server: "/api/server",
   Hikvision: "/api/deviceinfo/hikvision",
   Vivotek: "/api/deviceinfo/vivotek",
+  CamImageHik: "/api/DeviceInfo/hik/image",
 };

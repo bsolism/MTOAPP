@@ -48,7 +48,6 @@ export default function LineChart({ dataSource }) {
   const [bueno, setBueno] = useState([]);
   const [malo, setMalo] = useState([]);
   const [agencia, setAgencia] = useState([]);
-  console.log(dataSource);
 
   useEffect(() => {
     setAgencia([]);

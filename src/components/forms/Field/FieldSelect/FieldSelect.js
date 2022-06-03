@@ -15,7 +15,7 @@ export default function FieldSelect({ origin, source, data, setData, value }) {
   };
   return (
     <Box sx={{ minWidth: 100 }}>
-      <FormControl fullWidth variant="standard">
+      <FormControl fullWidth variant="standard" size="small">
         <InputLabel>
           {origin === "camera"
             ? "NVR/Server"

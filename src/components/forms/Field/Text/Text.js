@@ -10,6 +10,7 @@ export default function Text({
   label,
   xs = 12,
   type,
+  value,
   ...props
 }) {
   const { setFieldValue, values } = useFormikContext();
@@ -37,7 +38,8 @@ export default function Text({
         fullWidth
         variant="standard"
         onChange={(e) => handleChange(e)}
-        value={values[name]}
+        value={value ? value : values[name]}
+        inputProps={{ style: { fontSize: 14 } }}
         {...props}
       />
     </Grid>

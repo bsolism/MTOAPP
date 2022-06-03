@@ -13,6 +13,17 @@ const PostCamera = (value) => {
       return error.response;
     });
 };
+const PutCamera = (value) => {
+  const url = `${API_HOST}${endPoint.Camera}/${value.id}`;
+  return axios
+    .put(url, value)
+    .then(function (response) {
+      return response;
+    })
+    .catch(function (error) {
+      return error.response;
+    });
+};
 
 const GetCamera = () => {
   const url = `${API_HOST}${endPoint.Camera}`;
@@ -36,6 +47,24 @@ const GetCameraOnly = () => {
       return error.response;
     });
 };
+const GetImageCamHik = (data) => {
+  console.log(data);
+  const url = `${API_HOST}${endPoint.CamImageHik}`;
+  return axios
+    .post(url, data, { responseType: "arraybuffer" })
+    .then(function (response) {
+      return btoa(
+        new Uint8Array(response.data).reduce(
+          (data, byte) => data + String.fromCharCode(byte),
+          ""
+        )
+      );
+    })
+    .catch(function (error) {
+      console.log(error.response);
+      return error.response;
+    });
+};
 const GetCameraInfo = (data) => {
   const url = `${API_HOST}/api/camera/deviceinfo`;
   return axios
@@ -48,5 +77,12 @@ const GetCameraInfo = (data) => {
     });
 };
 
-const apiCamera = { PostCamera, GetCamera, GetCameraInfo, GetCameraOnly };
+const apiCamera = {
+  PostCamera,
+  GetCamera,
+  GetCameraInfo,
+  GetCameraOnly,
+  PutCamera,
+  GetImageCamHik,
+};
 export default apiCamera;

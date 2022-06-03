@@ -11,61 +11,10 @@ import apiCamera from "../../services/apiCamera";
 import useApi from "../../hook/useApi";
 import { apiServer } from "../../services";
 import BasicModal from "../../components/modal";
-import GppGoodIcon from "@mui/icons-material/GppGood";
-import GppBadIcon from "@mui/icons-material/GppBad";
+import ColumnsCam from "../../components/Table/ColumnsCam";
+import DetailCamera from "../../components/forms/detailCamera";
 
 import "./Camera.scss";
-
-const columns = [
-  { field: "name", headerName: "Nombre", width: 150 },
-  { field: "location", headerName: "Ubicación", width: 220 },
-  { field: "type", headerName: "Tipo", width: 100 },
-  {
-    field: "brand",
-    headerName: "Marca",
-    width: 90,
-    renderCell: (params) => {
-      return params.value.name;
-    },
-  },
-  { field: "model", headerName: "Modelo", width: 150 },
-  {
-    field: "ipAddress",
-    headerName: "Dirección IP",
-    width: 140,
-    renderCell: (params) => {
-      return (
-        <a href={"http://" + params.value} target="_blank">
-          {params.value}
-        </a>
-      );
-    },
-  },
-  {
-    field: "server",
-    headerName: "Servidor",
-    width: 100,
-    renderCell: (params) => {
-      return params.value.name;
-    },
-  },
-  {
-    field: "isGoodCondition",
-    headerName: "Estado",
-    width: 50,
-    renderCell: (params) => {
-      return params.value ? (
-        <div>
-          <GppGoodIcon color="success" />
-        </div>
-      ) : (
-        <div>
-          <GppGoodIcon color="action" />
-        </div>
-      );
-    },
-  },
-];
 
 export default function Camera() {
   const [data, setData] = useState([]);
@@ -115,7 +64,9 @@ export default function Camera() {
           <div style={{ height: 500, width: "100%" }}>
             <DataGrid
               rows={data}
-              columns={columns}
+              columns={ColumnsCam}
+              rowHeight={30}
+              headerHeight={30}
               sx={{
                 fontSize: 12,
               }}
@@ -133,7 +84,9 @@ export default function Camera() {
           </div>
         </Body>
       </BasicLayout>
-      <BasicModal open={open} handleClose={handleClose} data={selectedRow} />
+      <BasicModal open={open} handleClose={handleClose} data={selectedRow}>
+        <DetailCamera item={selectedRow} handleClose={handleClose} />
+      </BasicModal>
     </>
   );
 }

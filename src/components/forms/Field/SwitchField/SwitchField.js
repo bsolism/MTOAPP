@@ -8,8 +8,9 @@ export default function SwitchField({ handleChange, label, checked }) {
     <FormGroup className="form-group">
       <FormControlLabel
         control={<Switch checked={checked} onChange={handleChange} />}
-        label={label}
+        label={<span style={{ fontSize: 11 }}>{label}</span>}
         labelPlacement="start"
+        style={{ fontSize: 11 }}
       />
     </FormGroup>
   );

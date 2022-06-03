@@ -6,6 +6,7 @@ import AddCameraPage from "../page/addCamera";
 import AddServerPage from "../page/addServer";
 import AddStorePage from "../page/addStore";
 import Store from "../page/store";
+import DataSheet from "../page/DataSheetPage";
 
 export default [
   {
@@ -39,5 +40,9 @@ export default [
   {
     path: "/store/add",
     element: <AddStorePage />,
+  },
+  {
+    path: "/datasheet",
+    element: <DataSheet />,
   },
 ];

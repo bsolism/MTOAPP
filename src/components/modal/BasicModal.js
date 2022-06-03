@@ -19,7 +19,7 @@ const style = {
   p: 4,
 };
 
-export default function BasicModal({ open, handleClose, data }) {
+export default function BasicModal({ open, handleClose, data, children }) {
   if (open) {
     //console.log(data);
   }
@@ -36,8 +36,7 @@ export default function BasicModal({ open, handleClose, data }) {
           <Typography id="modal-modal-title" variant="h6" component="h2">
             {open ? data.map((res) => res.name) : "nvr"}
           </Typography>
-
-          <DetailCamera item={data} />
+          {children}
         </Box>
       </Modal>
     </div>

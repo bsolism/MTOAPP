@@ -1,0 +1,34 @@
+.form-class {
+    width: 800px;
+    height: 200px;
+
+    .title {
+      width: 100%;
+      margin-bottom: 50px;  
+      align-items: center;     
+    }
+    .detailTop{         
+        width: 100%;        
+        display: flex;
+       
+      
+    }    
+    .content{
+      display: flex;
+      flex-direction: row;
+    }
+    .button {
+      margin-left: 10px;
+      width: 150px;
+      font-size: 11px;
+    }
+  
+    .form-group {
+      margin-top: 10px;
+  
+      .form-control-label {
+        margin: 5px;
+      }
+    }
+  }
+  

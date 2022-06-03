@@ -30,17 +30,12 @@ export default function Dashboard() {
   return (
     <BasicLayout>
       <div>Dashboard</div>
-      <Grid container spacing={3}>
-        <Grid item xs={12} sm={4}></Grid>
-        <Grid item xs={12} sm={4}>
-          <div className="chart-pie">
-            <PieChart dataSource={data} />
-          </div>
+      <Grid container spacing={2} className="body-chart">
+        <Grid item xs={4}>
+          <PieChart dataSource={data} />
         </Grid>
-        <Grid item xs={12} sm={4}>
-          <div className="chart-pie">
-            <LineChart dataSource={dataAg} />
-          </div>
+        <Grid item xs={5}>
+          <LineChart dataSource={dataAg} />
         </Grid>
       </Grid>
     </BasicLayout>

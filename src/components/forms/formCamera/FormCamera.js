@@ -39,12 +39,9 @@ export default function FormCamera() {
     values.isGoodCondition = checked;
     values.dateInstallation = dateValue;
     values.dateBuys = dateValueB;
-    console.log(values);
+
     apiCamera.PostCamera(values).then((res) => {
-      console.log(res);
       if (res.status === 400) {
-        console.log("Llegando aqui");
-        console.log(res.data);
         toast.warning(res.data);
       }
       if (res.status === 200) {
@@ -102,7 +99,7 @@ export default function FormCamera() {
                         setData={setData}
                       />
                     </Grid>
-                    <Button className="button" source="camera" />
+                    <Button className="button" source="camera" toast={toast} />
                     <Divider style={{ width: "100%" }} />
                     <Text required={true} name="name" label="Name" />
                     <Text required={true} name="type" label="Type" />
