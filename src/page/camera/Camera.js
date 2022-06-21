@@ -85,7 +85,11 @@ export default function Camera() {
         </Body>
       </BasicLayout>
       <BasicModal open={open} handleClose={handleClose} data={selectedRow}>
-        <DetailCamera item={selectedRow} handleClose={handleClose} />
+        <DetailCamera
+          item={selectedRow}
+          handleClose={handleClose}
+          getDta={getData}
+        />
       </BasicModal>
     </>
   );

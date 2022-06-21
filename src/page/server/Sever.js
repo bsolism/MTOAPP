@@ -32,7 +32,6 @@ export default function Sever() {
 
   const getData = async () => {
     await apiServer.GetServer().then((res) => {
-      console.log(res.data);
       setData(res.data);
     });
   };
@@ -63,25 +62,27 @@ export default function Sever() {
 
         <Body>
           <div style={{ height: 500, width: "100%" }}>
-            <DataGrid
-              rows={data}
-              columns={columnsSrv}
-              rowHeight={30}
-              headerHeight={30}
-              sx={{
-                fontSize: 12,
-              }}
-              pageSize={100}
-              onSelectionModelChange={(ids) => {
-                const selectedIds = new Set(ids);
-                const selectedRows = data.filter((row) =>
-                  selectedIds.has(row.id)
-                );
+            {data.length > 0 ? (
+              <DataGrid
+                rows={data}
+                columns={columnsSrv}
+                rowHeight={30}
+                headerHeight={30}
+                sx={{
+                  fontSize: 12,
+                }}
+                pageSize={100}
+                onSelectionModelChange={(ids) => {
+                  const selectedIds = new Set(ids);
+                  const selectedRows = data.filter((row) =>
+                    selectedIds.has(row.id)
+                  );
 
-                setSelectedRow(selectedRows);
-              }}
-              onCellDoubleClick={handleOpen}
-            />
+                  setSelectedRow(selectedRows);
+                }}
+                onCellDoubleClick={handleOpen}
+              />
+            ) : null}
           </div>
         </Body>
       </BasicLayout>

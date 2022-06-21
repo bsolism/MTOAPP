@@ -94,7 +94,7 @@ export default function AddCamera() {
               />
             </Grid>
 
-            <Button className="button" source="camera" press={true} />
+            <Button className="button" source="camera" />
             <Divider />
             <div className="content">
               <FieldText name="name" label="Nombre" type="text" />

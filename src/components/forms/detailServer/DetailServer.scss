@@ -10,6 +10,15 @@
     .detailTop{         
         width: 100%;        
         display: flex;
+
+        .checkbox{
+          
+          margin-left: 20px;
+          justify-items:baseline;
+          justify-content: baseline;
+          align-items: baseline;
+          align-content: flex-end;
+        }
        
       
     }    

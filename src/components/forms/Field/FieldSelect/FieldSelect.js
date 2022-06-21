@@ -4,18 +4,22 @@ import { useFormikContext } from "formik";
 
 import "./FieldSelect.scss";
 
-export default function FieldSelect({ origin, source, data, setData, value }) {
+export default function FieldSelect({ origin, source, data, setData }) {
   const { setFieldValue } = useFormikContext();
 
   const handleChange = (event) => {
+    const name = source.filter((res) => res.id === event.target.value);
     setData(event.target.value);
     if (origin === "camera") setFieldValue("serverId", event.target.value);
     if (origin === "server") setFieldValue("agenciaId", event.target.value);
-    if (origin === "brand") setFieldValue("brandId", event.target.value);
+    if (origin === "brand") {
+      setFieldValue("brandName", name[0].name);
+      setFieldValue("brandId", event.target.value);
+    }
   };
   return (
     <Box sx={{ minWidth: 100 }}>
-      <FormControl fullWidth variant="standard" size="small">
+      <FormControl fullWidth variant="standard">
         <InputLabel>
           {origin === "camera"
             ? "NVR/Server"
@@ -24,10 +28,11 @@ export default function FieldSelect({ origin, source, data, setData, value }) {
             : "Brand"}
         </InputLabel>
         <Select
+          sx={{ fontSize: 12 }}
           labelId="demo-simple-select-label"
           id="demo-simple-select"
           displayEmpty
-          value={value > 0 ? value : data}
+          value={source.length > 0 ? data : ""}
           label={
             origin === "camera"
               ? "NVR/Server"
@@ -35,12 +40,13 @@ export default function FieldSelect({ origin, source, data, setData, value }) {
               ? "Agency"
               : "Brand"
           }
-          defaultValue={11}
           onChange={handleChange}
         >
           {source.map((value) => (
             <MenuItem key={value.id} value={value.id}>
-              {origin === "server" ? value.nombre : value.name}
+              {origin === "server" || origin === "camera"
+                ? value.nombre
+                : value.name}
             </MenuItem>
           ))}
         </Select>

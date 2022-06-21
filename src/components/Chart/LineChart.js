@@ -48,6 +48,7 @@ export default function LineChart({ dataSource }) {
   const [bueno, setBueno] = useState([]);
   const [malo, setMalo] = useState([]);
   const [agencia, setAgencia] = useState([]);
+  console.log(dataSource);
 
   useEffect(() => {
     setAgencia([]);
@@ -57,14 +58,25 @@ export default function LineChart({ dataSource }) {
       setAgencia((agencia) => [...agencia, res.nombre]);
 
       let count = 0;
-      res.servers.map((dta) => {
-        const good = dta.cameras.filter(
-          (camera) => camera.isGoodCondition === true
-        );
-        count = count + good.length;
-      });
+      let count2 = 0;
+      const good = res.cameras.filter(
+        (camera) => camera.isGoodCondition === true
+      );
+      const bad = res.cameras.filter(
+        (camera) => camera.isGoodCondition === false
+      );
+      count = count + good.length;
+      count2 = count2 + bad.length;
+      // res.cameras.map((dta) => {
+      //   console.log(dta);
+      //   //   const bad = dta.server.cameras.filter(
+      //   //     (camera) => camera.isGoodCondition === false
+      //   //   );
+      //   //   count2 = count2 + bad.length;
+      // });
 
       setBueno((bueno) => [...bueno, count]);
+      setMalo((malo) => [...malo, count2]);
 
       // res.servers.map((dta) => {
       //   const good = dta.cameras.filter(
@@ -73,14 +85,16 @@ export default function LineChart({ dataSource }) {
 
       //   setBueno((bueno) => [...bueno, good.length]);
       // });
-      let count2 = 0;
-      res.servers.map((dta) => {
-        const bad = dta.cameras.filter(
-          (camera) => camera.isGoodCondition === false
-        );
-        count2 = count2 + bad.length;
-      });
-      setMalo((malo) => [...malo, count2]);
+      //   let count2 = 0;
+      //   res.srvAg.map((dta) => {
+      //     dta.server.map((re) => {
+      //       const bad = dta.cameras.filter(
+      //         (camera) => camera.isGoodCondition === false
+      //       );
+      //       count2 = count2 + bad.length;
+      //     });
+      //   });
+      //   setMalo((malo) => [...malo, count2]);
     });
   }, [dataSource]);
 

@@ -48,7 +48,6 @@ const GetCameraOnly = () => {
     });
 };
 const GetImageCamHik = (data) => {
-  console.log(data);
   const url = `${API_HOST}${endPoint.CamImageHik}`;
   return axios
     .post(url, data, { responseType: "arraybuffer" })

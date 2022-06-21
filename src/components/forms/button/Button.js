@@ -7,7 +7,7 @@ import ModalLottie from "../../modal/ModalLottie";
 
 import "./Button.scss";
 
-export default function FormButton({ source, press, toast, ...otherProps }) {
+export default function FormButton({ source, toast, ...otherProps }) {
   const { setFieldValue, values } = useFormikContext();
   const [data, setData] = useState({});
   const [open, setOpen] = useState(false);
@@ -17,14 +17,14 @@ export default function FormButton({ source, press, toast, ...otherProps }) {
 
   const testConection = async () => {
     handleOpen();
-    setFieldValue("name", "");
-    setFieldValue("type", "");
-    setFieldValue("model", "");
-    setFieldValue("mac", "");
-    setFieldValue("deviceId", "");
-    if (source === "camera") setFieldValue("deviceDescription", "");
-    setFieldValue("serialNumber", "");
-    setFieldValue("firmwareVersion", "");
+    // setFieldValue("name", "");
+    // setFieldValue("type", "");
+    // setFieldValue("model", "");
+    // setFieldValue("mac", "");
+    // setFieldValue("deviceId", "");
+    // if (source === "camera") setFieldValue("deviceDescription", "");
+    // setFieldValue("serialNumber", "");
+    // setFieldValue("firmwareVersion", "");
 
     var cred = {
       name: values.user,
@@ -33,8 +33,9 @@ export default function FormButton({ source, press, toast, ...otherProps }) {
       brand: values.brandId,
     };
 
-    if (cred.brand === 5) {
+    if (values.brandName === "Hikvision") {
       await apiDeviceInfo.GetCameraInfoHik(cred).then((res) => {
+        console.log(res);
         if (res.status === 401) return toast.warning(res.data);
         if (res.status === 500) {
           return toast.warning("No se estableció conexión");
@@ -46,7 +47,7 @@ export default function FormButton({ source, press, toast, ...otherProps }) {
         }
       });
     }
-    if (cred.brand === 11) {
+    if (values.brandName === "Vivotek") {
       await apiDeviceInfo.GetCameraInfoViv(cred).then((res) => {
         if (res) {
           const jsonTest = res.data.replaceAll("=", ":");
@@ -68,16 +69,16 @@ export default function FormButton({ source, press, toast, ...otherProps }) {
     handleClose();
   };
   const setValue = (xmlData) => {
-    if (values.brandId === 5) {
+    if (values.brandName === "Hikvision") {
       xmlData.children.map((x) => {
         if (x.name === "deviceName") {
-          setFieldValue("name", x.value);
+          setFieldValue(source === "camera" ? "name" : "nombre", x.value);
         }
         if (x.name === "deviceType") {
           setFieldValue("type", x.value);
         }
         if (x.name === "model") {
-          setFieldValue("model", x.value);
+          setFieldValue(source === "camera" ? "model" : "modelo", x.value);
         }
         if (x.name === "macAddress") {
           setFieldValue("mac", x.value);
@@ -96,7 +97,7 @@ export default function FormButton({ source, press, toast, ...otherProps }) {
         }
       });
     }
-    if (values.brandId === 11) {
+    if (values.brandName === "Vivotek") {
       setFieldValue("name", xmlData.system_hostname);
       setFieldValue("type", "IPCamera");
       setFieldValue("deviceId", "n/a");
@@ -106,8 +107,6 @@ export default function FormButton({ source, press, toast, ...otherProps }) {
       setFieldValue("mac", xmlData.system_info_serialnumber);
       setFieldValue("firmwareVersion", xmlData.system_info_firmwareversion);
     }
-
-    // press = false;
   };
 
   return (

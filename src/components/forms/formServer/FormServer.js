@@ -6,8 +6,7 @@ import { Divider, Grid, CssBaseline } from "@mui/material";
 import { toast } from "react-toastify";
 import Form from "../form";
 import initialValues from "../../../models/server";
-import validationCamera from "../../../validation/validationCamera";
-import { apiCamera, apiAgency, apiBrand, apiServer } from "../../../services";
+import { apiAgency, apiBrand, apiServer } from "../../../services";
 import Text from "../Field/Text";
 import FieldSelect from "../Field/FieldSelect";
 import Button from "../button";
@@ -27,17 +26,16 @@ export default function FormServer() {
   const [dataSelectBrand, setdataSelectBrand] = useState([]);
   const [data, setData] = useState("");
   const [dataS, setDataS] = useState("");
-  const [xml, setXml] = useState({
-    children: [],
-  });
 
   useEffect(() => {
     getData();
   }, []);
   const handleSubmit = (values, { resetForm }) => {
     values.isGoodCondition = checked;
-    values.dateInstallation = dateValue;
-    values.dateBuys = dateValueB;
+    values.fechaInstalacion = dateValue;
+    values.fechaCompra = dateValueB;
+    values.brand = null;
+
     apiServer.PostServer(values).then((res) => {
       if (res.status === 400) {
         toast.warning(res.data);
@@ -49,7 +47,6 @@ export default function FormServer() {
     });
     setData("");
     setDataS("");
-    resetForm();
   };
 
   const getData = async () => {
@@ -90,7 +87,12 @@ export default function FormServer() {
                   <Form initialValues={initialValues} onSubmit={handleSubmit}>
                     <Text required={true} name="ipAddress" label="Ip Address" />
                     <Text required={true} name="user" label="User" />
-                    <Text required={true} name="password" label="Password" />
+                    <Text
+                      required={true}
+                      name="password"
+                      label="Password"
+                      type="password"
+                    />
                     <Grid item xs={12} sm={3}>
                       <FieldSelect
                         origin="brand"
@@ -101,19 +103,61 @@ export default function FormServer() {
                     </Grid>
                     <Button className="button" source="server" toast={toast} />
                     <Divider style={{ width: "100%" }} />
-                    <Text required={true} name="name" label="Name" />
+                    <Text required={true} name="nombre" label="Name" />
                     <Text required={true} name="type" label="Type" />
-                    <Text name="model" label="Model" />
+                    <Text name="modelo" label="Model" />
                     <Text name="mac" label="Mac" />
                     <Text name="deviceId" label="DeviceId" />
                     <Text name="serialNumber" label="SerialNumber" />
                     <Text name="firmwareVersion" label="FirmwareVersion" />
-                    <Text name="location" label="Location" />
+
+                    <Text name="sata" label="Cant. Sata" type="number" />
+                    <Text
+                      name="capacidadSata"
+                      label="TB / Sata"
+                      type="number"
+                    />
+
+                    <Text
+                      name="portAnalogo"
+                      label="Port Analogos"
+                      type="number"
+                    />
+                    <Text name="portIpPoe" label="Port IP Poe" type="number" />
+                    <Text name="canalesIP" label="Canales IP" type="number" />
+                    <Divider style={{ width: "100%", marginTop: "25px" }} />
+                    <Text
+                      name="sataInstalado"
+                      label="Sata Disp."
+                      type="number"
+                    />
+                    <Text
+                      name="capacidadSataInstalado"
+                      label="Total Alm. TB"
+                      type="number"
+                    />
+                    <Text
+                      name="engravedDays"
+                      label="Days Engraved"
+                      sm={2}
+                      type="number"
+                    />
+                    <Grid item xs={12} sm={3}>
+                      <FieldSelect
+                        origin="server"
+                        source={dataSelectServer}
+                        data={dataS}
+                        setData={setDataS}
+                      />
+                    </Grid>
+                    <Text name="ubicacion" label="Location" />
+
                     <Grid item xs={12} sm={3}>
                       <DatePickerField
                         label="Date Installation"
                         dateValue={dateValue}
                         handleChange={handleChangeDateI}
+                        marginTop="20px"
                       />
                     </Grid>
                     <Grid item xs={12} sm={3}>
@@ -123,23 +167,7 @@ export default function FormServer() {
                         handleChange={handleChangeDateB}
                       />
                     </Grid>
-                    <Grid item xs={12} sm={3}>
-                      <FieldSelect
-                        origin="server"
-                        source={dataSelectServer}
-                        data={dataS}
-                        setData={setDataS}
-                      />
-                    </Grid>
-                    <Text name="cameraCapacity" label="Cam. Cap." />
-                    <Text name="cameraAvailable" label="Cam. Disp." />
-                    <Text name="storage" label="Cap. Storage" />
-                    <Text
-                      name="storageAvailable"
-                      label="Storage Disp."
-                      sm={2}
-                    />
-                    <Text name="engravedDays" label="Days Engraved" sm={2} />
+                    <Text name="nota" label="Observaciones" />
                     <Grid item xs={12} sm={12}>
                       <SwitchField
                         handleChange={handleChange}

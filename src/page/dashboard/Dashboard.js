@@ -20,9 +20,11 @@ export default function Dashboard() {
   }, []);
   const getData = async () => {
     await apiCamera.GetCamera().then((res) => {
+      console.log(res.data);
       setData(res.data);
     });
     await apiAgency.GetAgency().then((res) => {
+      console.log(res.data);
       setDataAg(res.data);
     });
   };

@@ -7,7 +7,10 @@ import SwitchField from "../Field/SwitchField";
 import DatePickerField from "../Field/DatePickerField";
 import FieldSelect from "../Field/FieldSelect";
 import SubmitButton from "../SubmitButton";
-import { apiCamera, apiAgency, apiBrand } from "../../../services";
+import XMLParser from "react-xml-parser";
+import CheckboxField from "../Field/CheckboxField";
+
+import { apiBrand, apiHikvision, apiServer } from "../../../services";
 import Form from "../form";
 import Text from "../Field/Text";
 
@@ -17,54 +20,102 @@ export default function DetailServer({ item, handleClose }) {
   const [checked, setChecked] = useState(true);
   const [dateValue, setDateValue] = useState();
   const [dateValueB, setDateValueB] = useState();
-  const [dataSelectAgency, setdataSelectAgency] = useState([]);
   const [dataSelectBrand, setdataSelectBrand] = useState([]);
   const [data, setData] = useState("");
-  const [agency, setAgency] = useState("");
-
-  console.log(item);
+  const [dateTime, setDateTime] = useState();
+  const [checkbox, setCheckbox] = useState(false);
+  const [dateOld, setDateOld] = useState();
 
   useEffect(() => {
     item.map((val) => {
       setData(val.brandId);
-      setAgency(val.agenciaId);
-      //   setChecked(val.isGoodCondition);
-      setDateValueB(val.dateBuys);
-      setDateValue(val.dateInstallation);
+      setChecked(val.isGoodCondition);
+      setDateValueB(val.fechaCompra);
+      setDateValue(val.fechaInstalacion);
     });
     getData();
   }, []);
 
-  const handleSubmit = (values) => {
-    console.log(values);
-    // values.isGoodCondition = checked;
-    // values.dateInstallation = dateValue;
-    // values.dateBuys = dateValueB;
+  useEffect(() => {
+    sincronizer();
+  }, [checkbox]);
 
-    // apiCamera.PutCamera(values).then((res) => {
-    //   console.log(res);
-    //   if (res === undefined) toast.warning("Update error");
-    //   if (res.status === 200) {
-    //     toast("Update Complete");
-    //     handleClose();
-    //   }
-    // });
+  const handleSubmit = (values) => {
+    values.isGoodCondition = checked;
+    values.fechaInstalacion = dateValue;
+    values.fechaCompra = dateValueB;
+    console.log(values);
+    if (checkbox) {
+      if (values.brand.name === "Hikvision") {
+        apiHikvision.updateTime(dateTime, values).then((res) => {});
+      }
+    }
+    apiServer.PutSever(values).then((res) => {
+      if (res === undefined) toast.warning("Update error");
+      if (res.status === 200) {
+        toast("Update Complete");
+        handleClose();
+      }
+    });
+  };
+  const sincronizer = () => {
+    if (checkbox) {
+      var date = new Date();
+      const year = date.getFullYear();
+      const month =
+        date.getMonth() + 1 < 10
+          ? "0" + (date.getMonth() + 1)
+          : date.getMonth() + 1;
+      const day = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
+      const hour =
+        date.getHours() < 10 ? "0" + date.getHours() : date.getHours();
+      const min =
+        date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
+      const sec =
+        date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
+      const newDate =
+        year +
+        "-" +
+        month +
+        "-" +
+        day +
+        "T" +
+        hour +
+        ":" +
+        min +
+        ":" +
+        sec +
+        "-06:00";
+      console.log(newDate);
+      setDateTime(newDate);
+    } else {
+      setDateTime(dateOld);
+    }
   };
   const getData = async () => {
-    // const credential = {
-    //   ipAddress: item[0].ipAddress,
-    //   name: item[0].user,
-    //   password: item[0].password,
-    //   brand: item[0].brand.name,
-    //   nicInterno: item[0].idSwitch,
-    // };
-    await apiAgency.GetAgency().then((res) => {
-      setdataSelectAgency(res.data);
-    });
+    const credential = {
+      ipAddress: item[0].ipAddress,
+      name: item[0].user,
+      password: item[0].password,
+    };
 
     await apiBrand.GetBrand().then((res) => {
       setdataSelectBrand(res.data);
     });
+    if (item[0].brand.name === "Hikvision") {
+      await apiHikvision.GetTime(credential).then((res) => {
+        if (res.status === 500) toast.warning("no se pudo sincronizar");
+        if (res.status === 200) {
+          var xmlData = new XMLParser().parseFromString(res.data);
+          xmlData.children.map((x) => {
+            if (x.name === "localTime") {
+              setDateTime(x.value);
+              setDateOld(x.value);
+            }
+          });
+        }
+      });
+    }
   };
   const handleChange = (event) => {
     setChecked(event.target.checked);
@@ -75,6 +126,7 @@ export default function DetailServer({ item, handleClose }) {
   const handleChangeDateB = (value) => {
     setDateValueB(value);
   };
+
   return (
     <LocalizationProvider dateAdapter={DateAdapter}>
       <div className="form-class">
@@ -84,7 +136,7 @@ export default function DetailServer({ item, handleClose }) {
             <Form initialValues={val} key={val.id} onSubmit={handleSubmit}>
               <div className="detailTop">
                 <Grid container spacing={1}>
-                  <Text name="name" label="Nombre" xs={15} sm={6} />
+                  <Text name="nombre" label="Nombre" xs={15} sm={6} />
                   <Grid item xs={15} sm={6}>
                     <FieldSelect
                       origin="brand"
@@ -93,31 +145,49 @@ export default function DetailServer({ item, handleClose }) {
                       setData={setData}
                     />
                   </Grid>
-                  <Text name="model" label="Modelo" xs={15} sm={6} />
+                  <Text name="modelo" label="Modelo" xs={15} sm={6} />
                   <Text name="type" label="Tipo" xs={15} sm={6} />
                   <Text name="ipAddress" label="IP" xs={15} sm={6} />
                   <Text name="mac" label="Mac" xs={15} sm={6} />
                   <Text name="serialNumber" label="Serial" xs={15} sm={6} />
                   <Text name="deviceId" label="Device Id" xs={15} sm={6} />
-                  <Grid item xs={15} sm={6}>
-                    <FieldSelect
-                      origin="server"
-                      source={dataSelectAgency}
-                      data={agency}
-                      setData={setAgency}
-                    />
-                  </Grid>
-                  <Text name="location" label="Ubicación" xs={15} sm={6} />
+                  <Text name="ubicacion" label="Ubicación" xs={15} sm={6} />
                   <Text
                     name="firmwareVersion"
                     label="Firmware"
                     xs={15}
                     sm={6}
                   />
-                  <Text name="cameraCapacity" label="Canales" xs={15} sm={6} />
+                  <Text name="sata" label="Cantidad Sata" xs={15} sm={6} />
                   <Text
-                    name="cameraAvailable"
-                    label="Canales Ocupados"
+                    name="capacidadSata"
+                    label="Capacidad por Sata"
+                    xs={15}
+                    sm={6}
+                  />
+                  <Text
+                    name="sataInstalado"
+                    label="HDD Instalado"
+                    xs={15}
+                    sm={6}
+                  />
+                  <Text
+                    name="capacidadSataInstalado"
+                    label="Tamaño HDD (TB)"
+                    xs={15}
+                    sm={6}
+                  />
+                  <Text name="canalesIP" label="Canales IP" xs={15} sm={6} />
+                  <Text name="portIpPoe" label="Puertos Poe" xs={15} sm={6} />
+                  <Text
+                    name="portAnalogo"
+                    label="Puertos Analogos"
+                    xs={15}
+                    sm={6}
+                  />
+
+                  <Text
+                    label="Total de Cámaras"
                     xs={15}
                     sm={6}
                     value={val.cameras.length}
@@ -128,19 +198,6 @@ export default function DetailServer({ item, handleClose }) {
                     xs={15}
                     sm={6}
                   />
-                  <Text
-                    name="storage"
-                    label="Capacidad almacenamiento"
-                    xs={15}
-                    sm={6}
-                  />
-                  <Text
-                    name="storageAvailable"
-                    label="Almacenamiento Ocupado"
-                    xs={15}
-                    sm={6}
-                  />
-
                   <Divider
                     style={{
                       width: "100%",
@@ -148,6 +205,37 @@ export default function DetailServer({ item, handleClose }) {
                       marginBottom: "5px",
                     }}
                   />
+                  <Grid item xs={15} sm={3}>
+                    <DatePickerField
+                      label="Fecha y hora Dispositivo"
+                      dateValue={dateTime}
+                      handleChange={handleChangeDateB}
+                      format="yyyy-MM-dd HH:mm:ss"
+                      mask="____-__-__ __:__:__"
+                    />
+                  </Grid>
+                  <Grid
+                    className="checkbox"
+                    item
+                    xs={15}
+                    sm={6}
+                    display="flex"
+                    flexDirection="column"
+                    justifyContent="flex-end"
+                  >
+                    <CheckboxField
+                      checkbox={checkbox}
+                      setCheckbox={setCheckbox}
+                    />
+                  </Grid>
+                  <Divider
+                    style={{
+                      width: "100%",
+                      marginTop: "5px",
+                      marginBottom: "5px",
+                    }}
+                  />
+
                   <Grid item xs={15} sm={3}>
                     <DatePickerField
                       label="Date Buys"
@@ -169,6 +257,23 @@ export default function DetailServer({ item, handleClose }) {
                       checked={checked}
                     />
                   </Grid>
+
+                  <Divider
+                    style={{
+                      width: "100%",
+                      marginBottom: "5px",
+                      marginTop: "5px",
+                    }}
+                  />
+                  <Text
+                    name="nota"
+                    label="Observaciones"
+                    xs={15}
+                    sm={6}
+                    multiline
+                    minrows={2}
+                    maxRows={4}
+                  />
                   <Divider
                     style={{
                       width: "100%",

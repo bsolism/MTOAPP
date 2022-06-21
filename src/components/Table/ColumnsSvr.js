@@ -1,17 +1,15 @@
 import GppGoodIcon from "@mui/icons-material/GppGood";
 const columnsSrv = [
   {
-    filed: "no",
+    field: "no",
     headerName: "No",
-    filterable: false,
-    sortable: false,
     width: 20,
     renderCell: (index) => {
-      return index.id;
+      return <span>{index.id}</span>;
     },
   },
-  { field: "name", headerName: "Nombre", width: 140 },
-  { field: "location", headerName: "Ubicación", width: 140 },
+  { field: "nombre", headerName: "Nombre", width: 140 },
+  { field: "ubicacion", headerName: "Ubicación", width: 120 },
   {
     field: "type",
     headerName: "Tipo",
@@ -27,11 +25,11 @@ const columnsSrv = [
       return params.value.name;
     },
   },
-  { field: "model", headerName: "Modelo", width: 130 },
+  { field: "modelo", headerName: "Modelo", width: 110 },
   {
     field: "ipAddress",
     headerName: "Dirección IP",
-    width: 120,
+    width: 110,
     renderCell: (params) => {
       return (
         <a href={"http://" + params.value} target="_blank">
@@ -42,7 +40,13 @@ const columnsSrv = [
   },
 
   {
-    field: "cameraCapacity",
+    field: "canalesIP",
+    headerName: "Camaras",
+    width: 100,
+    hide: true,
+  },
+  {
+    field: "portAnalogo",
     headerName: "Camaras",
     width: 100,
     hide: true,
@@ -62,29 +66,45 @@ const columnsSrv = [
     width: 70,
     sortable: false,
     valueGetter: (params) =>
-      `${params.row.cameras.length}/${params.row.cameraCapacity}`,
+      `${params.row.cameras.length}/${
+        params.row.canalesIP + params.row.portAnalogo
+      }`,
   },
   {
-    field: "storage",
-    headerName: "storage",
-    width: 100,
+    field: "sata",
+    headerName: "Sata",
     hide: true,
   },
   {
-    field: "storageAvailable",
-    headerName: "storageAvailable",
-    width: 100,
+    field: "capacidadSata",
+    headerName: "Camaras",
     hide: true,
   },
   {
-    field: "storageFull",
-    headerName: "Discos",
-    width: 140,
+    field: "interface",
+    headerName: "Interface",
+    width: 90,
     sortable: false,
-    headerAlign: "center",
-    align: "center",
     valueGetter: (params) =>
-      `${params.row.storageAvailable}/${params.row.storage}`,
+      `${params.row.sata}HDD x${params.row.capacidadSata}TB`,
+  },
+  {
+    field: "sataInstalado",
+    headerName: "Sata",
+    hide: true,
+  },
+  {
+    field: "capacidadSataInstalado",
+    headerName: "Camaras",
+    hide: true,
+  },
+  {
+    field: "interfaceOcupado",
+    headerName: "Ocupado",
+    width: 90,
+    sortable: false,
+    valueGetter: (params) =>
+      `${params.row.sataInstalado}HDD x${params.row.capacidadSataInstalado}TB`,
   },
   {
     field: "engravedDays",

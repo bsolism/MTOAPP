@@ -24,13 +24,7 @@ export default function Text({
   return (
     <Grid item xs={xs} sm={sm}>
       <TextField
-        type={
-          name === "password"
-            ? "password"
-            : name === "portPatchPanel" || name === "portSwitch"
-            ? "number"
-            : "text"
-        }
+        type={type}
         required={required}
         id={name}
         name={name}
@@ -38,8 +32,8 @@ export default function Text({
         fullWidth
         variant="standard"
         onChange={(e) => handleChange(e)}
-        value={value ? value : values[name]}
-        inputProps={{ style: { fontSize: 14 } }}
+        value={value !== undefined ? value : values[name]}
+        inputProps={{ style: { fontSize: 12 } }}
         {...props}
       />
     </Grid>

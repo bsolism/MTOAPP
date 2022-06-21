@@ -1,0 +1,54 @@
+import { useState, useEffect } from "react";
+
+const ApiClock = (dat) => {
+  console.log(dat);
+  const [date, setDate] = useState(new Date(dat));
+  const [hour, setHour] = useState(date.getHours());
+  const [min, setMin] = useState(date.getMinutes());
+  const [sec, setSec] = useState(date.getSeconds());
+
+  const refresh = () => {
+    if (sec > 58) {
+      setSec(0);
+      setMin((min) => min + 1);
+    }
+    if (min > 58) {
+      setMin(0);
+      setHour((hour) => hour + 1);
+    }
+    setSec((sec) => sec + 1);
+  };
+
+  useEffect(() => {
+    dateTime(hour, min, sec);
+    const timerId = setInterval(refresh, 1000);
+
+    return () => {
+      clearInterval(timerId);
+    };
+  }, [sec]);
+
+  const dateTime = (dhour, dmin, dsecon) => {
+    var year = date.getFullYear();
+    var month =
+      date.getMonth() + 1 <= 9
+        ? "0" + (date.getMonth() + 1)
+        : date.getMonth() + 1;
+    var day = date.getDate() <= 9 ? "0" + date.getDate() : date.getDate();
+    if (dhour <= 9) dhour = "0" + dhour;
+    if (dmin <= 9) dmin = "0" + dmin;
+    if (dsecon <= 9) dsecon = "0" + dsecon;
+    console.log(
+      year + "-" + month + "-" + day + "T" + dhour + ":" + dmin + ":" + dsecon
+    );
+    setDate(
+      new Date(
+        year + "-" + month + "-" + day + "T" + dhour + ":" + dmin + ":" + dsecon
+      )
+    );
+  };
+
+  return { date, useEffect, sec };
+};
+
+export default ApiClock;

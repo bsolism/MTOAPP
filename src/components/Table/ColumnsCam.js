@@ -8,11 +8,11 @@ const columnsCam = [
     sortable: false,
     width: 20,
     renderCell: (index) => {
-      return index.id;
+      return <span key={index.id}>{index.id}</span>;
     },
   },
   { field: "name", headerName: "Nombre", width: 150 },
-  { field: "location", headerName: "Ubicación", width: 220 },
+  { field: "ubicacionFisica", headerName: "Ubicación", width: 220 },
   { field: "type", headerName: "Tipo", width: 100 },
   {
     field: "brand",
@@ -40,7 +40,7 @@ const columnsCam = [
     headerName: "Servidor",
     width: 100,
     renderCell: (params) => {
-      return params.value.name;
+      return params.value.nombre;
     },
   },
   {

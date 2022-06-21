@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 import Form from "../form";
 import initialValues from "../../../models/camera";
 import validationCamera from "../../../validation/validationCamera";
-import { apiCamera, apiServer, apiBrand } from "../../../services";
+import { apiCamera, apiAgency, apiServer, apiBrand } from "../../../services";
 import Text from "../Field/Text";
 import FieldSelect from "../Field/FieldSelect";
 import Button from "../button";
@@ -21,12 +21,14 @@ const theme = createTheme();
 
 export default function FormCamera() {
   const [checked, setChecked] = useState(true);
-  const [dateValue, setDateValue] = useState(new Date("2022-03-23T13:53"));
-  const [dateValueB, setDateValueB] = useState(new Date("2022-03-23T13:53"));
+  const [dateValue, setDateValue] = useState(new Date());
+  const [dateValueB, setDateValueB] = useState(new Date());
   const [dataSelectServer, setdataSelectServer] = useState([]);
+  const [dataSelectAgencia, setdataSelectAgencia] = useState([]);
   const [dataSelectBrand, setdataSelectBrand] = useState([]);
   const [data, setData] = useState("");
   const [dataS, setDataS] = useState("");
+  const [dataA, setDataA] = useState("");
   const [xml, setXml] = useState({
     children: [],
   });
@@ -37,25 +39,33 @@ export default function FormCamera() {
 
   const handleSubmit = (values, { resetForm }) => {
     values.isGoodCondition = checked;
-    values.dateInstallation = dateValue;
-    values.dateBuys = dateValueB;
+    values.fechaInstalacion = dateValue;
+    values.fechaCompra = dateValueB;
+    //values.brand = null;
+    console.log(values);
 
     apiCamera.PostCamera(values).then((res) => {
+      console.log(res);
       if (res.status === 400) {
         toast.warning(res.data);
       }
       if (res.status === 200) {
         toast("Registro Ingresado");
-        resetForm();
-        setData("");
-        setDataS("");
+        //resetForm();
+        // setData("");
+        // setDataS("");
+        // setDataA("");
       }
     });
   };
 
   const getData = async () => {
     await apiServer.GetServer().then((res) => {
+      console.log(res);
       setdataSelectServer(res.data);
+    });
+    await apiAgency.GetAgency().then((res) => {
+      setdataSelectAgencia(res.data);
     });
 
     await apiBrand.GetBrand().then((res) => {
@@ -90,7 +100,12 @@ export default function FormCamera() {
                   <Form initialValues={initialValues} onSubmit={handleSubmit}>
                     <Text required={true} name="ipAddress" label="Ip Address" />
                     <Text required={true} name="user" label="User" />
-                    <Text required={true} name="password" label="Password" />
+                    <Text
+                      required={true}
+                      name="password"
+                      label="Password"
+                      type="password"
+                    />
                     <Grid item xs={12} sm={3}>
                       <FieldSelect
                         origin="brand"
@@ -109,7 +124,7 @@ export default function FormCamera() {
                     <Text name="deviceDescription" label="DeviceDescription" />
                     <Text name="serialNumber" label="SerialNumber" />
                     <Text name="firmwareVersion" label="FirmwareVersion" />
-                    <Text name="location" label="Location" />
+                    <Text name="ubicacionFisica" label="Ubicacion" />
                     <Grid item xs={12} sm={3}>
                       <DatePickerField
                         label="Date Installation"
@@ -132,11 +147,29 @@ export default function FormCamera() {
                         setData={setDataS}
                       />
                     </Grid>
-                    <Text name="locationConnection" label="Location" />
-                    <Text name="idPatchPanel" label="Patch Panel" />
-                    <Text name="idSwitch" label="Switch" sm={2} />
-                    <Text name="portPatchPanel" label="Port PP" sm={2} />
-                    <Text name="portSwitch" label="Port Switch" sm={2} />
+                    <Text name="ubicacionConexion" label="Location" />
+                    <Text name="patchPanel" label="Patch Panel" />
+                    <Text name="switch" label="Switch" sm={2} />
+                    <Text
+                      name="portPatchPanel"
+                      label="Port PP"
+                      sm={2}
+                      type="number"
+                    />
+                    <Text
+                      name="portSwitch"
+                      label="Port Sw/NIC"
+                      sm={2}
+                      type="number"
+                    />
+                    <Grid item xs={12} sm={3}>
+                      <FieldSelect
+                        origin="server"
+                        source={dataSelectAgencia}
+                        data={dataA}
+                        setData={setDataA}
+                      />
+                    </Grid>
                     <Grid item xs={12} sm={12}>
                       <SwitchField
                         handleChange={handleChange}

@@ -38,12 +38,7 @@ const validationServer = Yup.object().shape({
 
 validationServer
   .validate(initialValues)
-  .then((result) => {
-    console.log(result);
-  })
-  .catch((err) => {
-    console.error(err);
-    console.log("Error", err.message);
-  });
+  .then((result) => {})
+  .catch((err) => {});
 
 export default validationServer;
