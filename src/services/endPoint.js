@@ -11,4 +11,13 @@ export const endPoint = {
   Capabilities: "/api/Hikvision/capabilities",
   Log: "/api/Log/camera",
   LogPost: "/api/Log",
+  LogServer: "/api/Logserver/server",
+  LogPostServer: "/api/Logserver",
+  FilePost: "/api/server/file",
+  HikName: "/api/Hikvision/info",
+  hikdatasheet: "/api/datasheet",
+  hikChannelStatus: "/api/hikvision/channels",
+  DataPdf: "/pdf/datasheet",
+  vivotek: "/api/vivotek",
+  evento: "/api/evento",
 };

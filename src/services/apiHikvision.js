@@ -2,6 +2,28 @@ import { API_HOST } from "../utils/constant";
 import axios from "axios";
 import { endPoint } from "./endPoint";
 
+const checkStatus = (values) => {
+  const url = `${API_HOST}${endPoint.hikChannelStatus}`;
+  return axios
+    .post(url, values)
+    .then(function (response) {
+      return response;
+    })
+    .catch(function (error) {
+      return error.response;
+    });
+};
+const checkStatusDvr = (values) => {
+  const url = `${API_HOST}${endPoint.hikChannelStatus}/dvr`;
+  return axios
+    .post(url, values)
+    .then(function (response) {
+      return response;
+    })
+    .catch(function (error) {
+      return error.response;
+    });
+};
 const GetTime = (data) => {
   const url = `${API_HOST}${endPoint.HikTime}`;
   return axios
@@ -42,6 +64,24 @@ const updateTime = (data, values) => {
       return error.response;
     });
 };
+const updateName = (values) => {
+  const url = `${API_HOST}${endPoint.HikName}`;
+  return axios
+    .put(url, values)
+    .then(function (response) {
+      return response;
+    })
+    .catch(function (error) {
+      return error.response;
+    });
+};
 
-const apiHikvision = { GetTime, updateTime, GetCapabilities };
+const apiHikvision = {
+  GetTime,
+  updateTime,
+  GetCapabilities,
+  updateName,
+  checkStatus,
+  checkStatusDvr,
+};
 export default apiHikvision;

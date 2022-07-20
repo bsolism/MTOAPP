@@ -4,14 +4,14 @@ import { DataGrid } from "@mui/x-data-grid";
 import ColumnsSrv from "../Table/ColumnsSvr";
 import ColumnsCam from "../Table/ColumnsCam";
 import BasicModal from "../../components/modal";
-import DetailCamera from "../../components/forms/detailCamera";
-import DetailServer from "../../components/forms/detailServer";
+import { apiAgency } from "../../services";
 import LayoutDetailCamera from "../LayoutDetailCamera/LayoutDetailCamera";
+import LayoutDetailServer from "../LayoutDetailServer";
 
 import "./DataSheet.scss";
 
 export default function DataSheet({ data }) {
-  const [dataCam, setDataCam] = useState(data[0].cameras);
+  const [dataCam, setDataCam] = useState([]);
   const [server, setServer] = useState([]);
   const heightTable = data[0].srvAg.length * 30 + 33;
   const [selectedRow, setSelectedRow] = useState();
@@ -24,11 +24,23 @@ export default function DataSheet({ data }) {
   const cc = ColumnsCam;
 
   useEffect(() => {
-    setServer([]);
-    data[0].srvAg.map((val) => {
-      setServer((server) => [...server, val.server]);
-    });
+    getData();
+    // setServer([]);
+    // data[0].srvAg.map((val) => {
+    //   setServer((server) => [...server, val.server]);
+    // });
   }, []);
+
+  const getData = async () => {
+    await apiAgency.GetAgencyById(data[0].id).then((res) => {
+      if (res.status === 200) {
+        console.log(res.data.srvAg[0].server);
+        console.log(res.data.cameras);
+        setServer([res.data.srvAg[0].server]);
+        setDataCam(res.data.cameras);
+      }
+    });
+  };
 
   return (
     <>
@@ -98,10 +110,19 @@ export default function DataSheet({ data }) {
       </div>
       <BasicModal open={open} handleClose={handleClose} data={selectedRow}>
         {cameraItem ? (
-          <LayoutDetailCamera item={selectedRow} handleClose={handleClose} />
+          <LayoutDetailCamera
+            item={selectedRow}
+            handleClose={handleClose}
+            getData={getData}
+          />
         ) : (
+          <LayoutDetailServer
+            item={selectedRow}
+            handleClose={handleClose}
+            getData={getData}
+          />
           // <DetailCamera item={selectedRow} handleClose={handleClose} />
-          <DetailServer item={selectedRow} handleClose={handleClose} />
+          // <DetailServer item={selectedRow} handleClose={handleClose} />
         )}
       </BasicModal>
     </>

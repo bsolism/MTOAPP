@@ -13,6 +13,7 @@ import { apiServer } from "../../services";
 import BasicModal from "../../components/modal";
 import ColumnsCam from "../../components/Table/ColumnsCam";
 import DetailCamera from "../../components/forms/detailCamera";
+import LayoutDetailCamera from "../../components/LayoutDetailCamera/LayoutDetailCamera";
 
 import "./Camera.scss";
 
@@ -85,11 +86,7 @@ export default function Camera() {
         </Body>
       </BasicLayout>
       <BasicModal open={open} handleClose={handleClose} data={selectedRow}>
-        <DetailCamera
-          item={selectedRow}
-          handleClose={handleClose}
-          getDta={getData}
-        />
+        <LayoutDetailCamera item={selectedRow} handleClose={handleClose} />
       </BasicModal>
     </>
   );

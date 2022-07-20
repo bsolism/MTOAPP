@@ -17,15 +17,6 @@ export default function FormButton({ source, toast, ...otherProps }) {
 
   const testConection = async () => {
     handleOpen();
-    // setFieldValue("name", "");
-    // setFieldValue("type", "");
-    // setFieldValue("model", "");
-    // setFieldValue("mac", "");
-    // setFieldValue("deviceId", "");
-    // if (source === "camera") setFieldValue("deviceDescription", "");
-    // setFieldValue("serialNumber", "");
-    // setFieldValue("firmwareVersion", "");
-
     var cred = {
       name: values.user,
       ipAddress: values.ipAddress,

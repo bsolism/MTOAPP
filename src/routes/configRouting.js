@@ -11,7 +11,7 @@ import DataSheet from "../page/DataSheetPage";
 export default [
   {
     path: "/",
-    element: <Home />,
+    element: <Dashboard />,
   },
   {
     path: "/camera",

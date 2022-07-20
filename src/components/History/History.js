@@ -9,7 +9,7 @@ import { Divider, Grid, CssBaseline } from "@mui/material";
 import Text from "../forms/Field/Text";
 import SubmitButton from "../forms/SubmitButton";
 import { DataGrid } from "@mui/x-data-grid";
-import { apiLog } from "../../services";
+import { apiLog, apiLogServer } from "../../services";
 
 import "./History.scss";
 const theme = createTheme();
@@ -30,7 +30,7 @@ const columns = [
   },
 ];
 
-export default function History({ item }) {
+export default function History({ item, origen }) {
   const [data, setData] = useState([]);
   const [count, setCount] = useState(1);
 
@@ -39,38 +39,39 @@ export default function History({ item }) {
   }, [item[0].id]);
 
   const getData = async (id) => {
-    await apiLog.GetLogByCameraId(id).then((res) => {
-      setData(res.data);
-    });
+    if (origen === "camera") {
+      await apiLog.GetLogByCameraId(id).then((res) => {
+        setData(res.data);
+      });
+    } else {
+      await apiLogServer.GetLogByServerId(id).then((res) => {
+        setData(res.data);
+      });
+    }
   };
   const handleSubmit = (values, { resetForm }) => {
-    const newdata = {
-      evento: values.event,
-      usuarioId: 1,
-      cameraId: item[0].id,
-    };
-    apiLog.PostLog(newdata).then((res) => {
-      console.log(res);
-      getData(item[0].id);
-    });
-    // values.isGoodCondition = checked;
-    // values.fechaInstalacion = dateValue;
-    // values.fechaCompra = dateValueB;
-    // //values.brand = null;
-    // console.log(values);
-    // apiCamera.PostCamera(values).then((res) => {
-    //   console.log(res);
-    //   if (res.status === 400) {
-    //     toast.warning(res.data);
-    //   }
-    //   if (res.status === 200) {
-    //     toast("Registro Ingresado");
-    //     //resetForm();
-    //     // setData("");
-    //     // setDataS("");
-    //     // setDataA("");
-    //   }
-    // });
+    if (origen === "camera") {
+      const newdata = {
+        evento: values.event,
+        usuarioId: 1,
+        cameraId: item[0].id,
+      };
+
+      apiLog.PostLog(newdata).then((res) => {
+        console.log(res);
+        getData(item[0].id);
+      });
+    } else {
+      const newdata = {
+        evento: values.event,
+        usuarioId: 1,
+        serverId: item[0].id,
+      };
+      apiLogServer.PostLog(newdata).then((res) => {
+        console.log(res);
+        getData(item[0].id);
+      });
+    }
   };
 
   return (

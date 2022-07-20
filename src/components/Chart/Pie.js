@@ -7,9 +7,9 @@ ChartJs.register(Tooltip, Title, ArcElement, Legend);
 
 const options = {
   pieceLabel: {
-    render: function (args) {
-      return args.label + ":" + args.value + "%";
-    },
+    // render: function (args) {
+    //   return args.label + ":" + args.value + "%";
+    // },
     fontSize: 15,
     fontColor: "#fff",
     fontFamly: "Arial",

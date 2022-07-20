@@ -5,6 +5,9 @@ import apiDeviceInfo from "./apiDeviceInfo";
 import apiServer from "./apiServer";
 import apiHikvision from "./apiHikvision";
 import apiLog from "./apiLog";
+import apiLogServer from "./apiLogServer";
+import apiVivotek from "./apiVivotek";
+import apiEvento from "./apiEvento";
 
 export {
   apiAgency,
@@ -14,4 +17,7 @@ export {
   apiServer,
   apiHikvision,
   apiLog,
+  apiLogServer,
+  apiVivotek,
+  apiEvento,
 };

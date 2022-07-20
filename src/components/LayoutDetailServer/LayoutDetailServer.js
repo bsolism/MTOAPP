@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Tab, Tabs, Typography, Box } from "@mui/material";
-import DetailCamera from "../forms/detailCamera/DetailCamera";
+import DetailServer from "../forms/detailServer";
 import History from "../History";
 import DisplayPdf from "../../page/DisplayPdf";
 
@@ -23,7 +23,6 @@ function TabPanel(props) {
     </div>
   );
 }
-
 TabPanel.propTypes = {
   children: PropTypes.node,
   index: PropTypes.number.isRequired,
@@ -57,13 +56,13 @@ export default function BasicTabs({ item, handleClose, getData }) {
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
-        <DetailCamera item={item} handleClose={handleClose} getDta={getData} />
+        <DetailServer item={item} handleClose={handleClose} getDta={getData} />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <History item={item} origen="camera" />
+        <History item={item} origen="server" />
       </TabPanel>
       <TabPanel value={value} index={2}>
-        <DisplayPdf />
+        <DisplayPdf item={item} />
       </TabPanel>
     </Box>
   );

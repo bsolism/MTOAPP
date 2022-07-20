@@ -13,6 +13,7 @@ import { apiAgency } from "../../services";
 import columnsSrv from "../../components/Table/ColumnsSvr";
 import BasicModal from "../../components/modal";
 import DetailServer from "../../components/forms/detailServer";
+import LayoutDetailServer from "../../components/LayoutDetailServer";
 
 import "./Server.scss";
 
@@ -87,7 +88,7 @@ export default function Sever() {
         </Body>
       </BasicLayout>
       <BasicModal open={open} handleClose={handleClose} data={selectedRow}>
-        <DetailServer item={selectedRow} handleClose={handleClose} />
+        <LayoutDetailServer item={selectedRow} handleClose={handleClose} />
       </BasicModal>
     </>
   );

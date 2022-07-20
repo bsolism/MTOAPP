@@ -47,6 +47,17 @@ const GetCameraOnly = () => {
       return error.response;
     });
 };
+const GetCameraByChannel = (channel, idServer) => {
+  const url = `${API_HOST}${endPoint.Camera}/channel/${channel}/server/${idServer}`;
+  return axios
+    .get(url)
+    .then(function (response) {
+      return response;
+    })
+    .catch(function (error) {
+      return error.response;
+    });
+};
 const GetImageCamHik = (data) => {
   const url = `${API_HOST}${endPoint.CamImageHik}`;
   return axios
@@ -83,5 +94,6 @@ const apiCamera = {
   GetCameraOnly,
   PutCamera,
   GetImageCamHik,
+  GetCameraByChannel,
 };
 export default apiCamera;
