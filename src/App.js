@@ -3,7 +3,6 @@ import { AuthContext } from "./utils/context";
 import { ToastContainer } from "react-toastify";
 
 import Routing from "./routes/routing";
-import BasicModal from "./components/modal";
 
 function App() {
   const [user, setUser] = useState("user");

@@ -40,7 +40,7 @@ export default function AppBarNav() {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Camaras Grupo Flores
+            Sistema Monitoreo Cámaras
           </Typography>
           <Button color="inherit">Login</Button>
         </Toolbar>

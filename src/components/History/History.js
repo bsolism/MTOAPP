@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import DateAdapter from "@mui/lab/AdapterDateFns";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
-import Form from "../forms/form";
+import Form from "../Forms/form";
 import { Box, Container, Paper } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Divider, Grid, CssBaseline } from "@mui/material";
-import Text from "../forms/Field/Text";
-import SubmitButton from "../forms/SubmitButton";
+import Text from "../Forms/field/Text";
+import SubmitButton from "../Forms/field/SubmitButton";
 import { DataGrid } from "@mui/x-data-grid";
 import { apiLog, apiLogServer } from "../../services";
 

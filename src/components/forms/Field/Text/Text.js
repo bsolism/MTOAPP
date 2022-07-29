@@ -22,20 +22,18 @@ export default function Text({
     }
   };
   return (
-    <Grid item xs={xs} sm={sm}>
-      <TextField
-        type={type}
-        required={required}
-        id={name}
-        name={name}
-        label={label}
-        fullWidth
-        variant="standard"
-        onChange={(e) => handleChange(e)}
-        value={value !== undefined ? value : values[name]}
-        inputProps={{ style: { fontSize: 12 } }}
-        {...props}
-      />
-    </Grid>
+    <TextField
+      type={type}
+      required={required}
+      id={name}
+      name={name}
+      label={label}
+      fullWidth
+      variant="standard"
+      onChange={(e) => handleChange(e)}
+      value={value !== undefined ? value : values[name]}
+      inputProps={{ style: { fontSize: 12 } }}
+      {...props}
+    />
   );
 }

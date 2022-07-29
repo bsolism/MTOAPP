@@ -27,6 +27,7 @@ const PutCamera = (value) => {
 
 const GetCamera = () => {
   const url = `${API_HOST}${endPoint.Camera}`;
+
   return axios
     .get(url)
     .then(function (response) {

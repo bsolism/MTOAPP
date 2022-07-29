@@ -1,6 +1,6 @@
 import React from "react";
 import { Box, Typography, Modal } from "@mui/material";
-import ActivityIndicator from "../../ActivityIndicator";
+import Loader from "../../Loader";
 
 const style = {
   position: "absolute",
@@ -21,7 +21,7 @@ export default function ModalLottie({ open, handleClose }) {
         aria-describedby="modal-modal-descripcion"
       >
         <Box sx={style}>
-          <ActivityIndicator />
+          <Loader />
         </Box>
       </Modal>
     </div>

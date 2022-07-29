@@ -1,47 +1,24 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import { ListItem, ListItemIcon } from "@mui/material";
 import { Add } from "@mui/icons-material";
 import { Link } from "react-router-dom";
-import BasicLayout from "../../Layout";
-import SearchField from "../../components/forms/Field/SearchField";
-import Body from "../../components/body";
-import apiService from "../../services/apiAgency";
+import SearchField from "../../components/Forms/field/SearchField";
+import Body from "../../components/Body";
 import { useNavigate } from "react-router-dom";
+import MainLayout from "../../Layout/MainLayout";
+import useHookStore from "./useHookStore";
+import columnAg from "../../components/Table/ColumnAg";
 
 import "./Store.scss";
 
-const columns = [
-  {
-    field: "n",
-    headerName: "No",
-    width: 20,
-    renderCell: (index) => {
-      return <span>{index.id}</span>;
-    },
-  },
-  { field: "nombre", headerName: "Nombre", width: 200 },
-  { field: "ciudad", headerName: "Ubicación", width: 260 },
-  { field: "direccion", headerName: "Tipo", width: 300 },
-];
-
 export default function Store() {
-  const [data, setData] = useState([]);
   const [selectedRow, setSelectedRow] = useState();
   const navigate = useNavigate();
-  const cc = columns;
+  const [data] = useHookStore();
 
-  useEffect(() => {
-    getData();
-  }, []);
-
-  const getData = async () => {
-    await apiService.GetAgency().then((res) => {
-      setData(res.data);
-    });
-  };
   return (
-    <BasicLayout>
+    <MainLayout>
       <div className="cabecera">
         <SearchField />
         <ListItem className="list" button component={Link} to="/store/add">
@@ -56,7 +33,7 @@ export default function Store() {
           {data.length > 0 ? (
             <DataGrid
               rows={data}
-              columns={cc}
+              columns={columnAg}
               key={data.id}
               rowHeight={30}
               headerHeight={30}
@@ -79,6 +56,6 @@ export default function Store() {
           ) : null}
         </div>
       </Body>
-    </BasicLayout>
+    </MainLayout>
   );
 }

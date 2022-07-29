@@ -2,13 +2,11 @@ import GppGoodIcon from "@mui/icons-material/GppGood";
 
 const columnsCam = [
   {
-    filed: "no",
+    field: "no",
     headerName: "No",
-    filterable: false,
-    sortable: false,
     width: 20,
     renderCell: (index) => {
-      return <span key={index.id}>{index.id}</span>;
+      return <span>{index.row.row}</span>;
     },
   },
   { field: "name", headerName: "Nombre", width: 150 },

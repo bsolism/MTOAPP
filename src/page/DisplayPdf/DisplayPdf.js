@@ -15,10 +15,8 @@ export default function DisplayPdf({ item }) {
   const [numPage, setNumPage] = useState(null);
   const [pageNumber, setPageNumber] = useState(1);
   const [file, setFile] = useState(null);
-  console.log(item);
 
   const onDocumentLoadSuccess = ({ numPages }) => {
-    console.log(numPages);
     setNumPage(numPages);
   };
 
@@ -35,10 +33,8 @@ export default function DisplayPdf({ item }) {
   };
 
   const handleChange = ({ target }) => {
-    console.log(target);
     const fileReader = new FileReader();
     const name = target.accept.includes("PDF") ? "pdf" : "image";
-    console.log(name);
 
     fileReader.readAsDataURL(target.files[0]);
 
@@ -46,7 +42,6 @@ export default function DisplayPdf({ item }) {
   };
 
   const handleSave = async () => {
-    console.log(item);
     const data = {
       dataSheetName: item[0].modelo,
       serverId: item[0].id,
@@ -60,7 +55,6 @@ export default function DisplayPdf({ item }) {
     });
   };
 
-  console.log(file);
   const goToPrevPag = () => {
     setPageNumber(pageNumber - 1 <= 1 ? 1 : pageNumber - 1);
   };

@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Tab, Tabs, Typography, Box } from "@mui/material";
-import DetailServer from "../forms/detailServer";
+import DetailServer from "../Forms/detailServer";
 import History from "../History";
 import DisplayPdf from "../../page/DisplayPdf";
 
@@ -15,11 +15,7 @@ function TabPanel(props) {
       aria-labelledby={`simple-tab-${index}`}
       {...other}
     >
-      {value === index && (
-        <Box sx={{ p: 3 }}>
-          <Typography>{children}</Typography>
-        </Box>
-      )}
+      {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
     </div>
   );
 }
@@ -36,7 +32,7 @@ function allyProps(index) {
   };
 }
 
-export default function BasicTabs({ item, handleClose, getData }) {
+export default function BasicTabs({ item, handleClose, data, setData }) {
   const [value, setValue] = React.useState(0);
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -56,7 +52,12 @@ export default function BasicTabs({ item, handleClose, getData }) {
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
-        <DetailServer item={item} handleClose={handleClose} getDta={getData} />
+        <DetailServer
+          item={item}
+          handleClose={handleClose}
+          data={data}
+          setData={setData}
+        />
       </TabPanel>
       <TabPanel value={value} index={1}>
         <History item={item} origen="server" />

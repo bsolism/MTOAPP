@@ -1,6 +1,6 @@
 import React from "react";
-import BasicLayout from "../../Layout";
-import AddStore from "../../components/forms/addStore";
+import BasicLayout from "../../Layout/BasicLayout";
+import FormAgency from "../../components/Forms/formAgency";
 
 import "./AddStore.scss";
 
@@ -8,7 +8,7 @@ export default function AddStorePage() {
   return (
     <BasicLayout>
       <div className="body-content">
-        <AddStore />
+        <FormAgency />
       </div>
     </BasicLayout>
   );

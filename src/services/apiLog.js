@@ -3,16 +3,13 @@ import axios from "axios";
 import { endPoint } from "./endPoint";
 
 const PostLog = (value) => {
-  console.log(value);
   const url = `${API_HOST}${endPoint.LogPost}`;
   return axios
     .post(url, value)
     .then(function (response) {
-      console.log(response);
       return response;
     })
     .catch(function (error) {
-      console.log(error.response);
       return error.response;
     });
 };

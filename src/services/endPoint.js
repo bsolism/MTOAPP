@@ -20,4 +20,5 @@ export const endPoint = {
   DataPdf: "/pdf/datasheet",
   vivotek: "/api/vivotek",
   evento: "/api/evento",
+  hik: "/api/hikvision",
 };

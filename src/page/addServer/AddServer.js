@@ -1,6 +1,6 @@
 import React from "react";
-import BasicLayout from "../../Layout";
-import FormServer from "../../components/forms/formServer";
+import BasicLayout from "../../Layout/BasicLayout";
+import FormServer from "../../components/Forms/formServer";
 
 import "./AddServer.scss";
 

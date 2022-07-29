@@ -24,6 +24,23 @@ const checkStatusDvr = (values) => {
       return error.response;
     });
 };
+const GetImageCam = (data) => {
+  const url = `${API_HOST}${endPoint.hik}/image`;
+  return axios
+    .post(url, data, { responseType: "arraybuffer" })
+    .then(function (response) {
+      return btoa(
+        new Uint8Array(response.data).reduce(
+          (data, byte) => data + String.fromCharCode(byte),
+          ""
+        )
+      );
+    })
+    .catch(function (error) {
+      console.log(error.response);
+      return error.response;
+    });
+};
 const GetTime = (data) => {
   const url = `${API_HOST}${endPoint.HikTime}`;
   return axios
@@ -36,7 +53,7 @@ const GetTime = (data) => {
     });
 };
 const GetCapabilities = (data) => {
-  const url = `${API_HOST}${endPoint.Capabilities}`;
+  const url = `${API_HOST}${endPoint.hik}/capabilities`;
   return axios
     .post(url, data)
     .then(function (response) {
@@ -78,6 +95,7 @@ const updateName = (values) => {
 
 const apiHikvision = {
   GetTime,
+  GetImageCam,
   updateTime,
   GetCapabilities,
   updateName,

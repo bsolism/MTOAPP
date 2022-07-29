@@ -35,9 +35,7 @@ const useHookLiveActivity = (
   };
 
   const deleteEvent = async (id) => {
-    await apiEvento.DeleteEventByCameraId(id).then((res) => {
-      console.log(res);
-    });
+    await apiEvento.DeleteEventByCameraId(id).then((res) => {});
     await apiLog
       .PostLog({ evento: "Online", usuarioId: 1, cameraId: id })
       .then((res) => {});
@@ -51,7 +49,7 @@ const useHookLiveActivity = (
     return cred;
   };
 
-  const MappData = (camera, server, agency) => {
+  const MappData = (camera, server, agency, comment = "OffLine") => {
     const dat = {
       id: camera.id,
       name: camera.name,
@@ -59,21 +57,21 @@ const useHookLiveActivity = (
       server: server.nombre,
       channel: server.brandId === 1 ? camera.portChannel : "n/a",
       agency: agency.nombre,
-      comment: "OffLine",
+      comment: comment,
       dateTime: "",
     };
     return dat;
   };
 
   const checkConnect = () => {
-    dataAg.map((resp, ind) => {
-      resp.srvAg.map((srvAg) => {
+    dataAg.map((ag, ind) => {
+      ag.srvAg.map((srvAg) => {
         const server = srvAg.server;
 
         if (server.brandId === 1 && server.portAnalogo > 0) {
           apiHikvision.checkStatusDvr(credential(server)).then((res) => {
             const xmlData = new XMLParser().parseFromString(res.data);
-            Mapper(xmlData, server, resp, "dvr", ind);
+            Mapper(xmlData, server, ag, "dvr", ind);
           });
         }
         if (
@@ -84,14 +82,40 @@ const useHookLiveActivity = (
           const cred = credential(server);
           apiHikvision.checkStatus(cred).then((res) => {
             const xmlData = new XMLParser().parseFromString(res.data);
-            Mapper(xmlData, server, resp, "nvr", ind);
+            Mapper(xmlData, server, ag, "nvr", ind);
           });
         }
         if (server.brandId === 1 && server.portAnalogo === 0) {
           const cred = credential(server);
           apiHikvision.checkStatus(cred).then((res) => {
-            const xmlData = new XMLParser().parseFromString(res.data);
-            Mapper(xmlData, server, resp, "nvr", ind);
+            console.log(res);
+            if (res.status === 200) {
+              const xmlData = new XMLParser().parseFromString(res.data);
+              Mapper(xmlData, server, ag, "nvr", ind);
+            }
+            if (res.status === 500) {
+              server.cameras.map((cam) => {
+                updateStates(cam, ag, false, ind);
+                const newData = dataTable.filter((x) => x.id === cam.id);
+                if (newData.length === 0) {
+                  const dat = MappData(cam, server, ag, "Problem NVR");
+                  const dataSource = dataEvent.filter(
+                    (x) => x.cameraId === cam.id
+                  );
+                  if (dataSource.length === 0) {
+                    apiEvento
+                      .Post({ cameraId: dat.id, comment: dat.comment })
+                      .then((resp) => {
+                        dat.dateTime = resp.data.date;
+                        setDataEvent((dataEvent) => [...dataEvent, resp.data]);
+                      });
+                  } else {
+                    dat.dateTime = dataSource[0].date;
+                  }
+                  setDataTable((dataTable) => [...dataTable, dat]);
+                }
+              });
+            }
           });
         }
         if (server.brandId === 2) {
@@ -99,10 +123,10 @@ const useHookLiveActivity = (
             const cred = credential(camera);
             apiVivotek.checkStatus(cred).then((res) => {
               if (res.status !== 200) {
-                updateStates(camera, resp, false, ind);
+                updateStates(camera, ag, false, ind);
                 const newData = dataTable.filter((x) => x.id === camera.id);
                 if (newData.length === 0) {
-                  const dat = MappData(camera, server, resp);
+                  const dat = MappData(camera, server, ag);
                   const dataSource = dataEvent.filter(
                     (x) => x.cameraId === camera.id
                   );
@@ -125,7 +149,7 @@ const useHookLiveActivity = (
         }
         return srvAg;
       });
-      return resp;
+      return ag;
     });
   };
 

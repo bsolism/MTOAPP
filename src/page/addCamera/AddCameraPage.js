@@ -1,7 +1,6 @@
 import React from "react";
-import BasicLayout from "../../Layout";
-import AddCamera from "../../components/forms/addCamera";
-import FormCamera from "../../components/forms/formCamera";
+import BasicLayout from "../../Layout/BasicLayout";
+import FormCamera from "../../components/Forms/formCamera";
 
 import "./AddCameraPage.scss";
 

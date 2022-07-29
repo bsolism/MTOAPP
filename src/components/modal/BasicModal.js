@@ -1,8 +1,6 @@
 import React from "react";
 
 import { Box, Typography, Modal } from "@mui/material";
-import AddCamera from "../../components/forms/addCamera";
-import DetailCamera from "../forms/detailCamera";
 
 import "./BasicModal.scss";
 

@@ -5,7 +5,7 @@ const columnsSrv = [
     headerName: "No",
     width: 20,
     renderCell: (index) => {
-      return <span>{index.id}</span>;
+      return <span>{index.row.row}</span>;
     },
   },
   { field: "nombre", headerName: "Nombre", width: 140 },

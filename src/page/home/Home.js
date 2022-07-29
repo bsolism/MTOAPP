@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 import AppBarNav from "../../components/navigator/AppBar";
-import BasicLayout from "../../Layout";
+import BasicLayout from "../../Layout/BasicLayout";
 import useApi from "../../hook/useApi";
 import apiAgencia from "../../services/apiAgency";
 import apiServer from "../../services/apiServer";

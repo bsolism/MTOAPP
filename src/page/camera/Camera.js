@@ -4,16 +4,16 @@ import { ListItem, ListItemIcon } from "@mui/material";
 import { Add } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
-import BasicLayout from "../../Layout";
-import SearchField from "../../components/forms/Field/SearchField";
-import Body from "../../components/body";
+// import BasicLayout from "../../Layout/BasicLayout";
+import SearchField from "../../components/Forms/field/SearchField";
+import Body from "../../components/Body";
 import apiCamera from "../../services/apiCamera";
 import useApi from "../../hook/useApi";
 import { apiServer } from "../../services";
 import BasicModal from "../../components/modal";
 import ColumnsCam from "../../components/Table/ColumnsCam";
-import DetailCamera from "../../components/forms/detailCamera";
-import LayoutDetailCamera from "../../components/LayoutDetailCamera/LayoutDetailCamera";
+import LayoutDetailCamera from "../../components/LayoutDetailCamera";
+import MainLayout from "../../Layout/MainLayout";
 
 import "./Camera.scss";
 
@@ -39,7 +39,8 @@ export default function Camera() {
 
   return (
     <>
-      <BasicLayout>
+      <MainLayout>
+        {/* <BasicLayout> */}
         <div className="cabecera">
           <SearchField />
           {getServer.data.length > 0 ? (
@@ -84,9 +85,14 @@ export default function Camera() {
             />
           </div>
         </Body>
-      </BasicLayout>
+      </MainLayout>
+      {/* </BasicLayout> */}
       <BasicModal open={open} handleClose={handleClose} data={selectedRow}>
-        <LayoutDetailCamera item={selectedRow} handleClose={handleClose} />
+        <LayoutDetailCamera
+          item={selectedRow}
+          handleClose={handleClose}
+          getData={getData}
+        />
       </BasicModal>
     </>
   );

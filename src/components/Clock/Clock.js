@@ -34,9 +34,6 @@ export default function Clock({ dat = "2022-06-06T13:54:35-06:00" }) {
         ? "0" + (date.getMonth() + 1)
         : date.getMonth() + 1;
     var day = date.getDate() <= 9 ? "0" + date.getDate() : date.getDate();
-    // var dhour = date.getHours()<=9?"0"+date.getHours():date.getHours();
-    // var dmin = date.getMinutes()<=9?"0"+date.getMinutes():date.getMinutes();
-    // var dsecon = date.getSeconds()<=9?"0"+date.getSeconds():date.getSeconds();
     if (dhour <= 9) dhour = "0" + dhour;
     if (dmin <= 9) dmin = "0" + dmin;
     if (dsecon <= 9) dsecon = "0" + dsecon;

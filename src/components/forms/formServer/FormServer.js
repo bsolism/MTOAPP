@@ -7,14 +7,14 @@ import { toast } from "react-toastify";
 import Form from "../form";
 import initialValues from "../../../models/server";
 import { apiAgency, apiBrand, apiServer } from "../../../services";
-import Text from "../Field/Text";
-import FieldSelect from "../Field/FieldSelect";
-import Button from "../button";
-import DatePickerField from "../Field/DatePickerField";
+import Text from "../field/Text";
+import FieldSelect from "../field/FieldSelect";
+import Button from "../field/button";
+import DatePickerField from "../field/DatePickerField";
 import DateAdapter from "@mui/lab/AdapterDateFns";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
-import SwitchField from "../Field/SwitchField";
-import SubmitButton from "../SubmitButton";
+import SwitchField from "../field/SwitchField";
+import SubmitButton from "../field/SubmitButton";
 
 const theme = createTheme();
 
@@ -110,7 +110,7 @@ export default function FormServer() {
                     <Text name="deviceId" label="DeviceId" />
                     <Text name="serialNumber" label="SerialNumber" />
                     <Text name="firmwareVersion" label="FirmwareVersion" />
-
+                    <Text name="assetId" label="ActiveNumber" />
                     <Text name="sata" label="Cant. Sata" type="number" />
                     <Text
                       name="capacidadSata"

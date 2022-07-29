@@ -1,17 +1,17 @@
-import React, { useState } from "react";
-import DataSheet from "../../components/DataSheet";
+import React from "react";
 import { useLocation } from "react-router-dom";
-import BasicLayout from "../../Layout";
-import Body from "../../components/body";
+import Body from "../../components/Body";
+import AgencyDetail from "../../components/AgencyDetail";
+import MainLayout from "../../Layout/MainLayout";
 
 export default function DataSheetPage() {
   const location = useLocation();
 
   return (
-    <BasicLayout>
+    <MainLayout>
       <Body>
-        <DataSheet data={location.state} />
+        <AgencyDetail data={location.state} />
       </Body>
-    </BasicLayout>
+    </MainLayout>
   );
 }

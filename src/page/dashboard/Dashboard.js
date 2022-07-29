@@ -2,11 +2,10 @@ import React, { useState, useEffect } from "react";
 import { Grid } from "@mui/material";
 import { apiAgency, apiCamera, apiEvento } from "../../services";
 
-import PieChart from "../../components/Chart/Pie";
-import LineChart from "../../components/Chart/LineChart";
+import PieChart from "../../components/Chart/PieChart";
+import BarChart from "../../components/Chart/BarChart";
 import LiveActivity from "../../components/LiveActivity";
-
-import BasicLayout from "../../Layout";
+import MainLayout from "../../Layout/MainLayout";
 
 import "./Dashboard.scss";
 
@@ -22,7 +21,7 @@ export default function Dashboard() {
     var count = 0;
     var interval = setInterval(() => {
       count++;
-      console.log(count);
+
       if (count === 1) setThird(true);
       if (count === 1) {
         clearInterval(interval);
@@ -43,27 +42,32 @@ export default function Dashboard() {
   };
 
   return (
-    <BasicLayout>
-      <Grid container spacing={2} className="body-chart">
-        <Grid item xs={4}>
-          <PieChart dataSource={data} />
+    <>
+      <MainLayout>
+        {/* <BasicLayout> */}
+
+        <Grid container spacing={2} className="body-chart">
+          <Grid item xs={4}>
+            <PieChart dataSource={data} />
+          </Grid>
+          <Grid item xs={5}>
+            <BarChart dataSource={dataAg} />
+          </Grid>
+          <Grid item xs={12}>
+            {third ? (
+              <LiveActivity
+                dataSource={dataAg}
+                setDataAg={setDataAg}
+                data={data}
+                setData={setData}
+                dataEvent={dataEvent}
+                setDataEvent={setDataEvent}
+              />
+            ) : null}
+          </Grid>
         </Grid>
-        <Grid item xs={5}>
-          <LineChart dataSource={dataAg} />
-        </Grid>
-        <Grid item xs={12}>
-          {third ? (
-            <LiveActivity
-              dataSource={dataAg}
-              setDataAg={setDataAg}
-              data={data}
-              setData={setData}
-              dataEvent={dataEvent}
-              setDataEvent={setDataEvent}
-            />
-          ) : null}
-        </Grid>
-      </Grid>
-    </BasicLayout>
+      </MainLayout>
+      {/* </BasicLayout> */}
+    </>
   );
 }

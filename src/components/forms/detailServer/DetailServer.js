@@ -1,215 +1,89 @@
-import React, { useState, useEffect } from "react";
-import DateAdapter from "@mui/lab/AdapterDateFns";
-import LocalizationProvider from "@mui/lab/LocalizationProvider";
-import { Divider, Grid } from "@mui/material";
-import SwitchField from "../Field/SwitchField";
-import DatePickerField from "../Field/DatePickerField";
-import FieldSelect from "../Field/FieldSelect";
-import SubmitButton from "../SubmitButton";
-import CheckboxField from "../Field/CheckboxField";
-import Domain from "./Domain";
-import Form from "../form";
-import Text from "../Field/Text";
+import React, { useState } from "react";
+import { Grid } from "@mui/material";
+import SwitchField from "../field/SwitchField";
+import DatePickerField from "../field/DatePickerField";
+import FieldSelect from "../field/FieldSelect";
+import SubmitButton from "../field/SubmitButton";
+import CheckboxField from "../field/CheckboxField";
+import Text from "../field/Text";
+import LayoutForm from "../../../Layout/LayoutForm";
+import useHookDetailServer from "./useHookDetailServer";
 import RefreshData from "../refreshData";
 
 import "./DetailServer.scss";
 
-export default function DetailServer({ item, handleClose, getDta }) {
-  const [checked, setChecked] = useState(true);
-  const [dateValue, setDateValue] = useState();
-  const [dateValueB, setDateValueB] = useState();
-  const [dataSelectBrand, setdataSelectBrand] = useState([]);
-  const [data, setData] = useState("");
-  const [dateTime, setDateTime] = useState();
-  const [checkbox, setCheckbox] = useState(false);
-  const [dateOld, setDateOld] = useState();
-  const [dataServer, setDataServer] = useState(item[0]);
-
-  useEffect(() => {
-    setData(dataServer.brandId);
-    setChecked(dataServer.isGoodCondition);
-    setDateValueB(dataServer.fechaCompra);
-    setDateValue(dataServer.fechaInstalacion);
-
-    Domain.getDataTime(dataServer, setdataSelectBrand, setDateTime, setDateOld);
-  }, []);
-
-  useEffect(() => {
-    Domain.sincronizer(checkbox, setDateTime, dateOld);
-  }, [checkbox]);
+export default function DetailServer({ item, handleClose, data, setData }) {
+  const [newValueDate, setNewValueDate] = useState();
+  const [submit] = useHookDetailServer(data, setData);
 
   const handleSubmit = (values) => {
-    Domain.handleSubmit(
-      values,
-      checked,
-      dateValue,
-      dateValueB,
-      checkbox,
-      dateTime,
-      handleClose,
-      getDta
-    );
-  };
-  const handleChange = (event) => {
-    setChecked(event.target.checked);
-  };
-  const handleChangeDateI = (value) => {
-    setDateValue(value);
-  };
-  const handleChangeDateB = (value) => {
-    setDateValueB(value);
+    submit(values);
+    handleClose();
   };
 
   return (
-    <LocalizationProvider dateAdapter={DateAdapter}>
-      <div className="form-class">
-        <Grid container spacing={1}>
-          <Form initialValues={dataServer} onSubmit={handleSubmit}>
-            <div className="detailTop">
-              <Grid container spacing={1}>
-                <Grid item sm={12}>
-                  <RefreshData item={dataServer} />
-                </Grid>
-                <Text name="nombre" label="Nombre" xs={15} sm={6} />
-                <Grid item xs={15} sm={6}>
-                  <FieldSelect
-                    origin="brand"
-                    source={dataSelectBrand}
-                    data={data}
-                    setData={setData}
-                  />
-                </Grid>
-                <Text name="modelo" label="Modelo" xs={15} sm={6} />
-                <Text name="type" label="Tipo" xs={15} sm={6} />
-                <Text name="user" label="Usuario" xs={15} sm={6} />
-                <Text
-                  name="password"
-                  label="Password"
-                  xs={15}
-                  sm={6}
-                  type="password"
-                />
-                <Text name="ipAddress" label="IP" xs={15} sm={6} />
-                <Text name="mac" label="Mac" xs={15} sm={6} />
-                <Text name="serialNumber" label="Serial" xs={15} sm={6} />
-                <Text name="deviceId" label="Device Id" xs={15} sm={6} />
-                <Text name="ubicacion" label="Ubicación" xs={15} sm={6} />
-                <Text name="firmwareVersion" label="Firmware" xs={15} sm={6} />
-
-                <Text
-                  name="sataInstalado"
-                  label="HDD Instalado"
-                  xs={15}
-                  sm={6}
-                />
-                <Text
-                  name="capacidadSataInstalado"
-                  label="Tamaño HDD (TB)"
-                  xs={15}
-                  sm={6}
-                />
-
-                <Text
-                  label="Total de Cámaras"
-                  xs={15}
-                  sm={6}
-                  value={dataServer.cameras.length}
-                />
-                <Text
-                  name="engravedDays"
-                  label="Dias Grabados"
-                  xs={15}
-                  sm={6}
-                />
-                <Divider
-                  style={{
-                    width: "100%",
-                    marginTop: "5px",
-                    marginBottom: "5px",
-                  }}
-                />
-                <Grid item xs={15} sm={3}>
-                  <DatePickerField
-                    label="Fecha y hora Dispositivo"
-                    dateValue={dateTime}
-                    handleChange={handleChangeDateB}
-                    format="yyyy-MM-dd HH:mm:ss"
-                    mask="____-__-__ __:__:__"
-                  />
-                </Grid>
-                <Grid
-                  className="checkbox"
-                  item
-                  xs={15}
-                  sm={6}
-                  display="flex"
-                  flexDirection="column"
-                  justifyContent="flex-end"
-                >
-                  <CheckboxField
-                    checkbox={checkbox}
-                    setCheckbox={setCheckbox}
-                  />
-                </Grid>
-                <Divider
-                  style={{
-                    width: "100%",
-                    marginTop: "5px",
-                    marginBottom: "5px",
-                  }}
-                />
-
-                <Grid item xs={15} sm={3}>
-                  <DatePickerField
-                    label="Date Buys"
-                    dateValue={dateValueB}
-                    handleChange={handleChangeDateB}
-                  />
-                </Grid>
-                <Grid item xs={15} sm={3}>
-                  <DatePickerField
-                    label="Installation Date"
-                    dateValue={dateValue}
-                    handleChange={handleChangeDateI}
-                  />
-                </Grid>
-                <Grid item xs={15} sm={3}>
-                  <SwitchField
-                    handleChange={handleChange}
-                    label="En Linea"
-                    checked={checked}
-                  />
-                </Grid>
-
-                <Divider
-                  style={{
-                    width: "100%",
-                    marginBottom: "5px",
-                    marginTop: "5px",
-                  }}
-                />
-                <Text
-                  name="nota"
-                  label="Observaciones"
-                  xs={15}
-                  sm={6}
-                  multiline
-                  minrows={2}
-                  maxRows={4}
-                />
-                <Divider
-                  style={{
-                    width: "100%",
-                    marginBottom: "5px",
-                    marginTop: "5px",
-                  }}
-                />
-              </Grid>
-            </div>
-            <SubmitButton title="Save" />
-          </Form>
+    <LayoutForm item={item[0]} onSubmit={handleSubmit}>
+      <Grid container spacing={2}>
+        <Grid item xs={12}>
+          <RefreshData item={item[0]} />
         </Grid>
-      </div>
-    </LocalizationProvider>
+        <Grid item xs={6}>
+          <Text name="nombre" label="Nombre" />
+          <Text name="modelo" label="Modelo" />
+          <Text name="user" label="Usuario" />
+          <Text name="ipAddress" label="IP" />
+          <Text name="serialNumber" label="Serial" />
+          <Text name="assetId" label="ActiveNumber" />
+          <Text name="ubicacion" label="Ubicación" />
+          <Text name="sataInstalado" label="HDD Instalado" />
+          <Text label="Total de Cámaras" value={item[0].cameras.length} />
+          <DatePickerField
+            id="buy"
+            label="Date Buys"
+            dateValue={item[0].fechaCompra}
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <FieldSelect type="brand" id={item[0].brandId} />
+          <Text name="type" label="Tipo" />
+          <Text name="password" label="Password" type="password" />
+          <Text name="mac" label="Mac" />
+          <Text name="deviceId" label="Device Id" />
+          <Text name="firmwareVersion" label="Firmware" />
+          <Text name="engravedDays" label="Dias Grabados" />
+          <Text name="capacidadSataInstalado" label="Tamaño HDD (TB)" />
+          <Text name="nota" label="Observaciones" />
+          <DatePickerField
+            id="installation"
+            label="Installation Date"
+            dateValue={item[0].fechaInstalacion}
+          />
+        </Grid>
+        <Grid item xs={3} display="flex" alignContent="baseline">
+          <DatePickerField
+            id="dateLive"
+            label="Fecha y hora Dispositivo"
+            dateValue={newValueDate}
+            setNewValueDate={setNewValueDate}
+            format="yyyy-MM-dd HH:mm:ss"
+            mask="____-__-__ __:__:__"
+            item={item[0]}
+          />
+        </Grid>
+        <Grid item xs={3} display="flex" justifyContent="flex-end">
+          <CheckboxField
+            label="Sinc"
+            item={item[0]}
+            setNewValueDate={setNewValueDate}
+          />
+        </Grid>
+        <Grid item xs={6} display="flex" justifyContent="flex-end">
+          <SwitchField label="En Linea" value={item[0].isGoodCondition} />
+        </Grid>
+        <Grid item xs={6}>
+          <SubmitButton title="Save" />
+        </Grid>
+      </Grid>
+    </LayoutForm>
   );
 }

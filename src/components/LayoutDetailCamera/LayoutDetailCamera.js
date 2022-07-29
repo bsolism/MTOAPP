@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Tab, Tabs, Typography, Box } from "@mui/material";
-import DetailCamera from "../forms/detailCamera/DetailCamera";
+import DetailCamera from "../Forms/detailCamera/DetailCamera";
 import History from "../History";
 import DisplayPdf from "../../page/DisplayPdf";
 
@@ -15,11 +15,7 @@ function TabPanel(props) {
       aria-labelledby={`simple-tab-${index}`}
       {...other}
     >
-      {value === index && (
-        <Box sx={{ p: 3 }}>
-          <Typography>{children}</Typography>
-        </Box>
-      )}
+      {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
     </div>
   );
 }
@@ -63,7 +59,7 @@ export default function BasicTabs({ item, handleClose, getData }) {
         <History item={item} origen="camera" />
       </TabPanel>
       <TabPanel value={value} index={2}>
-        <DisplayPdf />
+        <DisplayPdf item={item} />
       </TabPanel>
     </Box>
   );

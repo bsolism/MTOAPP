@@ -8,14 +8,14 @@ import Form from "../form";
 import initialValues from "../../../models/camera";
 import validationCamera from "../../../validation/validationCamera";
 import { apiCamera, apiAgency, apiServer, apiBrand } from "../../../services";
-import Text from "../Field/Text";
-import FieldSelect from "../Field/FieldSelect";
-import Button from "../button";
-import DatePickerField from "../Field/DatePickerField";
+import Text from "../field/Text";
+import FieldSelect from "../field/FieldSelect";
+import Button from "../field/button";
+import DatePickerField from "../field/DatePickerField";
 import DateAdapter from "@mui/lab/AdapterDateFns";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
-import SwitchField from "../Field/SwitchField";
-import SubmitButton from "../SubmitButton";
+import SwitchField from "../field/SwitchField";
+import SubmitButton from "../field/SubmitButton";
 
 const theme = createTheme();
 
@@ -124,6 +124,7 @@ export default function FormCamera() {
                     <Text name="deviceDescription" label="DeviceDescription" />
                     <Text name="serialNumber" label="SerialNumber" />
                     <Text name="firmwareVersion" label="FirmwareVersion" />
+                    <Text name="assetId" label="ActiveNumber" />
                     <Text name="ubicacionFisica" label="Ubicacion" />
                     <Grid item xs={12} sm={3}>
                       <DatePickerField
