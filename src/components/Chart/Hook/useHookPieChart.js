@@ -5,8 +5,8 @@ const useHookPieChart = (dataSource) => {
   const [malo, setMalo] = useState(0);
 
   useEffect(() => {
-    const good = dataSource.filter((camera) => camera.isGoodCondition == 1);
-    const bad = dataSource.filter((camera) => camera.isGoodCondition == 0);
+    const good = dataSource.filter((camera) => camera.online === true);
+    const bad = dataSource.filter((camera) => camera.online === false);
     setBueno(good.length);
     setMalo(bad.length);
   }, [dataSource]);

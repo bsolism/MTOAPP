@@ -20,6 +20,6 @@ const useHookAgencyDetail = (data) => {
     });
   };
 
-  return [dataCam, server, setData];
+  return [dataCam, setDataCam, server, setServer];
 };
 export default useHookAgencyDetail;

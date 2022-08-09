@@ -38,11 +38,11 @@ const columnsCam = [
     headerName: "Servidor",
     width: 100,
     renderCell: (params) => {
-      return params.value.nombre;
+      return params.value ? params.value.nombre : "Not Server";
     },
   },
   {
-    field: "isGoodCondition",
+    field: "online",
     headerName: "Estado",
     width: 50,
     renderCell: (params) => {

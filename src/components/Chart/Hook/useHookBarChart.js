@@ -18,12 +18,8 @@ const useHookBarChart = (dataSource) => {
 
       let count = 0;
       let count2 = 0;
-      const good = res.cameras.filter(
-        (camera) => camera.isGoodCondition === true
-      );
-      const bad = res.cameras.filter(
-        (camera) => camera.isGoodCondition === false
-      );
+      const good = res.cameras.filter((camera) => camera.online === true);
+      const bad = res.cameras.filter((camera) => camera.online === false);
       count = count + good.length;
       count2 = count2 + bad.length;
 

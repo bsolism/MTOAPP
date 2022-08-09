@@ -37,6 +37,7 @@ export default function BasicTabs({ item, handleClose, data, setData }) {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+  console.log(data);
 
   return (
     <Box sx={{ width: "100%" }}>

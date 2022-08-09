@@ -66,9 +66,11 @@ const columnsSrv = [
     width: 70,
     sortable: false,
     valueGetter: (params) =>
-      `${params.row.cameras.length}/${
-        params.row.canalesIP + params.row.portAnalogo
-      }`,
+      params.row.cameras !== null
+        ? `${params.row.cameras.length}/${
+            params.row.canalesIP + params.row.portAnalogo
+          }`
+        : 0,
   },
   {
     field: "sata",
@@ -113,7 +115,7 @@ const columnsSrv = [
     width: 70,
   },
   {
-    field: "isGoodCondition",
+    field: "online",
     headerName: "Estado",
     width: 50,
     renderCell: (params) => {

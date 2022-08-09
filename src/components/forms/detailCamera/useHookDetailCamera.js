@@ -5,35 +5,36 @@ import {
   apiBrand,
   apiHikvision,
   apiAgency,
+  apiVivotek,
 } from "../../../services";
 import { toast } from "react-toastify";
 import XMLParser from "react-xml-parser";
 
-const useHookDetailCamera = (cam, handleClose, getDta) => {
-  const [checked, setChecked] = useState(true);
-  const [dateInst, setDateInst] = useState();
-  const [dateBuy, setDateBuy] = useState();
+const useHookDetailCamera = (cam, data, setData) => {
+  // const [checked, setChecked] = useState(true);
+  // const [dateInst, setDateInst] = useState();
+  // const [dateBuy, setDateBuy] = useState();
   const [image, setImage] = useState();
-  const [brands, setBrands] = useState([]);
-  const [data, setData] = useState("");
-  const [server, setServer] = useState("");
-  const [agencies, setAgencies] = useState([]);
-  const [agency, setAgency] = useState();
-  const [servers, setServers] = useState([]);
+  // const [brands, setBrands] = useState([]);
+  // const [data, setData] = useState("");
+  // const [server, setServer] = useState("");
+  // const [agencies, setAgencies] = useState([]);
+  // const [agency, setAgency] = useState();
+  // const [servers, setServers] = useState([]);
   const [checkedMic, setCheckedMic] = useState(true);
   const [mic, setMic] = useState();
 
   useEffect(() => {
-    setData(cam.brandId);
-    setServer(cam.serverId);
-    setAgency(cam.agenciaId);
-    setChecked(cam.isGoodCondition);
-    setDateBuy(cam.fechaCompra);
-    setDateInst(cam.fechaInstalacion);
+    // setData(cam.brandId);
+    // setServer(cam.serverId);
+    // setAgency(cam.agenciaId);
+    // setChecked(cam.isGoodCondition);
+    // setDateBuy(cam.fechaCompra);
+    // setDateInst(cam.fechaInstalacion);
     getImage();
-    getBrand();
-    getAgency();
-    getServer();
+    // getBrand();
+    // getAgency();
+    // getServer();
     checkMic();
   }, []);
 
@@ -57,78 +58,68 @@ const useHookDetailCamera = (cam, handleClose, getDta) => {
     });
   };
 
-  const getAgency = async () => {
-    await apiAgency.GetAgency().then((res) => {
-      setAgencies(res.data);
-    });
-  };
-  const getBrand = async () => {
-    await apiBrand.GetBrand().then((res) => {
-      setBrands(res.data);
-    });
-  };
+  // const getAgency = async () => {
+  //   await apiAgency.GetAgency().then((res) => {
+  //     setAgencies(res.data);
+  //   });
+  // };
+  // const getBrand = async () => {
+  //   await apiBrand.GetBrand().then((res) => {
+  //     setBrands(res.data);
+  //   });
+  // };
 
   const getImage = async () => {
-    await apiHikvision.GetImageCam(cam).then((res) => {
-      setImage(res);
-    });
+    if (cam.brandId === 1 || cam.server.brandId === 1) {
+      await apiHikvision.GetImageCam(cam).then((res) => {
+        setImage(res);
+      });
+    }
+    if (cam.brandId === 2) {
+      await apiVivotek.GetImageCam(cam).then((res) => {
+        setImage(res);
+      });
+    }
   };
-  const getServer = async () => {
-    await apiServer.GetServer().then((res) => {
-      setServers(res.data);
-    });
-  };
+  // const getServer = async () => {
+  //   await apiServer.GetServer().then((res) => {
+  //     setServers(res.data);
+  //   });
+  // };
 
-  const handleSubmit = (values) => {
-    values.isGoodCondition = checked;
-    values.fechaInstalacion = dateInst;
-    values.fechaCompra = dateBuy;
+  const submit = (values) => {
+    // values.isGoodCondition = checked;
+    // values.fechaInstalacion = dateInst;
+    // values.fechaCompra = dateBuy;
 
     apiCamera.PutCamera(values).then((res) => {
       if (res === undefined) toast.warning("Update error");
       if (res.status === 200) {
+        data.map((val, index) => {
+          if (val.id === values.id) {
+            let newArr = [...data];
+            newArr[index] = values;
+            setData(newArr);
+          }
+        });
         toast("Update Complete");
-        getDta();
-
-        handleClose();
       }
     });
   };
-  const handleChangeStatus = (event) => {
-    setChecked(event.target.checked);
-  };
+  // const handleChangeStatus = (event) => {
+  //   setChecked(event.target.checked);
+  // };
   const handleChangeMic = (event) => {
     setCheckedMic(event.target.checked);
   };
-  const handleChangeDateInst = (value) => {
-    setDateInst(value);
-  };
-  const handleChangeDateBuy = (value) => {
-    setDateBuy(value);
-  };
+  // const handleChangeDateInst = (value) => {
+  //   setDateInst(value);
+  // };
+  // const handleChangeDateBuy = (value) => {
+  //   setDateBuy(value);
+  // };
 
-  return [
-    handleSubmit,
-    image,
-    brands,
-    data,
-    setData,
-    agencies,
-    agency,
-    setAgency,
-    servers,
-    server,
-    setServer,
-    checkedMic,
-    mic,
-    handleChangeStatus,
-    handleChangeMic,
-    handleChangeDateInst,
-    handleChangeDateBuy,
-    dateBuy,
-    dateInst,
-    checked,
-  ];
+  return [submit, image, checkedMic, mic, handleChangeMic];
 };
 
 export default useHookDetailCamera;

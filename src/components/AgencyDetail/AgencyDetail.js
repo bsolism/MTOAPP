@@ -10,8 +10,9 @@ import useHookAgencyDetail from "./useHookAgencyDetail";
 
 import "./AgencyDetail.scss";
 
-export default function AgencyDetail({ data }) {
-  const [dataCam, server, getData] = useHookAgencyDetail(data);
+export default function AgencyDetail({ item }) {
+  const [data, setData] = useState(item);
+  const [dataCam, setDataCam, server, setServer] = useHookAgencyDetail(item);
   const heightTable = data[0].srvAg.length * 30 + 33;
   const [selectedRow, setSelectedRow] = useState();
   const [cameraItem, setCameraItem] = useState(false);
@@ -93,13 +94,15 @@ export default function AgencyDetail({ data }) {
           <LayoutDetailCamera
             item={selectedRow}
             handleClose={handleClose}
-            getData={getData}
+            data={dataCam}
+            setData={setDataCam}
           />
         ) : (
           <LayoutDetailServer
             item={selectedRow}
             handleClose={handleClose}
-            getData={getData}
+            data={server}
+            setData={setServer}
           />
         )}
       </BasicModal>

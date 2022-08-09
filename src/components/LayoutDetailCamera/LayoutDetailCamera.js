@@ -33,12 +33,11 @@ function allyProps(index) {
   };
 }
 
-export default function BasicTabs({ item, handleClose, getData }) {
+export default function BasicTabs({ item, handleClose, data, setData }) {
   const [value, setValue] = React.useState(0);
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-
   return (
     <Box sx={{ width: "100%" }}>
       <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
@@ -53,7 +52,12 @@ export default function BasicTabs({ item, handleClose, getData }) {
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
-        <DetailCamera item={item} handleClose={handleClose} getDta={getData} />
+        <DetailCamera
+          item={item}
+          handleClose={handleClose}
+          data={data}
+          setData={setData}
+        />
       </TabPanel>
       <TabPanel value={value} index={1}>
         <History item={item} origen="camera" />

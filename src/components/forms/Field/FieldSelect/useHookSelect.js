@@ -31,8 +31,11 @@ const useHookSelect = (type, id) => {
   const handleChange = (event) => {
     const name = source.filter((res) => res.id === event.target.value);
     setData(event.target.value);
-    if (type === "camera") setFieldValue("serverId", event.target.value);
-    if (type === "server") setFieldValue("agenciaId", event.target.value);
+    if (type === "server") {
+      setFieldValue("serverId", event.target.value);
+      setFieldValue("server", name[0]);
+    }
+    if (type === "agency") setFieldValue("agenciaId", event.target.value);
     if (type === "brand") {
       setFieldValue("brandName", name[0].name);
       setFieldValue("brandId", event.target.value);

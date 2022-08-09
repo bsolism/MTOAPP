@@ -3,9 +3,9 @@ import Camera from "../page/camera";
 import Server from "../page/server";
 import Store from "../page/store";
 import DataSheet from "../page/DataSheetPage";
-// import AddCameraPage from "../page/addCamera";
-// import AddServerPage from "../page/addServer";
-// import AddStorePage from "../page/addStore";
+import AddCameraPage from "../page/addCamera";
+import AddServerPage from "../page/addServer";
+import AddStorePage from "../page/addStore";
 
 export default [
   {
@@ -29,18 +29,18 @@ export default [
     path: "/store",
     element: <Store />,
   },
-  // {
-  //   path: "/camera/add",
-  //   element: <AddCameraPage />,
-  // },
-  // {
-  //   path: "/server/add",
-  //   element: <AddServerPage />,
-  // },
-  // {
-  //   path: "/store/add",
-  //   element: <AddStorePage />,
-  // },
+  {
+    path: "/camera/add",
+    element: <AddCameraPage />,
+  },
+  {
+    path: "/server/add",
+    element: <AddServerPage />,
+  },
+  {
+    path: "/store/add",
+    element: <AddStorePage />,
+  },
   {
     path: "/datasheet",
     element: <DataSheet />,

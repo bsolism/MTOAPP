@@ -1,15 +1,15 @@
 import React from "react";
-import BasicLayout from "../../Layout/BasicLayout";
 import FormServer from "../../components/Forms/formServer";
+import MainLayout from "../../Layout/MainLayout";
 
 import "./AddServer.scss";
 
 export default function AddServerPage() {
   return (
-    <BasicLayout>
+    <MainLayout>
       <div className="body-content">
         <FormServer />
       </div>
-    </BasicLayout>
+    </MainLayout>
   );
 }

@@ -6,7 +6,7 @@ const PostServer = (value) => {
   const url = `${API_HOST}${endPoint.Server}`;
 
   return axios
-    .post(url, value)
+    .post(url, value, { headers: { "Access-Control-Allow-Origin": "*" } })
     .then(function (response) {
       return response;
     })
@@ -22,7 +22,6 @@ const GetServer = () => {
       return response;
     })
     .catch(function (error) {
-      console.log(error.response);
       return error.response;
     });
 };

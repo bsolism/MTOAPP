@@ -24,8 +24,9 @@ export default function DetailServer({ item, handleClose, data, setData }) {
   return (
     <LayoutForm item={item[0]} onSubmit={handleSubmit}>
       <Grid container spacing={2}>
-        <Grid item xs={12}>
+        <Grid item xs={12} display="flex" justifyContent="flex-end">
           <RefreshData item={item[0]} />
+          <SwitchField id="retired" label="Retirar" value={item[0].retired} />
         </Grid>
         <Grid item xs={6}>
           <Text name="nombre" label="Nombre" />
@@ -36,7 +37,10 @@ export default function DetailServer({ item, handleClose, data, setData }) {
           <Text name="assetId" label="ActiveNumber" />
           <Text name="ubicacion" label="Ubicación" />
           <Text name="sataInstalado" label="HDD Instalado" />
-          <Text label="Total de Cámaras" value={item[0].cameras.length} />
+          <Text
+            label="Total de Cámaras"
+            value={item[0].cameras !== null ? item[0].cameras.length : 0}
+          />
           <DatePickerField
             id="buy"
             label="Date Buys"
@@ -78,7 +82,7 @@ export default function DetailServer({ item, handleClose, data, setData }) {
           />
         </Grid>
         <Grid item xs={6} display="flex" justifyContent="flex-end">
-          <SwitchField label="En Linea" value={item[0].isGoodCondition} />
+          <SwitchField id="onLine" label="En Linea" value={item[0].online} />
         </Grid>
         <Grid item xs={6}>
           <SubmitButton title="Save" />

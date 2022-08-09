@@ -29,6 +29,7 @@ export default function LiveActivity({
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const [num, setNum] = useState(0);
 
   useEffect(() => {
     checkConnect();

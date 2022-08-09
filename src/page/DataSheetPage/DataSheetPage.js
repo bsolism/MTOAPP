@@ -10,7 +10,7 @@ export default function DataSheetPage() {
   return (
     <MainLayout>
       <Body>
-        <AgencyDetail data={location.state} />
+        <AgencyDetail item={location.state} />
       </Body>
     </MainLayout>
   );

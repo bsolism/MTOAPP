@@ -2,16 +2,20 @@ import React, { useState, useEffect } from "react";
 import Button from "@mui/material/Button";
 import { useFormikContext } from "formik";
 import XMLParser from "react-xml-parser";
-import apiDeviceInfo from "../../../../services/apiDeviceInfo";
+import { apiDeviceInfo, apiVivotek } from "../../../../services";
 import ModalLottie from "../../../modal/ModalLottie";
 
 import "./Button.scss";
 
-export default function FormButton({ source, toast, ...otherProps }) {
+export default function FormButton({
+  source,
+  toast,
+  setOnLine,
+  ...otherProps
+}) {
   const { setFieldValue, values } = useFormikContext();
   const [data, setData] = useState({});
   const [open, setOpen] = useState(false);
-
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
@@ -26,7 +30,6 @@ export default function FormButton({ source, toast, ...otherProps }) {
 
     if (values.brandName === "Hikvision") {
       await apiDeviceInfo.GetCameraInfoHik(cred).then((res) => {
-        console.log(res);
         if (res.status === 401) return toast.warning(res.data);
         if (res.status === 500) {
           return toast.warning("No se estableció conexión");
@@ -39,7 +42,8 @@ export default function FormButton({ source, toast, ...otherProps }) {
       });
     }
     if (values.brandName === "Vivotek") {
-      await apiDeviceInfo.GetCameraInfoViv(cred).then((res) => {
+      await apiVivotek.GetInfo(cred).then((res) => {
+        console.log(res);
         if (res) {
           const jsonTest = res.data.replaceAll("=", ":");
           const jsonEnd = jsonTest.split(/\r?\n/);
@@ -98,17 +102,15 @@ export default function FormButton({ source, toast, ...otherProps }) {
       setFieldValue("mac", xmlData.system_info_serialnumber);
       setFieldValue("firmwareVersion", xmlData.system_info_firmwareversion);
     }
+    setFieldValue("onLine", true);
+    setOnLine(true);
   };
 
   return (
     <>
-      <div className="button">
-        <Button
-          style={{ width: "25%" }}
-          onClick={testConection}
-          {...otherProps}
-        >
-          Probar Conección
+      <div>
+        <Button onClick={testConection} {...otherProps}>
+          Connection Test
         </Button>
       </div>
       <ModalLottie open={open} handleClose={handleClose} />

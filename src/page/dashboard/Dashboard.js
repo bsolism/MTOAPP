@@ -13,7 +13,6 @@ export default function Dashboard() {
   const [data, setData] = useState([]);
   const [dataAg, setDataAg] = useState([]);
   const [dataEvent, setDataEvent] = useState([]);
-  const [second, setSecond] = useState(false);
   const [third, setThird] = useState(false);
 
   useEffect(() => {
@@ -44,8 +43,6 @@ export default function Dashboard() {
   return (
     <>
       <MainLayout>
-        {/* <BasicLayout> */}
-
         <Grid container spacing={2} className="body-chart">
           <Grid item xs={4}>
             <PieChart dataSource={data} />
@@ -67,7 +64,6 @@ export default function Dashboard() {
           </Grid>
         </Grid>
       </MainLayout>
-      {/* </BasicLayout> */}
     </>
   );
 }
