@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import {
   apiHikvision,
   apiVivotek,
@@ -18,93 +18,96 @@ const useHookLiveActivity = (
 ) => {
   const [dataTable, setDataTable] = useState([]);
 
-  // useEffect(() => {
-  //   initDataTable();
-  // }, []);
-
-  const initDataTable = () => {
-    dataEvent.slice(0, 1).map((val) => {
-      const ag = dataAg.filter((x) => x.id === val.camera.agenciaId);
-      if (ag.length > 0) {
-        const srv = ag[0].srvAg.filter(
-          (x) => x.serverId === val.camera.serverId
+  const dataInitTable = () => {
+    if (dataEvent.length > 0) {
+      dataEvent.map((e) => {
+        const ag = dataAg.filter((x) => x.id === e.camera.agenciaId);
+        const dat = MappData(
+          e.camera,
+          e.camera.server,
+          ag[0],
+          e.comment,
+          e.date
         );
-        const dat = MappData(val.camera, srv[0].server, ag[0], val.comment);
         setDataTable((dataTable) => [...dataTable, dat]);
-      }
-    });
+      });
+    }
   };
 
   const checkConnect = () => {
-    dataAg.map((ag, ind) => {
+    dataAg.slice(0, 1).map((ag, ind) => {
       ag.srvAg.map((srvAg) => {
         const server = srvAg.server;
-        checkDvr(server, ag, ind);
-        checkDvrHibrido(server, ag, ind);
-        checkNVR(server, ag, ind);
-        checkVivotek(server, ag, ind);
+        if (server.brandId === 1 && server.portAnalogo > 0) {
+          console.log("Is DVR");
+          //checkDvr(server, ag, ind);
+        }
+        if (
+          server.brandId === 1 &&
+          server.portAnalogo > 0 &&
+          server.canalesIP > 0
+        ) {
+          console.log("Is Hibrid");
+          // checkDvrHibrido(server, ag, ind);
+        }
+        if (server.brandId === 1 && server.portAnalogo === 0) {
+          console.log("Is NVR");
+          checkNVR(server, ag, ind);
+        }
+        if (server.brandId === 2) {
+          console.log("Is Vivotek");
+          //checkVivotek(server, ag, ind);
+        }
         return srvAg;
       });
       return ag;
     });
   };
   const checkDvr = (server, ag, ind) => {
-    if (server.brandId === 1 && server.portAnalogo > 0) {
-      apiHikvision.checkStatusDvr(credential(server)).then((res) => {
-        if (res.status === 200) {
-          dataSuccessful(res.data, server, ag, "dvr", ind);
-        }
-        if (res.status === 404) {
-          dataUnsuccessful(ag, ind, "DVR Error", server, "");
-        }
-      });
-    }
+    apiHikvision.checkStatusDvr(credential(server)).then((res) => {
+      if (res.status === 200) {
+        dataSuccessful(res.data, server, ag, "dvr", ind);
+      }
+      if (res.status === 404) {
+        dataUnsuccessful(ag, ind, "DVR Error", server, "");
+      }
+    });
   };
   const checkDvrHibrido = (server, ag, ind) => {
-    if (
-      server.brandId === 1 &&
-      server.portAnalogo > 0 &&
-      server.canalesIP > 0
-    ) {
-      const cred = credential(server);
-      apiHikvision.checkStatus(cred).then((res) => {
-        if (res.status === 200) {
-          dataSuccessful(res.data, server, ag, "dvr", ind);
-        }
-        if (res.status === 404) {
-          dataUnsuccessful(ag, ind, "DVR Error", server, "");
-        }
-      });
-    }
+    const cred = credential(server);
+    apiHikvision.checkStatus(cred).then((res) => {
+      if (res.status === 200) {
+        dataSuccessful(res.data, server, ag, "dvr", ind);
+      }
+      if (res.status === 404) {
+        dataUnsuccessful(ag, ind, "DVR Error", server, "");
+      }
+    });
   };
   const checkNVR = (server, ag, ind) => {
-    if (server.brandId === 1 && server.portAnalogo === 0) {
-      const cred = credential(server);
-      apiHikvision.checkStatus(cred).then((res) => {
-        if (res.status === 200) {
-          dataSuccessful(res.data, server, ag, "nvr", ind);
-        }
-        if (res.status === 404) {
-          dataUnsuccessful(ag, ind, "NVR Error", server, "");
-        }
-      });
-    }
+    const cred = credential(server);
+    apiHikvision.checkStatus(cred).then((res) => {
+      if (res.status === 200) {
+        dataSuccessful(res.data, server, ag, "nvr", ind);
+      }
+      if (res.status === 404) {
+        dataUnsuccessful(ag, ind, "NVR Error", server, "");
+      }
+    });
   };
   const checkVivotek = (server, ag, ind) => {
-    if (server.brandId === 2) {
-      server.cameras.map((camera) => {
-        const cred = credential(camera);
-        apiVivotek.checkStatus(cred).then((res) => {
-          if (res.status !== 200) {
-            dataUnsuccessful(ag, ind, "OffLine", server, camera);
-          }
-          if (res.status === 200) {
-            dataSuccessful("", server, ag, "", ind, camera);
-          }
-        });
-        return camera;
+    server.cameras.map((camera) => {
+      const cred = credential(camera);
+      apiVivotek.checkStatus(cred).then((res) => {
+        if (res.status !== 200) {
+          dataUnsuccessful(ag, ind, "OffLine", server, camera);
+        }
+        if (res.status === 200) {
+          dataSuccessful("", server, ag, "", ind, camera);
+        }
       });
-    }
+      return camera;
+    });
   };
   const credential = (value) => {
     const cred = {
@@ -115,18 +118,19 @@ const useHookLiveActivity = (
     return cred;
   };
   const dataSuccessful = (data, server, ag, type, ind, camera) => {
-    if (server.brandId === 1) {
-      const xmlData = new XMLParser().parseFromString(data);
-      Mapper(xmlData, server, ag, type, ind);
-    }
-    if (server.brandId === 2) {
-      const item = dataEvent.filter((x) => x.cameraId === camera.id);
-      if (item.length > 0) {
-        updateDb(camera, true);
-        deleteEvent(camera.id);
-      }
-      updateStates(camera, ag, true, ind);
-    }
+    console.log(data, server, ag, type, ind, camera);
+    // if (server.brandId === 1) {
+    //   const xmlData = new XMLParser().parseFromString(data);
+    //   Mapper(xmlData, server, ag, type, ind);
+    // }
+    // if (server.brandId === 2) {
+    //   const item = dataEvent.filter((x) => x.cameraId === camera.id);
+    //   if (item.length > 0) {
+    //     updateDb(camera, true);
+    //     deleteEvent(camera.id);
+    //   }
+    //   updateStates(camera, ag, true, ind);
+    // }
   };
 
   const dataUnsuccessful = (ag, ind, msg, server, cam) => {
@@ -159,7 +163,7 @@ const useHookLiveActivity = (
       }
     });
   };
-  const MappData = (camera, server, agency, comment = "OffLine") => {
+  const MappData = (camera, server, agency, comment = "OffLine", dateTime) => {
     const dat = {
       id: camera.id,
       name: camera.name,
@@ -168,7 +172,7 @@ const useHookLiveActivity = (
       channel: server.brandId === 1 ? camera.portChannel : "n/a",
       agency: agency.nombre,
       comment: comment,
-      dateTime: "",
+      dateTime: dateTime ? dateTime : "",
     };
     return dat;
   };
@@ -183,12 +187,19 @@ const useHookLiveActivity = (
         itemCam = server.cameras.filter((x) => x.portChannel === channelId);
         if (inputCh.name === propName && inputCh.value === propValue) {
           if (itemCam.length > 0) {
-            updateDb(itemCam[0], false);
             updateStates(itemCam[0], agency, false, indexAgency);
+            updateDb(itemCam[0], false);
             const newItem = dataTable.filter((x) => x.id === itemCam[0].id);
             if (newItem.length === 0) {
-              const dat = MappData(itemCam[0], server, agency);
-              getByCamera(dat);
+              const dat = MappData(
+                itemCam[0],
+                server,
+                agency,
+                "OffLine",
+                new Date()
+              );
+              //getByCamera(dat);
+              sendEvent(dat);
               setDataTable((dataTable) => [...dataTable, dat]);
             }
           }
@@ -216,7 +227,6 @@ const useHookLiveActivity = (
     await apiEvento
       .Post({ cameraId: dat.id, comment: dat.comment })
       .then((res) => {
-        dat.dateTime = res.data.date;
         setDataEvent((dataEvent) => [...dataEvent, res.data]);
       });
     await apiLog
@@ -224,7 +234,7 @@ const useHookLiveActivity = (
       .then((res) => {});
   };
   const setTable = (cam, server, ag, erro) => {
-    const dat = MappData(cam, server, ag, erro);
+    const dat = MappData(cam, server, ag, erro, new Date());
     setEventData(cam, dat);
     setDataTable((dataTable) => [...dataTable, dat]);
   };
@@ -270,6 +280,6 @@ const useHookLiveActivity = (
     await apiCamera.PutCamera(item).then((res) => {});
   };
 
-  return [dataTable, checkConnect];
+  return [dataTable, checkConnect, dataInitTable];
 };
 export default useHookLiveActivity;

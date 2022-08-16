@@ -5,6 +5,7 @@ import { apiAgency, apiCamera, apiEvento } from "../../services";
 import PieChart from "../../components/Chart/PieChart";
 import BarChart from "../../components/Chart/BarChart";
 import LiveActivity from "../../components/LiveActivity";
+import StatusDevice from "../../components/StatusDevice";
 import MainLayout from "../../Layout/MainLayout";
 
 import "./Dashboard.scss";
@@ -25,10 +26,19 @@ export default function Dashboard() {
       if (count === 1) {
         clearInterval(interval);
       }
-    }, 5000);
+    }, 2000);
+  }, []);
+
+  useEffect(() => {
+    const timerId = setInterval(getData, 180000);
+
+    return () => {
+      clearInterval(timerId);
+    };
   }, []);
 
   const getData = async () => {
+    console.log("GD");
     await apiCamera.GetCamera().then((res) => {
       setData(res.data);
     });
@@ -52,14 +62,7 @@ export default function Dashboard() {
           </Grid>
           <Grid item xs={12}>
             {third ? (
-              <LiveActivity
-                dataSource={dataAg}
-                setDataAg={setDataAg}
-                data={data}
-                setData={setData}
-                dataEvent={dataEvent}
-                setDataEvent={setDataEvent}
-              />
+              <StatusDevice dataEvent={dataEvent} dataAg={dataAg} />
             ) : null}
           </Grid>
         </Grid>

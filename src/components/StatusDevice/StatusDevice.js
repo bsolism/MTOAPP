@@ -1,68 +1,18 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import Typography from "@mui/material/Typography";
 import { Box, Container, Paper, IconButton, Stack } from "@mui/material";
 import columns from "./table";
-import useHookLiveActivity from "./useHookLiveActivity";
-import SyncIcon from "@mui/icons-material/Sync";
-import { apiEvento } from "../../services";
 import BasicModal from "../modal/BasicModal";
 import LayoutDetailCamera from "../LayoutDetailCamera";
+import useHookStatusDevice from "./useHookStatusDevice";
 
-export default function LiveActivity({
-  dataSource,
-  setDataAg,
-  dataEvent,
-  setDataEvent,
-  data,
-  setData,
-}) {
-  const [dataTable, checkConnect, dataInitTable] = useHookLiveActivity(
-    dataSource,
-    setDataAg,
-    dataEvent,
-    setDataEvent,
-    data,
-    setData
-  );
+export default function StatusDevice({ dataEvent, dataAg }) {
   const [selectedRow, setSelectedRow] = useState();
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  const [count, setCount] = useState(0);
-
-  const refresh = () => {
-    checkConnect();
-  };
-
-  useEffect(() => {
-    //checkConnect();
-    var num = 0;
-    var check = setInterval(() => {
-      num++;
-      if (num > 0) refresh();
-      if (num === 1) {
-        clearInterval(check);
-      }
-    }, 10000);
-    return () => {
-      clearInterval(check);
-    };
-  }, []);
-  useEffect(() => {
-    dataInitTable();
-  }, []);
-
-  // const handleChangeDb = async () => {
-  //   await dataEvent.map((x) => {
-  //     const item = dataTable.filter((value) => value.id === x.cameraId);
-  //     if (item.length === 0) {
-  //       apiEvento.Delete(x.id).then((resp) => {});
-  //     }
-  //     return;
-  //   });
-  // };
-
+  const [dataTable] = useHookStatusDevice(dataEvent, dataAg);
   return (
     <>
       <Container component="main" maxWidth="md" sx={{ mb: 4 }}>
@@ -73,11 +23,6 @@ export default function LiveActivity({
           <Typography component="h4" variant="h7" align="center" width="100%">
             Estado de conexion
           </Typography>
-          {/* <Stack direction="row" spacing={1}>
-            <IconButton aria-label="refresh" onClick={handleChangeDb}>
-              <SyncIcon />
-            </IconButton>
-          </Stack> */}
           <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
             <div style={{ height: 500, width: "100%" }}>
               <DataGrid
@@ -90,7 +35,7 @@ export default function LiveActivity({
                 }}
                 onSelectionModelChange={(ids) => {
                   const selectedIds = new Set(ids);
-                  const selectedRows = data.filter((row) =>
+                  const selectedRows = dataEvent.filter((row) =>
                     selectedIds.has(row.id)
                   );
 
