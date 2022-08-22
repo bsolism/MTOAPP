@@ -33,7 +33,14 @@ export default function Camera() {
 
   const getData = async () => {
     await apiCamera.GetCamera().then((res) => {
-      setData(res.data);
+      if (res.status === 200) {
+        res.data.map((value, index) => {
+          res.data[index].row = index + 1;
+          setData(res.data);
+        });
+
+        //setData(res.data);
+      }
     });
   };
 

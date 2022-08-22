@@ -26,8 +26,6 @@ const GetAgencyById = (id) => {
 };
 const Post = (value) => {
   const url = `${API_HOST}${endPoint.Agency}`;
-  console.log(url);
-  console.log(value);
   return axios
     .post(url, value)
     .then(function (response) {

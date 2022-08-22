@@ -37,7 +37,28 @@ const GetImageCam = (data) => {
       );
     })
     .catch(function (error) {
-      console.log(error.response);
+      return error.response;
+    });
+};
+const GetInfo = (data) => {
+  const url = `${API_HOST}${endPoint.hik}/info`;
+  return axios
+    .post(url, data)
+    .then(function (response) {
+      return response;
+    })
+    .catch(function (error) {
+      return error.response;
+    });
+};
+const GetDayPlayback = (data) => {
+  const url = `${API_HOST}${endPoint.hik}/playback`;
+  return axios
+    .post(url, data)
+    .then(function (response) {
+      return response;
+    })
+    .catch(function (error) {
       return error.response;
     });
 };
@@ -95,11 +116,13 @@ const updateName = (values) => {
 
 const apiHikvision = {
   GetTime,
+  GetInfo,
   GetImageCam,
   updateTime,
   GetCapabilities,
   updateName,
   checkStatus,
   checkStatusDvr,
+  GetDayPlayback,
 };
 export default apiHikvision;

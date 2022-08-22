@@ -1,23 +1,14 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { FormControlLabel, FormGroup, TextField } from "@mui/material";
 import DesktopDatePicker from "@mui/lab/DesktopDatePicker";
-import useHookDate from "./useHookDate";
+import { useFormikContext } from "formik";
 
-export default function DatePickerField({
-  id,
-  label,
-  dateValue,
-  setNewValueDate,
-  format = "yyyy-MM-dd",
-  mask = "____-__-__",
-  item,
-}) {
-  const [value, handleChange] = useHookDate(
-    id,
-    dateValue,
-    setNewValueDate,
-    item
-  );
+export default function PickerDate({ name, label, value, setValue }) {
+  const { setFieldValue } = useFormikContext();
+  const handleChange = (value) => {
+    setValue(value);
+    setFieldValue(name, value);
+  };
   return (
     <>
       <FormGroup>
@@ -25,9 +16,9 @@ export default function DatePickerField({
           control={
             <DesktopDatePicker
               label={label}
-              inputFormat={format}
-              mask={mask}
-              value={value !== undefined ? value : null}
+              inputFormat="yyyy-MM-dd"
+              mask="____-__-__"
+              value={value}
               onChange={handleChange}
               renderInput={(params) => (
                 <TextField

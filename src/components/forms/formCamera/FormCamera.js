@@ -6,7 +6,7 @@ import initialValues from "../../../models/camera";
 import Text from "../field/Text";
 import FieldSelect from "../field/FieldSelect";
 import Button from "../field/button";
-import DatePickerField from "../field/DatePickerField";
+import PickerDate from "../field/PickerDate";
 import SwitchField from "../field/SwitchField";
 import SubmitButton from "../field/SubmitButton";
 import LayoutForm from "../../../Layout/LayoutForm";
@@ -15,11 +15,24 @@ import useHookFormCamera from "./useHookFormCamera";
 
 export default function FormCamera() {
   const [onLine, setOnLine] = useState(false);
+  const [dateInst, setDateInst] = useState(null);
+  const [dateBuy, setDateBuy] = useState(null);
+  const [idBrand, setIdBrand] = useState("");
+  const [idAgency, setIdAgency] = useState("");
+  const [idServer, setIdServer] = useState("");
   const [submit] = useHookFormCamera();
 
   const handleSubmit = (values, { resetForm }) => {
     values.server = null;
-    submit(values, resetForm);
+    submit(
+      values,
+      resetForm,
+      setDateInst,
+      setDateBuy,
+      setIdBrand,
+      setIdAgency,
+      setIdServer
+    );
   };
   return (
     <LayoutForm item={initialValues} onSubmit={handleSubmit}>
@@ -33,7 +46,7 @@ export default function FormCamera() {
           <Text required name="ipAddress" label="Ip Address" />
           <Text required name="user" label="User" />
           <Text required name="password" label="Password" type="password" />
-          <FieldSelect type="brand" id="" />
+          <FieldSelect type="brand" id={idBrand} setId={setIdBrand} />
         </Grid>
         <Grid item xs={12} style={theme.button}>
           <Button source="camera" toast={toast} setOnLine={setOnLine} />
@@ -44,10 +57,11 @@ export default function FormCamera() {
             <Text name="mac" label="Mac" />
             <Text name="firmwareVersion" label="FirmwareVersion" />
             <Text name="ubicacionFisica" label="Location" />
-            <DatePickerField
-              id="buy"
-              label="Date Buys"
-              dateValue={new Date()}
+            <PickerDate
+              name="fechaCompra"
+              label="Buy Date"
+              value={dateBuy}
+              setValue={setDateBuy}
             />
             <Text name="patchPanel" label="Patch Panel" />
             <Text name="portSwitch" label="Port Sw/NIC" type="number" />
@@ -57,10 +71,11 @@ export default function FormCamera() {
             <Text name="deviceId" label="DeviceId" />
             <Text name="deviceDescription" label="DeviceDescription" />
             <Text name="assetId" label="ActiveNumber" />
-            <DatePickerField
-              id="installation"
+            <PickerDate
+              name="fechaInstalacion"
               label="Installation Date"
-              dateValue={new Date()}
+              value={dateInst}
+              setValue={setDateInst}
             />
             <Text name="switch" label="Switch" />
             <Text name="portChannel" label="Port CH" type="number" />
@@ -68,8 +83,8 @@ export default function FormCamera() {
           <Grid item xs={4}>
             <Text name="model" label="Model" />
             <Text name="serialNumber" label="SerialNumber" />
-            <FieldSelect type="agency" id="" />
-            <FieldSelect type="server" id="" />
+            <FieldSelect type="agency" id={idAgency} setId={setIdAgency} />
+            <FieldSelect type="server" id={idServer} setId={setIdServer} />
             <Text name="ubicacionConexion" label="Conecction" />
             <Text name="portPatchPanel" label="Port PP" type="number" />
             <SwitchField id="onLine" label="En Linea" value={onLine} />

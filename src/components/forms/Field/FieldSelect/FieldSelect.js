@@ -5,9 +5,8 @@ import useHookSelect from "./useHookSelect";
 
 import "./FieldSelect.scss";
 
-export default function FieldSelect({ type, id }) {
-  const [source, data, handleChange] = useHookSelect(type, id);
-
+export default function FieldSelect({ type, id, setId }) {
+  const [source, handleChange] = useHookSelect(type, setId);
   return (
     <FormControl fullWidth variant="standard">
       <InputLabel>
@@ -22,7 +21,7 @@ export default function FieldSelect({ type, id }) {
         labelId="demo-simple-select-label"
         id="demo-simple-select"
         displayEmpty
-        value={source.length > 0 ? data : ""}
+        value={id ? id : ""}
         label={
           type === "server"
             ? "NVR/Server"

@@ -1,15 +1,37 @@
+import { useState } from "react";
 import { apiCamera, apiHikvision } from "../../../services";
 import { toast } from "react-toastify";
+import { Buffer } from "buffer";
 
 const useHookFormCamera = () => {
-  const submit = (values, resetForm) => {
+  const submit = (
+    values,
+    resetForm,
+    setDateInst,
+    setDateBuy,
+    setIdBrand,
+    setIdAgency,
+    setIdServer
+  ) => {
+    let pass = values.password + "|" + values.serialNumber;
+    let bufferObj = Buffer.from(pass, "utf8");
+    let base64Str = bufferObj.toString("base64");
+    window.Buffer = window.Buffer || require("buffer").Buffer;
+    values.password = base64Str;
+
     apiCamera.PostCamera(values).then((res) => {
+      console.log(res);
       if (res.status === 400) {
         toast.warning(res.data);
       }
       if (res.status === 200) {
         updateNameDevice(values);
         toast("Registro Ingresado");
+        setDateInst(null);
+        setDateBuy(null);
+        setIdBrand("");
+        setIdAgency("");
+        setIdServer("");
         resetForm();
       }
     });
@@ -22,10 +44,7 @@ const useHookFormCamera = () => {
       password: values.password,
       nameDevice: values.name,
     };
-    console.log(data);
-    await apiHikvision.updateName(data).then((res) => {
-      console.log(res);
-    });
+    await apiHikvision.updateName(data).then((res) => {});
   };
 
   return [submit];

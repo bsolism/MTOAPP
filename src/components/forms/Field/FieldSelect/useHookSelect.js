@@ -2,9 +2,8 @@ import { useState, useEffect } from "react";
 import { apiBrand, apiServer, apiAgency } from "../../../../services";
 import { useFormikContext } from "formik";
 
-const useHookSelect = (type, id) => {
+const useHookSelect = (type, setId) => {
   const [source, setSource] = useState([]);
-  const [data, setData] = useState(id);
   const { setFieldValue } = useFormikContext();
 
   useEffect(() => {
@@ -30,7 +29,7 @@ const useHookSelect = (type, id) => {
   };
   const handleChange = (event) => {
     const name = source.filter((res) => res.id === event.target.value);
-    setData(event.target.value);
+    setId(event.target.value);
     if (type === "server") {
       setFieldValue("serverId", event.target.value);
       setFieldValue("server", name[0]);
@@ -42,7 +41,7 @@ const useHookSelect = (type, id) => {
     }
   };
 
-  return [source, data, handleChange];
+  return [source, handleChange];
 };
 
 export default useHookSelect;

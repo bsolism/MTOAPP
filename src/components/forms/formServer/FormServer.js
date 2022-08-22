@@ -15,10 +15,11 @@ import useHookFormServer from "./useHookFormServer";
 
 export default function FormServer() {
   const [onLine, setOnLine] = useState(false);
+  const [idBrand, setIdBrand] = useState("");
   const [submit] = useHookFormServer();
 
   const handleSubmit = (values, { resetForm }) => {
-    submit(values);
+    submit(values, setIdBrand);
     resetForm();
   };
 
@@ -34,7 +35,7 @@ export default function FormServer() {
           <Text required name="ipAddress" label="Ip Address" />
           <Text required name="user" label="User" />
           <Text required name="password" label="Password" type="password" />
-          <FieldSelect type="brand" id="" />
+          <FieldSelect type="brand" id={idBrand} setId={setIdBrand} />
         </Grid>
         <Grid item xs={12} style={theme.button}>
           <Button source="server" toast={toast} setOnLine={setOnLine} />

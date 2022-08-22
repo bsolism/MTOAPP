@@ -2,8 +2,9 @@ import React, { useState, useEffect } from "react";
 import Button from "@mui/material/Button";
 import { useFormikContext } from "formik";
 import XMLParser from "react-xml-parser";
-import { apiDeviceInfo, apiVivotek } from "../../../../services";
+import { apiDeviceInfo, apiVivotek, apiHikvision } from "../../../../services";
 import ModalLottie from "../../../modal/ModalLottie";
+import EncrypPass from "../../../../helper/EncrypPass/EncrypPass";
 
 import "./Button.scss";
 
@@ -18,32 +19,40 @@ export default function FormButton({
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const [passEncryp] = EncrypPass();
 
   const testConection = async () => {
     handleOpen();
     var cred = {
       name: values.user,
       ipAddress: values.ipAddress,
-      password: values.password,
-      brand: values.brandId,
+      password: passEncryp(values.serialNumber, values.password),
     };
 
-    if (values.brandName === "Hikvision") {
-      await apiDeviceInfo.GetCameraInfoHik(cred).then((res) => {
+    if (values.brandId === 1) {
+      await apiHikvision.GetInfo(cred).then((res) => {
         if (res.status === 401) return toast.warning(res.data);
         if (res.status === 500) {
           return toast.warning("No se estableció conexión");
         }
         if (res) {
           var xmlData = new XMLParser().parseFromString(res.data);
-
           setValue(xmlData);
+          apiHikvision.GetDayPlayback(cred).then((res) => {
+            if (res.status === 200) {
+              setFieldValue("engravedDays", res.data.content);
+            }
+          });
         }
       });
     }
-    if (values.brandName === "Vivotek") {
+    if (values.brandId === 2) {
       await apiVivotek.GetInfo(cred).then((res) => {
-        console.log(res);
+        if (res.status === 401) return toast.warning(res.data);
+        if (res.status === 500) {
+          return toast.warning("No se estableció conexión");
+        }
+
         if (res) {
           const jsonTest = res.data.replaceAll("=", ":");
           const jsonEnd = jsonTest.split(/\r?\n/);

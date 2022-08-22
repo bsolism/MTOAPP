@@ -14,7 +14,7 @@ import "./DetailServer.scss";
 
 export default function DetailServer({ item, handleClose, data, setData }) {
   const [newValueDate, setNewValueDate] = useState();
-  const [submit] = useHookDetailServer(data, setData);
+  const [submit] = useHookDetailServer(data, setData, item[0]);
 
   const handleSubmit = (values) => {
     submit(values);
