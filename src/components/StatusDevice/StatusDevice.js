@@ -36,10 +36,9 @@ export default function StatusDevice({ dataEvent, dataAg }) {
                 onSelectionModelChange={(ids) => {
                   const selectedIds = new Set(ids);
                   const selectedRows = dataEvent.filter((row) =>
-                    selectedIds.has(row.id)
+                    selectedIds.has(row.cameraId)
                   );
-
-                  setSelectedRow(selectedRows);
+                  setSelectedRow([selectedRows[0].camera]);
                 }}
                 onCellDoubleClick={handleOpen}
                 pageSize={100}

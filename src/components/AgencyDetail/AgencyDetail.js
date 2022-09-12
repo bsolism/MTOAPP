@@ -13,7 +13,7 @@ import "./AgencyDetail.scss";
 export default function AgencyDetail({ item }) {
   const [data, setData] = useState(item);
   const [dataCam, setDataCam, server, setServer] = useHookAgencyDetail(item);
-  const heightTable = data[0].srvAg.length * 30 + 33;
+  const heightTable = data[0].srvAg.length * 30 + 40;
   const [selectedRow, setSelectedRow] = useState();
   const [cameraItem, setCameraItem] = useState(false);
   const [open, setOpen] = useState(false);

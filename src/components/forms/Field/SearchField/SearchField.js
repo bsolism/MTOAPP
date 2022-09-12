@@ -52,7 +52,6 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 export default function SearchField({ id, data, setData }) {
   const handleChange = (e) => {
-    console.log(data);
     const newData = data.filter((x) =>
       id === "camera"
         ? x.name.toLowerCase().includes(e.target.value.toLowerCase()) ||
