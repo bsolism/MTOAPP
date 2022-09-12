@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { styled, alpha } from "@mui/material/styles";
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
@@ -43,14 +43,36 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
     [theme.breakpoints.up("sm")]: {
       width: "50ch",
-      "&:focus": {
-        width: "60ch",
-      },
+      // "&:focus": {
+      //   width: "60ch",
+      // },
     },
   },
 }));
 
-export default function SearchField() {
+export default function SearchField({ id, data, setData }) {
+  const handleChange = (e) => {
+    console.log(data);
+    const newData = data.filter((x) =>
+      id === "camera"
+        ? x.name.toLowerCase().includes(e.target.value.toLowerCase()) ||
+          x.model.toLowerCase().includes(e.target.value.toLowerCase()) ||
+          x.brand.name.toLowerCase().includes(e.target.value.toLowerCase()) ||
+          x.ipAddress.toLowerCase().includes(e.target.value.toLowerCase()) ||
+          x.serialNumber.toLowerCase().includes(e.target.value.toLowerCase()) ||
+          x.assetId?.toLowerCase().includes(e.target.value.toLowerCase())
+        : id === "server"
+        ? x.nombre.toLowerCase().includes(e.target.value.toLowerCase()) ||
+          x.modelo.toLowerCase().includes(e.target.value.toLowerCase()) ||
+          x.brand.name.toLowerCase().includes(e.target.value.toLowerCase()) ||
+          x.ipAddress.toLowerCase().includes(e.target.value.toLowerCase()) ||
+          x.serialNumber.toLowerCase().includes(e.target.value.toLowerCase()) ||
+          x.assetId?.toLowerCase().includes(e.target.value.toLowerCase())
+        : x.nombre.toLowerCase().includes(e.target.value.toLowerCase()) ||
+          x.ciudad.toLowerCase().includes(e.target.value.toLowerCase())
+    );
+    setData(newData);
+  };
   return (
     <div className="search-Input">
       <Search>
@@ -60,6 +82,7 @@ export default function SearchField() {
         <StyledInputBase
           placeholder="Search…"
           inputProps={{ "aria-label": "search" }}
+          onChange={(e) => handleChange(e)}
         />
       </Search>
     </div>

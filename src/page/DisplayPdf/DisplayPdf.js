@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Document, Page } from "react-pdf/dist/esm/entry.webpack";
 import { Stack, Button, IconButton } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import { apiServer } from "../../services";
+import { apiCamera, apiServer } from "../../services";
 import { toast } from "react-toastify";
 import { ArrowBackIos, ArrowForwardIos } from "@mui/icons-material";
 
@@ -11,7 +11,7 @@ import "./DisplayPdf.scss";
 const Input = styled("input")({
   display: "none",
 });
-export default function DisplayPdf({ item }) {
+export default function DisplayPdf({ item, type }) {
   const [numPage, setNumPage] = useState(null);
   const [pageNumber, setPageNumber] = useState(1);
   const [file, setFile] = useState(null);
@@ -25,11 +25,18 @@ export default function DisplayPdf({ item }) {
   }, []);
 
   const getData = async () => {
-    await apiServer.GetDataSheet(item[0].id).then((res) => {
-      if (res.status === 200) {
-        setFile(apiServer.GetPdf(res.data.dataSheetName));
-      }
-    });
+    if (type === "server") {
+      await apiServer.GetDataSheet(item[0].id).then((res) => {
+        if (res.status === 200) {
+          setFile(apiServer.GetPdf(res.data.dataSheetName));
+        }
+      });
+    }
+    if (type === "camera") {
+      await apiCamera.GetDataSheet(item[0].id).then((res) => {
+        setFile(apiCamera.GetPdf(res.data.dataSheetName));
+      });
+    }
   };
 
   const handleChange = ({ target }) => {
@@ -47,12 +54,20 @@ export default function DisplayPdf({ item }) {
       serverId: item[0].id,
       file: file,
     };
-
-    await apiServer.PostFile(data).then((res) => {
-      if (res.status === 200) {
-        toast("Saved");
-      }
-    });
+    if (type === "server") {
+      await apiServer.PostFile(data).then((res) => {
+        if (res.status === 200) {
+          toast("Saved");
+        }
+      });
+    }
+    if (type === "camera") {
+      await apiCamera.PostFile(data).then((res) => {
+        if (res.status === 200) {
+          toast("Saved");
+        }
+      });
+    }
   };
 
   const goToPrevPag = () => {

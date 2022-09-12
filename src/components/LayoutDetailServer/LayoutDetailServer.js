@@ -37,7 +37,6 @@ export default function BasicTabs({ item, handleClose, data, setData }) {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-  console.log(data);
 
   return (
     <Box sx={{ width: "100%" }}>
@@ -64,7 +63,7 @@ export default function BasicTabs({ item, handleClose, data, setData }) {
         <History item={item} origen="server" />
       </TabPanel>
       <TabPanel value={value} index={2}>
-        <DisplayPdf item={item} />
+        <DisplayPdf item={item} type="server" />
       </TabPanel>
     </Box>
   );

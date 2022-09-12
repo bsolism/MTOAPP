@@ -8,6 +8,7 @@ import apiLog from "./apiLog";
 import apiLogServer from "./apiLogServer";
 import apiVivotek from "./apiVivotek";
 import apiEvento from "./apiEvento";
+import apiGeovision from "./apiGeovision";
 
 export {
   apiAgency,
@@ -20,4 +21,5 @@ export {
   apiLogServer,
   apiVivotek,
   apiEvento,
+  apiGeovision,
 };

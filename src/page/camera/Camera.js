@@ -4,24 +4,24 @@ import { ListItem, ListItemIcon } from "@mui/material";
 import { Add } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
-// import BasicLayout from "../../Layout/BasicLayout";
 import SearchField from "../../components/Forms/field/SearchField";
 import Body from "../../components/Body";
-import apiCamera from "../../services/apiCamera";
 import useApi from "../../hook/useApi";
 import { apiServer } from "../../services";
 import BasicModal from "../../components/modal";
 import ColumnsCam from "../../components/Table/ColumnsCam";
 import LayoutDetailCamera from "../../components/LayoutDetailCamera";
 import MainLayout from "../../Layout/MainLayout";
+import useHookCamera from "./useHookCamera";
 
 import "./Camera.scss";
 
 export default function Camera() {
-  const [data, setData] = useState([]);
   const [selectedRow, setSelectedRow] = useState();
   const [open, setOpen] = useState(false);
   const getServer = useApi(apiServer.GetServer);
+  const [dataRow, setDataRow] = useState([]);
+  const [data, getData] = useHookCamera(setDataRow);
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -31,25 +31,11 @@ export default function Camera() {
     getData();
   }, []);
 
-  const getData = async () => {
-    await apiCamera.GetCamera().then((res) => {
-      if (res.status === 200) {
-        res.data.map((value, index) => {
-          res.data[index].row = index + 1;
-          setData(res.data);
-        });
-
-        //setData(res.data);
-      }
-    });
-  };
-
   return (
     <>
       <MainLayout>
-        {/* <BasicLayout> */}
         <div className="cabecera">
-          <SearchField />
+          <SearchField id="camera" data={data} setData={setDataRow} />
           {getServer.data.length > 0 ? (
             <ListItem className="list" button component={Link} to="/camera/add">
               <ListItemIcon>
@@ -72,7 +58,7 @@ export default function Camera() {
         <Body>
           <div style={{ height: 500, width: "100%" }}>
             <DataGrid
-              rows={data}
+              rows={dataRow}
               columns={ColumnsCam}
               rowHeight={30}
               headerHeight={30}
@@ -93,7 +79,6 @@ export default function Camera() {
           </div>
         </Body>
       </MainLayout>
-      {/* </BasicLayout> */}
       <BasicModal open={open} handleClose={handleClose} data={selectedRow}>
         <LayoutDetailCamera
           item={selectedRow}

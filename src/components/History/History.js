@@ -2,10 +2,9 @@ import React, { useState, useEffect } from "react";
 import DateAdapter from "@mui/lab/AdapterDateFns";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import Form from "../Forms/form";
-import { Box, Container, Paper } from "@mui/material";
-import Typography from "@mui/material/Typography";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { Divider, Grid, CssBaseline } from "@mui/material";
+import { Box, Container } from "@mui/material";
+import { createTheme } from "@mui/material/styles";
+import { Grid } from "@mui/material";
 import Text from "../Forms/field/Text";
 import SubmitButton from "../Forms/field/SubmitButton";
 import { DataGrid } from "@mui/x-data-grid";
@@ -32,7 +31,6 @@ const columns = [
 
 export default function History({ item, origen }) {
   const [data, setData] = useState([]);
-  const [count, setCount] = useState(1);
 
   useEffect(() => {
     getData(item[0].id);
@@ -58,7 +56,6 @@ export default function History({ item, origen }) {
       };
 
       apiLog.PostLog(newdata).then((res) => {
-        console.log(res);
         getData(item[0].id);
       });
     } else {
@@ -68,7 +65,6 @@ export default function History({ item, origen }) {
         serverId: item[0].id,
       };
       apiLogServer.PostLog(newdata).then((res) => {
-        console.log(res);
         getData(item[0].id);
       });
     }

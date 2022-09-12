@@ -20,7 +20,8 @@ export default function Sever() {
   const getAgency = useApi(apiAgency.GetAgency);
   const [selectedRow, setSelectedRow] = useState();
   const [open, setOpen] = useState(false);
-  const [data, setData] = useHookServer();
+  const [dataRow, setDataRow] = useState([]);
+  const [data, setData] = useHookServer(setDataRow);
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -33,7 +34,7 @@ export default function Sever() {
     <>
       <MainLayout>
         <div className="cabecera">
-          <SearchField />
+          <SearchField id="server" data={data} setData={setDataRow} />
           {getAgency.data.length > 0 ? (
             <ListItem className="list" button component={Link} to="/server/add">
               <ListItemIcon>
@@ -57,7 +58,7 @@ export default function Sever() {
           <div style={{ height: 500, width: "100%" }}>
             {data.length > 0 ? (
               <DataGrid
-                rows={data}
+                rows={dataRow}
                 columns={columnsSrv}
                 rowHeight={30}
                 headerHeight={30}

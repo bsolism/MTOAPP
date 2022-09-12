@@ -130,6 +130,16 @@ const columnsSrv = [
       );
     },
   },
+  {
+    field: "serialNumber",
+    headerName: "Serie",
+    width: 150,
+  },
+  {
+    field: "assetId",
+    headerName: "N° Activo",
+    width: 150,
+  },
 ];
 
 export default columnsSrv;

@@ -6,11 +6,15 @@ import {
   apiHikvision,
   apiAgency,
   apiVivotek,
+  apiGeovision,
 } from "../../../services";
 import { toast } from "react-toastify";
 import XMLParser from "react-xml-parser";
+import _ from "lodash";
+import EncrypPass from "../../../helper/EncrypPass/EncrypPass";
 
 const useHookDetailCamera = (cam, data, setData) => {
+  const [passEncryp] = EncrypPass();
   // const [checked, setChecked] = useState(true);
   // const [dateInst, setDateInst] = useState();
   // const [dateBuy, setDateBuy] = useState();
@@ -25,16 +29,7 @@ const useHookDetailCamera = (cam, data, setData) => {
   const [mic, setMic] = useState();
 
   useEffect(() => {
-    // setData(cam.brandId);
-    // setServer(cam.serverId);
-    // setAgency(cam.agenciaId);
-    // setChecked(cam.isGoodCondition);
-    // setDateBuy(cam.fechaCompra);
-    // setDateInst(cam.fechaInstalacion);
     getImage();
-    // getBrand();
-    // getAgency();
-    // getServer();
     checkMic();
   }, []);
 
@@ -58,66 +53,47 @@ const useHookDetailCamera = (cam, data, setData) => {
     });
   };
 
-  // const getAgency = async () => {
-  //   await apiAgency.GetAgency().then((res) => {
-  //     setAgencies(res.data);
-  //   });
-  // };
-  // const getBrand = async () => {
-  //   await apiBrand.GetBrand().then((res) => {
-  //     setBrands(res.data);
-  //   });
-  // };
-
   const getImage = async () => {
-    if (cam.brandId === 1 || cam.server.brandId === 1) {
+    if (cam.server.brandId === 1) {
       await apiHikvision.GetImageCam(cam).then((res) => {
         setImage(res);
       });
     }
-    if (cam.brandId === 2) {
+    if (cam.brandId === 2 && cam.server.brandId !== 1) {
       await apiVivotek.GetImageCam(cam).then((res) => {
         setImage(res);
       });
     }
+    if (cam.brandId === 6 && cam.server.brandId !== 1) {
+      await apiGeovision.GetImageCam(cam).then((res) => {
+        setImage(res);
+      });
+    }
   };
-  // const getServer = async () => {
-  //   await apiServer.GetServer().then((res) => {
-  //     setServers(res.data);
-  //   });
-  // };
 
   const submit = (values) => {
-    // values.isGoodCondition = checked;
-    // values.fechaInstalacion = dateInst;
-    // values.fechaCompra = dateBuy;
-
-    apiCamera.PutCamera(values).then((res) => {
-      if (res === undefined) toast.warning("Update error");
-      if (res.status === 200) {
-        data.map((val, index) => {
-          if (val.id === values.id) {
-            let newArr = [...data];
-            newArr[index] = values;
-            setData(newArr);
-          }
-        });
-        toast("Update Complete");
+    if (!_.isEqual(values, cam)) {
+      if (cam.password !== values.password) {
+        values.password = passEncryp(values.serialNumber, values.password);
       }
-    });
+      apiCamera.PutCamera(values).then((res) => {
+        if (res === undefined) toast.warning("Update error");
+        if (res.status === 200) {
+          data.map((val, index) => {
+            if (val.id === values.id) {
+              let newArr = [...data];
+              newArr[index] = values;
+              setData(newArr);
+            }
+          });
+          toast("Update Complete");
+        }
+      });
+    }
   };
-  // const handleChangeStatus = (event) => {
-  //   setChecked(event.target.checked);
-  // };
   const handleChangeMic = (event) => {
     setCheckedMic(event.target.checked);
   };
-  // const handleChangeDateInst = (value) => {
-  //   setDateInst(value);
-  // };
-  // const handleChangeDateBuy = (value) => {
-  //   setDateBuy(value);
-  // };
 
   return [submit, image, checkedMic, mic, handleChangeMic];
 };

@@ -4,8 +4,8 @@ import { toast } from "react-toastify";
 import { Buffer } from "buffer";
 
 const useHookFormServer = () => {
-  const submit = (values, setIdBrand) => {
-    let pass = values.password + "|" + values.serialNumber;
+  const submit = (values, setIdBrand, setIdAgency, setDateInst, setDateBuy) => {
+    let pass = values.serialNumber + "|" + values.password;
     let bufferObj = Buffer.from(pass, "utf8");
     let base64Str = bufferObj.toString("base64");
     window.Buffer = window.Buffer || require("buffer").Buffer;
@@ -17,6 +17,9 @@ const useHookFormServer = () => {
       if (res.status === 200) {
         updateNameDevice(values);
         setIdBrand("");
+        setIdAgency("");
+        setDateInst("");
+        setDateBuy("");
         toast("Registro Ingresado");
       }
     });

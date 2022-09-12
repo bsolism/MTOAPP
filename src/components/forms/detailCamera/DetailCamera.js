@@ -51,7 +51,7 @@ export default function DetailCamera({ item, handleClose, data, setData }) {
           <Text name="deviceDescription" label="Description" sm={4} />
         </Grid>
         <Grid item xs={4}>
-          {image ? (
+          {image !== undefined ? (
             <img
               src={`data:image/jpeg;chartset=utf-8;base64,${image}`}
               style={{ width: "250px", height: "200px" }}

@@ -15,12 +15,13 @@ import "./Store.scss";
 export default function Store() {
   const [selectedRow, setSelectedRow] = useState();
   const navigate = useNavigate();
-  const [data] = useHookStore();
+  const [dataRow, setDataRow] = useState([]);
+  const [data] = useHookStore(setDataRow);
 
   return (
     <MainLayout>
       <div className="cabecera">
-        <SearchField />
+        <SearchField id="agency" data={data} setData={setDataRow} />
         <ListItem className="list" button component={Link} to="/store/add">
           <ListItemIcon>
             <Add />
@@ -32,7 +33,7 @@ export default function Store() {
         <div style={{ height: 500, width: "100%" }}>
           {data.length > 0 ? (
             <DataGrid
-              rows={data}
+              rows={dataRow}
               columns={columnAg}
               key={data.id}
               rowHeight={30}

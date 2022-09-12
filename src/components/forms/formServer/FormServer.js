@@ -10,16 +10,20 @@ import DatePickerField from "../field/DatePickerField";
 import SwitchField from "../field/SwitchField";
 import SubmitButton from "../field/SubmitButton";
 import LayoutForm from "../../../Layout/LayoutForm";
+import PickerDate from "../field/PickerDate";
 import theme from "./styles";
 import useHookFormServer from "./useHookFormServer";
 
 export default function FormServer() {
   const [onLine, setOnLine] = useState(false);
   const [idBrand, setIdBrand] = useState("");
+  const [idAgency, setIdAgency] = useState("");
+  const [dateInst, setDateInst] = useState(null);
+  const [dateBuy, setDateBuy] = useState(null);
   const [submit] = useHookFormServer();
 
   const handleSubmit = (values, { resetForm }) => {
-    submit(values, setIdBrand);
+    submit(values, setIdBrand, setIdAgency, setDateInst, setDateBuy);
     resetForm();
   };
 
@@ -52,20 +56,22 @@ export default function FormServer() {
             <Text name="deviceId" label="DeviceId" />
             <Text name="assetId" label="ActiveNumber" />
 
-            <DatePickerField
-              id="buy"
-              label="Date Buys"
-              dateValue={new Date()}
+            <PickerDate
+              name="fechaCompra"
+              label="Buy Date"
+              value={dateBuy}
+              setValue={setDateBuy}
             />
           </Grid>
           <Grid item xs={4}>
             <Text name="modelo" label="Model" />
             <Text name="serialNumber" label="SerialNumber" />
-            <FieldSelect type="agency" id="" />
-            <DatePickerField
-              id="installation"
+            <FieldSelect type="agency" id={idAgency} setId={setIdAgency} />
+            <PickerDate
+              name="fechaInstalacion"
               label="Installation Date"
-              dateValue={new Date()}
+              value={dateInst}
+              setValue={setDateInst}
             />
           </Grid>
         </Grid>

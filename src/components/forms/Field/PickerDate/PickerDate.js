@@ -3,7 +3,14 @@ import { FormControlLabel, FormGroup, TextField } from "@mui/material";
 import DesktopDatePicker from "@mui/lab/DesktopDatePicker";
 import { useFormikContext } from "formik";
 
-export default function PickerDate({ name, label, value, setValue }) {
+export default function PickerDate({
+  name,
+  label,
+  value,
+  setValue,
+  format = "yyyy-MM-dd",
+  mask = "____-__-__",
+}) {
   const { setFieldValue } = useFormikContext();
   const handleChange = (value) => {
     setValue(value);
@@ -16,8 +23,8 @@ export default function PickerDate({ name, label, value, setValue }) {
           control={
             <DesktopDatePicker
               label={label}
-              inputFormat="yyyy-MM-dd"
-              mask="____-__-__"
+              inputFormat={format}
+              mask={mask}
               value={value}
               onChange={handleChange}
               renderInput={(params) => (

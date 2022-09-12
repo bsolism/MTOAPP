@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import apiService from "../../services/apiAgency";
 
-const useHookStore = () => {
+const useHookStore = (setDataRow) => {
   const [data, setData] = useState([]);
 
   useEffect(() => {
@@ -21,6 +21,7 @@ const useHookStore = () => {
     }
 
     setData(dataResp);
+    setDataRow(dataResp);
   };
   return [data];
 };

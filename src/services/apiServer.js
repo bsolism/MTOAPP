@@ -42,11 +42,6 @@ const PostFile = (value) => {
   data.append("dataSheetName", value.dataSheetName);
   data.append("serverId", value.serverId);
   data.append("file", value.file);
-
-  // for (let [key, value] of data) {
-  //   console.log(`${key}: ${value}`);
-  // }
-
   const url = `${API_HOST}${endPoint.FilePost}`;
 
   return axios
@@ -55,21 +50,18 @@ const PostFile = (value) => {
       return response;
     })
     .catch(function (error) {
-      console.log(error.response);
       return error.response;
     });
 };
 
 const GetDataSheet = (id) => {
-  const url = `${API_HOST}${endPoint.hikdatasheet}/${id}`;
-  console.log(url);
+  const url = `${API_HOST}${endPoint.hik}/server/pdf/${id}`;
   return axios
     .get(url)
     .then(function (response) {
       return response;
     })
     .catch(function (error) {
-      console.log(error.response);
       return error.response;
     });
 };

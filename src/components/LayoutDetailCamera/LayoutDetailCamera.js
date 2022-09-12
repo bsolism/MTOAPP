@@ -63,7 +63,7 @@ export default function BasicTabs({ item, handleClose, data, setData }) {
         <History item={item} origen="camera" />
       </TabPanel>
       <TabPanel value={value} index={2}>
-        <DisplayPdf item={item} />
+        <DisplayPdf item={item} type="camera" />
       </TabPanel>
     </Box>
   );

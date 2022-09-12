@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { apiServer, apiHikvision } from "../../services";
 
-const useHookServer = () => {
+const useHookServer = (setDataRow) => {
   const [data, setData] = useState([]);
 
   useEffect(() => {
@@ -14,7 +14,7 @@ const useHookServer = () => {
       dataRes = res.data;
     });
     if (dataRes !== null) {
-      dataRes.map((res, index) => {
+      dataRes.map(async (res, index) => {
         dataRes[index].row = index + 1;
         if (res.brandId === 1) {
           const data = {
@@ -22,15 +22,21 @@ const useHookServer = () => {
             name: res.user,
             password: res.password,
           };
-          apiHikvision.GetDayPlayback(data).then((resp) => {
+          await apiHikvision.GetDayPlayback(data).then((resp) => {
             if (resp.status === 200) {
-              dataRes[index].engravedDays = resp.data.content;
+              if (dataRes[index].engravedDays !== parseInt(resp.data.content)) {
+                dataRes[index].engravedDays = parseInt(resp.data.content);
+                apiServer.PutSever(dataRes[index]).then((res) => {
+                  console.log(res);
+                });
+              }
             }
           });
         }
 
         return res;
       });
+      setDataRow(dataRes);
       setData(dataRes);
     }
   };

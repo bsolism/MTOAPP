@@ -9,8 +9,10 @@ const useHookStatusDevice = (dataEvent, dataAg) => {
 
   const sendDataTable = () => {
     setDataTable([]);
+
     if (dataEvent.length > 0) {
-      dataEvent.map((e) => {
+      const data = dataEvent.filter((x) => x.camera.retired === false);
+      data.map((e) => {
         const ag = dataAg.filter((x) => x.id === e.camera.agenciaId);
         const dat = MappData(
           e.camera,

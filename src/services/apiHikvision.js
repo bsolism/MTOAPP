@@ -3,7 +3,7 @@ import axios from "axios";
 import { endPoint } from "./endPoint";
 
 const checkStatus = (values) => {
-  const url = `${API_HOST}${endPoint.hikChannelStatus}`;
+  const url = `${API_HOST}${endPoint.hik}/channels`;
   return axios
     .post(url, values)
     .then(function (response) {
@@ -14,7 +14,7 @@ const checkStatus = (values) => {
     });
 };
 const checkStatusDvr = (values) => {
-  const url = `${API_HOST}${endPoint.hikChannelStatus}/dvr`;
+  const url = `${API_HOST}${endPoint.hik}/channel/dvr`;
   return axios
     .post(url, values)
     .then(function (response) {
@@ -63,7 +63,7 @@ const GetDayPlayback = (data) => {
     });
 };
 const GetTime = (data) => {
-  const url = `${API_HOST}${endPoint.HikTime}`;
+  const url = `${API_HOST}${endPoint.hik}/time`;
   return axios
     .post(url, data)
     .then(function (response) {
@@ -92,7 +92,7 @@ const updateTime = (data, values) => {
     dateTime: data,
   };
 
-  const url = `${API_HOST}${endPoint.HikTime}`;
+  const url = `${API_HOST}${endPoint.hik}/time`;
   return axios
     .put(url, dataSend)
     .then(function (response) {
@@ -103,7 +103,7 @@ const updateTime = (data, values) => {
     });
 };
 const updateName = (values) => {
-  const url = `${API_HOST}${endPoint.HikName}`;
+  const url = `${API_HOST}${endPoint.hik}/info`;
   return axios
     .put(url, values)
     .then(function (response) {

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Grid } from "@mui/material";
 import SwitchField from "../field/SwitchField";
 import DatePickerField from "../field/DatePickerField";
+import PickerDate from "../field/PickerDate";
 import FieldSelect from "../field/FieldSelect";
 import SubmitButton from "../field/SubmitButton";
 import CheckboxField from "../field/CheckboxField";
@@ -14,7 +15,10 @@ import "./DetailServer.scss";
 
 export default function DetailServer({ item, handleClose, data, setData }) {
   const [newValueDate, setNewValueDate] = useState();
-  const [submit] = useHookDetailServer(data, setData, item[0]);
+  const [dateInst, setDateInst] = useState(item[0].fechaInstalacion);
+  const [dateBuy, setDateBuy] = useState(item[0].fechaCompra);
+  const [dateDevice, setDateDevice] = useState(null);
+  const [submit] = useHookDetailServer(data, setData, item[0], setDateDevice);
 
   const handleSubmit = (values) => {
     submit(values);
@@ -41,10 +45,11 @@ export default function DetailServer({ item, handleClose, data, setData }) {
             label="Total de Cámaras"
             value={item[0].cameras !== null ? item[0].cameras.length : 0}
           />
-          <DatePickerField
-            id="buy"
-            label="Date Buys"
-            dateValue={item[0].fechaCompra}
+          <PickerDate
+            name="fechaCompra"
+            label="Buy Date"
+            value={dateBuy}
+            setValue={setDateBuy}
           />
         </Grid>
         <Grid item xs={6}>
@@ -57,28 +62,28 @@ export default function DetailServer({ item, handleClose, data, setData }) {
           <Text name="engravedDays" label="Dias Grabados" />
           <Text name="capacidadSataInstalado" label="Tamaño HDD (TB)" />
           <Text name="nota" label="Observaciones" />
-          <DatePickerField
-            id="installation"
+          <PickerDate
+            name="fechaInstalacion"
             label="Installation Date"
-            dateValue={item[0].fechaInstalacion}
+            value={dateInst}
+            setValue={setDateInst}
           />
         </Grid>
         <Grid item xs={3} display="flex" alignContent="baseline">
-          <DatePickerField
-            id="dateLive"
-            label="Fecha y hora Dispositivo"
-            dateValue={newValueDate}
-            setNewValueDate={setNewValueDate}
-            format="yyyy-MM-dd HH:mm:ss"
-            mask="____-__-__ __:__:__"
-            item={item[0]}
+          <PickerDate
+            name="DateDevice"
+            label="Date Device"
+            value={dateDevice}
+            setValue={setDateDevice}
+            format="yyyy-MM-dd HH:mm"
+            mask="____-__-__ __:__"
           />
         </Grid>
         <Grid item xs={3} display="flex" justifyContent="flex-end">
           <CheckboxField
             label="Sinc"
             item={item[0]}
-            setNewValueDate={setNewValueDate}
+            setNewValueDate={setDateDevice}
           />
         </Grid>
         <Grid item xs={6} display="flex" justifyContent="flex-end">

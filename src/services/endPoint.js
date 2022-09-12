@@ -21,4 +21,5 @@ export const endPoint = {
   vivotek: "/api/vivotek",
   evento: "/api/evento",
   hik: "/api/hikvision",
+  geovision: "/api/geovision",
 };

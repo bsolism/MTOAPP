@@ -20,8 +20,9 @@ export default function FieldSelect({ type, id, setId }) {
         sx={{ fontSize: 12 }}
         labelId="demo-simple-select-label"
         id="demo-simple-select"
+        value={source.length > 0 ? id : ""}
         displayEmpty
-        value={id ? id : ""}
+        defaultValue=""
         label={
           type === "server"
             ? "NVR/Server"
