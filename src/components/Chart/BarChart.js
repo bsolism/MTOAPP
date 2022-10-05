@@ -42,7 +42,7 @@ const options = {
 };
 
 export default function BarChart({ dataSource }) {
-  const [bueno, malo, agencia] = useHookBarChart(dataSource);
+  const [bueno, malo, agency] = useHookBarChart(dataSource);
 
   const data = {
     datasets: [
@@ -57,7 +57,7 @@ export default function BarChart({ dataSource }) {
         backgroundColor: "rgba(255, 99, 132, 0.8)",
       },
     ],
-    labels: agencia,
+    labels: agency,
   };
   return <Bar data={data} options={options} width={"30%"} height={"30%"} />;
 }

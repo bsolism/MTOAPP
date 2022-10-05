@@ -103,6 +103,8 @@ export default function AgencyDetail({ item }) {
             handleClose={handleClose}
             data={server}
             setData={setServer}
+            setDataCam={setDataCam}
+            dataCam={dataCam}
           />
         )}
       </BasicModal>

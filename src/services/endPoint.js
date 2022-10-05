@@ -1,5 +1,5 @@
 export const endPoint = {
-  Agency: "/api/agencia",
+  Agency: "/api/agency", //
   Brand: "/api/brand",
   Camera: "/api/camera",
   CameraOnly: "/api/camera/only",
@@ -9,8 +9,8 @@ export const endPoint = {
   CamImageHik: "/api/DeviceInfo/hik/image",
   HikTime: "/api/hikvision/time",
   Capabilities: "/api/Hikvision/capabilities",
-  Log: "/api/Log/camera",
-  LogPost: "/api/Log",
+  Log: "/api/Log",
+  //LogPost: "/api/Log",
   LogServer: "/api/Logserver/server",
   LogPostServer: "/api/Logserver",
   FilePost: "/api/server/file",
@@ -22,4 +22,6 @@ export const endPoint = {
   evento: "/api/evento",
   hik: "/api/hikvision",
   geovision: "/api/geovision",
+  panasonic: "/api/panasonic",
+  datasheet: "/api/datasheet",
 };

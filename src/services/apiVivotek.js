@@ -40,10 +40,34 @@ const GetInfo = (data) => {
       return error.response;
     });
 };
+const SetName = (data) => {
+  const url = `${API_HOST}${endPoint.vivotek}/setName`;
+  return axios
+    .post(url, data)
+    .then(function (response) {
+      return response;
+    })
+    .catch(function (error) {
+      return error.response;
+    });
+};
+const SetNameOSD = (data) => {
+  const url = `${API_HOST}${endPoint.vivotek}/setnameosd`;
+  return axios
+    .post(url, data)
+    .then(function (response) {
+      return response;
+    })
+    .catch(function (error) {
+      return error.response;
+    });
+};
 
 const apiVivotek = {
   checkStatus,
   GetImageCam,
   GetInfo,
+  SetName,
+  SetNameOSD,
 };
 export default apiVivotek;

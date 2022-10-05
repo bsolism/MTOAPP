@@ -4,7 +4,7 @@ import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import { Grid, Box } from "@mui/material";
 import Form from "../../components/Forms/form/Form";
 
-export default function LayoutForm({ item, onSubmit, children }) {
+export default function LayoutForm({ item, onSubmit, children, innerRef }) {
   return (
     <LocalizationProvider dateAdapter={DateAdapter}>
       <Box
@@ -14,7 +14,7 @@ export default function LayoutForm({ item, onSubmit, children }) {
         }}
       >
         <Grid container spacing={1}>
-          <Form initialValues={item} onSubmit={onSubmit}>
+          <Form initialValues={item} onSubmit={onSubmit} innerRef={innerRef}>
             {children}
           </Form>
         </Grid>

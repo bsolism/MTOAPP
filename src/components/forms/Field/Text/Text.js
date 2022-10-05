@@ -11,6 +11,7 @@ export default function Text({
   xs = 12,
   type,
   value,
+  disabled = false,
   ...props
 }) {
   const { setFieldValue, values } = useFormikContext();
@@ -25,6 +26,7 @@ export default function Text({
     <TextField
       type={type}
       required={required}
+      disabled={disabled}
       id={name}
       name={name}
       label={label}

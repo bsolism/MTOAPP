@@ -10,6 +10,7 @@ export default function PickerDate({
   setValue,
   format = "yyyy-MM-dd",
   mask = "____-__-__",
+  disabled = false,
 }) {
   const { setFieldValue } = useFormikContext();
   const handleChange = (value) => {
@@ -22,6 +23,7 @@ export default function PickerDate({
         <FormControlLabel
           control={
             <DesktopDatePicker
+              disabled={disabled}
               label={label}
               inputFormat={format}
               mask={mask}

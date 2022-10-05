@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { apiCamera, apiHikvision } from "../../../services";
+import { apiCamera, apiHikvision, apiVivotek } from "../../../services";
 import { toast } from "react-toastify";
 import { Buffer } from "buffer";
 
@@ -18,7 +18,6 @@ const useHookFormCamera = () => {
     let base64Str = bufferObj.toString("base64");
     window.Buffer = window.Buffer || require("buffer").Buffer;
     values.password = base64Str;
-
     apiCamera.PostCamera(values).then((res) => {
       if (res.status === 400) {
         toast.warning(res.data);
@@ -37,13 +36,18 @@ const useHookFormCamera = () => {
   };
 
   const updateNameDevice = async (values) => {
-    const data = {
-      ipAddress: values.ipAddress,
-      name: values.user,
-      password: values.password,
-      nameDevice: values.name,
-    };
-    await apiHikvision.updateName(data).then((res) => {});
+    if (values.brandName === "Hikvision") {
+      await apiHikvision.updateName(values).then((res) => {
+        console.log(res);
+      });
+      await apiHikvision.updateNameOSD(values).then((res) => {
+        console.log(res);
+      });
+    }
+    if (values.brandName === "Vivotek") {
+      await apiVivotek.SetName(values).then((res) => {});
+      await apiVivotek.SetNameOSD(values).then((res) => {});
+    }
   };
 
   return [submit];

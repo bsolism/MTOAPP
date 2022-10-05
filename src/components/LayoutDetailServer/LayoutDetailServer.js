@@ -32,7 +32,14 @@ function allyProps(index) {
   };
 }
 
-export default function BasicTabs({ item, handleClose, data, setData }) {
+export default function BasicTabs({
+  item,
+  handleClose,
+  data,
+  setData,
+  setDataCam,
+  dataCam,
+}) {
   const [value, setValue] = React.useState(0);
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -57,6 +64,8 @@ export default function BasicTabs({ item, handleClose, data, setData }) {
           handleClose={handleClose}
           data={data}
           setData={setData}
+          setDataCam={setDataCam}
+          dataCam={dataCam}
         />
       </TabPanel>
       <TabPanel value={value} index={1}>

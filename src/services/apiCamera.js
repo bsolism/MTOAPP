@@ -87,48 +87,14 @@ const GetCameraInfo = (data) => {
       return error.response;
     });
 };
-const GetDataSheet = (id) => {
-  const url = `${API_HOST}${endPoint.hik}/camera/pdf/${id}`;
-  return axios
-    .get(url)
-    .then(function (response) {
-      return response;
-    })
-    .catch(function (error) {
-      return error.response;
-    });
-};
-const GetPdf = (name) => {
-  const url = `${API_HOST}${endPoint.DataPdf}/${name}`;
-  return url;
-};
-const PostFile = (value) => {
-  const data = new FormData();
-  data.append("dataSheetName", value.dataSheetName);
-  data.append("cameraId", value.serverId);
-  data.append("file", value.file);
-  const url = `${API_HOST}${endPoint.Camera}/pdf`;
-
-  return axios
-    .post(url, data, { headers: { Accept: "application/pdf;base64" } })
-    .then(function (response) {
-      return response;
-    })
-    .catch(function (error) {
-      return error.response;
-    });
-};
 
 const apiCamera = {
   PostCamera,
-  PostFile,
   GetCamera,
   GetCameraInfo,
   GetCameraOnly,
   PutCamera,
   GetImageCamHik,
   GetCameraByChannel,
-  GetDataSheet,
-  GetPdf,
 };
 export default apiCamera;

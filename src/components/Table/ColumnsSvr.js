@@ -8,8 +8,8 @@ const columnsSrv = [
       return <span>{index.row.row}</span>;
     },
   },
-  { field: "nombre", headerName: "Nombre", width: 140 },
-  { field: "ubicacion", headerName: "Ubicación", width: 120 },
+  { field: "name", headerName: "Nombre", width: 140 },
+  { field: "location", headerName: "Ubicación", width: 120 },
   {
     field: "type",
     headerName: "Tipo",
@@ -25,7 +25,7 @@ const columnsSrv = [
       return params.value.name;
     },
   },
-  { field: "modelo", headerName: "Modelo", width: 110 },
+  { field: "model", headerName: "Modelo", width: 110 },
   {
     field: "ipAddress",
     headerName: "Dirección IP",
@@ -40,7 +40,7 @@ const columnsSrv = [
   },
 
   {
-    field: "canalesIP",
+    field: "channelIP",
     headerName: "Camaras",
     width: 100,
     hide: true,
@@ -68,17 +68,17 @@ const columnsSrv = [
     valueGetter: (params) =>
       params.row.cameras !== null
         ? `${params.row.cameras.length}/${
-            params.row.canalesIP + params.row.portAnalogo
+            params.row.channelIP + params.row.portAnalogo
           }`
         : 0,
   },
   {
-    field: "sata",
+    field: "slotSata",
     headerName: "Sata",
     hide: true,
   },
   {
-    field: "capacidadSata",
+    field: "capacityBySlot",
     headerName: "Camaras",
     hide: true,
   },
@@ -88,15 +88,15 @@ const columnsSrv = [
     width: 90,
     sortable: false,
     valueGetter: (params) =>
-      `${params.row.sata}HDD x${params.row.capacidadSata}TB`,
+      `${params.row.slotSata}HDD x${params.row.capacityBySlot}TB`,
   },
   {
-    field: "sataInstalado",
+    field: "sataAvailable",
     headerName: "Sata",
     hide: true,
   },
   {
-    field: "capacidadSataInstalado",
+    field: "capacityTotal",
     headerName: "Camaras",
     hide: true,
   },
@@ -106,7 +106,7 @@ const columnsSrv = [
     width: 90,
     sortable: false,
     valueGetter: (params) =>
-      `${params.row.sataInstalado}HDD x${params.row.capacidadSataInstalado}TB`,
+      `${params.row.sataAvailable}HDD x${params.row.capacityTotal}TB`,
   },
   {
     field: "engravedDays",

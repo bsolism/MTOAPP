@@ -56,9 +56,9 @@ export default function FormCamera() {
             <Text required={true} name="name" label="Name" />
             <Text name="mac" label="Mac" />
             <Text name="firmwareVersion" label="FirmwareVersion" />
-            <Text name="ubicacionFisica" label="Location" />
+            <Text name="location" label="Location" />
             <PickerDate
-              name="fechaCompra"
+              name="dateBuy"
               label="Buy Date"
               value={dateBuy}
               setValue={setDateBuy}
@@ -72,7 +72,7 @@ export default function FormCamera() {
             <Text name="deviceDescription" label="DeviceDescription" />
             <Text name="assetId" label="ActiveNumber" />
             <PickerDate
-              name="fechaInstalacion"
+              name="dateInstallation"
               label="Installation Date"
               value={dateInst}
               setValue={setDateInst}
@@ -85,14 +85,14 @@ export default function FormCamera() {
             <Text name="serialNumber" label="SerialNumber" />
             <FieldSelect type="agency" id={idAgency} setId={setIdAgency} />
             <FieldSelect type="server" id={idServer} setId={setIdServer} />
-            <Text name="ubicacionConexion" label="Conecction" />
+            <Text name="connection" label="Conecction" />
             <Text name="portPatchPanel" label="Port PP" type="number" />
             <SwitchField id="onLine" label="En Linea" value={onLine} />
           </Grid>
         </Grid>
         <Grid item xs={12} style={theme.box}>
           <Grid item xs={12}>
-            <Text name="nota" label="Observaciones" />
+            <Text name="note" label="Observaciones" />
             <SubmitButton title="Save" />
           </Grid>
         </Grid>

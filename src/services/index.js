@@ -9,6 +9,8 @@ import apiLogServer from "./apiLogServer";
 import apiVivotek from "./apiVivotek";
 import apiEvento from "./apiEvento";
 import apiGeovision from "./apiGeovision";
+import apiPanasonic from "./apiPanasonic";
+import apiDataSheet from "./apiDataSheet";
 
 export {
   apiAgency,
@@ -22,4 +24,6 @@ export {
   apiVivotek,
   apiEvento,
   apiGeovision,
+  apiPanasonic,
+  apiDataSheet,
 };

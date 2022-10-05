@@ -46,10 +46,10 @@ export default function FormServer() {
         </Grid>
         <Grid item xs={12} style={theme.box}>
           <Grid item xs={4}>
-            <Text required={true} name="nombre" label="Name" />
+            <Text required={true} name="name" label="Name" />
             <Text name="mac" label="Mac" />
             <Text name="firmwareVersion" label="FirmwareVersion" />
-            <Text name="ubicacion" label="Location" />
+            <Text name="location" label="Location" />
           </Grid>
           <Grid item xs={4}>
             <Text required={true} name="type" label="Type" />
@@ -57,18 +57,18 @@ export default function FormServer() {
             <Text name="assetId" label="ActiveNumber" />
 
             <PickerDate
-              name="fechaCompra"
+              name="dateBuy"
               label="Buy Date"
               value={dateBuy}
               setValue={setDateBuy}
             />
           </Grid>
           <Grid item xs={4}>
-            <Text name="modelo" label="Model" />
+            <Text name="model" label="Model" />
             <Text name="serialNumber" label="SerialNumber" />
             <FieldSelect type="agency" id={idAgency} setId={setIdAgency} />
             <PickerDate
-              name="fechaInstalacion"
+              name="dateInstallation"
               label="Installation Date"
               value={dateInst}
               setValue={setDateInst}
@@ -78,27 +78,23 @@ export default function FormServer() {
         <Grid item xs={12} style={theme.box}>
           <Grid item xs={4}>
             <Text name="portAnalogo" label="Port Analogos" type="number" />
-            <Text name="sata" label="HDDs Slot" type="number" />
-            <Text
-              name="capacidadSataInstalado"
-              label="Total Alm."
-              type="number"
-            />
+            <Text name="slotSata" label="HDDs Slot" type="number" />
+            <Text name="capacityTotal" label="Total Alm." type="number" />
           </Grid>
           <Grid item xs={4}>
             <Text name="portIpPoe" label="Port IP Poe" type="number" />
-            <Text name="capacidadSata" label="Cap/Slot" type="number" />
+            <Text name="capacityBySlot" label="Cap/Slot" type="number" />
             <Text name="engravedDays" label="Days Engraved" type="number" />
           </Grid>
           <Grid item xs={4}>
-            <Text name="canalesIP" label="Canales IP" type="number" />
-            <Text name="sataInstalado" label="HDD Inst." type="number" />
+            <Text name="channelIP" label="Canales IP" type="number" />
+            <Text name="sataAvailable" label="HDD Inst." type="number" />
             <SwitchField id="onLine" label="En Linea" value={onLine} />
           </Grid>
         </Grid>
         <Grid item xs={12} style={theme.box}>
           <Grid item xs={12}>
-            <Text name="nota" label="Observaciones" />
+            <Text name="note" label="Observaciones" />
             <SubmitButton title="Save" />
           </Grid>
         </Grid>

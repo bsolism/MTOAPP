@@ -33,7 +33,7 @@ const useHookSelect = (type, setId) => {
       setFieldValue("serverId", event.target.value);
       setFieldValue("server", name[0]);
     }
-    if (type === "agency") setFieldValue("agenciaId", event.target.value);
+    if (type === "agency") setFieldValue("agencyId", event.target.value);
     if (type === "brand") {
       setFieldValue("brandName", name[0].name);
       setFieldValue("brandId", event.target.value);

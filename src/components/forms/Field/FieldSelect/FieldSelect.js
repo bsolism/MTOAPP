@@ -1,11 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { InputLabel, MenuItem, FormControl, Select } from "@mui/material";
 
 import useHookSelect from "./useHookSelect";
 
 import "./FieldSelect.scss";
 
-export default function FieldSelect({ type, id, setId }) {
+export default function FieldSelect({ type, id, setId, disabled = false }) {
   const [source, handleChange] = useHookSelect(type, setId);
   return (
     <FormControl fullWidth variant="standard">
@@ -22,6 +22,7 @@ export default function FieldSelect({ type, id, setId }) {
         id="demo-simple-select"
         value={source.length > 0 ? id : ""}
         displayEmpty
+        disabled={disabled}
         defaultValue=""
         label={
           type === "server"
@@ -34,7 +35,7 @@ export default function FieldSelect({ type, id, setId }) {
       >
         {source.map((value) => (
           <MenuItem key={value.id} value={value.id}>
-            {type === "server" || type === "agency" ? value.nombre : value.name}
+            {value.name}
           </MenuItem>
         ))}
       </Select>

@@ -34,7 +34,7 @@ export default function Sever() {
     <>
       <MainLayout>
         <div className="cabecera">
-          <SearchField id="server" data={data} setData={setDataRow} />
+          <SearchField id="device" data={dataRow} setData={setData} />
           {getAgency.data.length > 0 ? (
             <ListItem className="list" button component={Link} to="/server/add">
               <ListItemIcon>
@@ -58,7 +58,7 @@ export default function Sever() {
           <div style={{ height: 500, width: "100%" }}>
             {data.length > 0 ? (
               <DataGrid
-                rows={dataRow}
+                rows={data}
                 columns={columnsSrv}
                 rowHeight={30}
                 headerHeight={30}

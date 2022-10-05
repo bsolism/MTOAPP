@@ -19,8 +19,8 @@ const useHookDate = (id, dateValue, setNewValueDate, item) => {
 
   const handleChange = (value) => {
     setValue(value);
-    if (id === "buy") setFieldValue("fechaCompra", value);
-    if (id === "installation") setFieldValue("fechaInstalacion", value);
+    if (id === "buy") setFieldValue("dateBuy", value);
+    if (id === "installation") setFieldValue("dateInstallation", value);
   };
   const getDateDevice = async () => {
     if (item !== undefined) {

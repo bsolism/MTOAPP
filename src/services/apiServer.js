@@ -40,7 +40,7 @@ const PutSever = (value) => {
 const PostFile = (value) => {
   const data = new FormData();
   data.append("dataSheetName", value.dataSheetName);
-  data.append("serverId", value.serverId);
+  data.append("deviceId", value.deviceId);
   data.append("file", value.file);
   const url = `${API_HOST}${endPoint.FilePost}`;
 

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Document, Page } from "react-pdf/dist/esm/entry.webpack";
 import { Stack, Button, IconButton } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import { apiCamera, apiServer } from "../../services";
+import { apiCamera, apiServer, apiDataSheet } from "../../services";
 import { toast } from "react-toastify";
 import { ArrowBackIos, ArrowForwardIos } from "@mui/icons-material";
 
@@ -25,18 +25,12 @@ export default function DisplayPdf({ item, type }) {
   }, []);
 
   const getData = async () => {
-    if (type === "server") {
-      await apiServer.GetDataSheet(item[0].id).then((res) => {
-        if (res.status === 200) {
-          setFile(apiServer.GetPdf(res.data.dataSheetName));
-        }
-      });
-    }
-    if (type === "camera") {
-      await apiCamera.GetDataSheet(item[0].id).then((res) => {
-        setFile(apiCamera.GetPdf(res.data.dataSheetName));
-      });
-    }
+    await apiDataSheet.GetDataSheet(item[0].id).then((res) => {
+      console.log(res);
+      if (res.status === 200) {
+        setFile(apiDataSheet.GetPdf(res.data.dataSheetName));
+      }
+    });
   };
 
   const handleChange = ({ target }) => {
@@ -50,24 +44,17 @@ export default function DisplayPdf({ item, type }) {
 
   const handleSave = async () => {
     const data = {
-      dataSheetName: item[0].modelo,
-      serverId: item[0].id,
+      dataSheetName: item[0].model,
+      deviceId: item[0].id,
       file: file,
     };
-    if (type === "server") {
-      await apiServer.PostFile(data).then((res) => {
-        if (res.status === 200) {
-          toast("Saved");
-        }
-      });
-    }
-    if (type === "camera") {
-      await apiCamera.PostFile(data).then((res) => {
-        if (res.status === 200) {
-          toast("Saved");
-        }
-      });
-    }
+    console.log(data);
+    await apiDataSheet.PostFile(data).then((res) => {
+      console.log(res);
+      if (res.status === 200) {
+        toast("Saved");
+      }
+    });
   };
 
   const goToPrevPag = () => {

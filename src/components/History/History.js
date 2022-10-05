@@ -13,9 +13,10 @@ import { apiLog, apiLogServer } from "../../services";
 import "./History.scss";
 const theme = createTheme();
 const columns = [
-  { field: "evento", headerName: "Evento", width: 440 },
+  { field: "message", headerName: "Evento", width: 340 },
+  { field: "logType", headerName: "Tipo", width: 100 },
   {
-    field: "usuario",
+    field: "user",
     headerName: "Usuario",
     width: 120,
     renderCell: (params) => {
@@ -37,37 +38,20 @@ export default function History({ item, origen }) {
   }, [item[0].id]);
 
   const getData = async (id) => {
-    if (origen === "camera") {
-      await apiLog.GetLogByCameraId(id).then((res) => {
-        setData(res.data);
-      });
-    } else {
-      await apiLogServer.GetLogByServerId(id).then((res) => {
-        setData(res.data);
-      });
-    }
+    await apiLog.GetLogByDeviceId(id).then((res) => {
+      setData(res.data);
+    });
   };
   const handleSubmit = (values, { resetForm }) => {
-    if (origen === "camera") {
-      const newdata = {
-        evento: values.event,
-        usuarioId: 1,
-        cameraId: item[0].id,
-      };
+    const newdata = {
+      message: values.event,
+      userId: 1,
+      deviceId: item[0].id,
+    };
 
-      apiLog.PostLog(newdata).then((res) => {
-        getData(item[0].id);
-      });
-    } else {
-      const newdata = {
-        evento: values.event,
-        usuarioId: 1,
-        serverId: item[0].id,
-      };
-      apiLogServer.PostLog(newdata).then((res) => {
-        getData(item[0].id);
-      });
-    }
+    apiLog.PostLog(newdata).then((res) => {
+      getData(item[0].id);
+    });
   };
 
   return (

@@ -29,6 +29,7 @@ const GetImageCam = (data) => {
   return axios
     .post(url, data, { responseType: "arraybuffer" })
     .then(function (response) {
+      console.log(response);
       return btoa(
         new Uint8Array(response.data).reduce(
           (data, byte) => data + String.fromCharCode(byte),
@@ -113,6 +114,17 @@ const updateName = (values) => {
       return error.response;
     });
 };
+const updateNameOSD = (values) => {
+  const url = `${API_HOST}${endPoint.hik}/infoOsd`;
+  return axios
+    .put(url, values)
+    .then(function (response) {
+      return response;
+    })
+    .catch(function (error) {
+      return error.response;
+    });
+};
 
 const apiHikvision = {
   GetTime,
@@ -121,6 +133,7 @@ const apiHikvision = {
   updateTime,
   GetCapabilities,
   updateName,
+  updateNameOSD,
   checkStatus,
   checkStatusDvr,
   GetDayPlayback,

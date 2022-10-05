@@ -3,18 +3,19 @@ import { useState, useEffect } from "react";
 const useHookBarChart = (dataSource) => {
   const [bueno, setBueno] = useState([]);
   const [malo, setMalo] = useState([]);
-  const [agencia, setAgencia] = useState([]);
+  const [agency, setAgency] = useState([]);
 
   useEffect(() => {
     handleData();
   }, [dataSource]);
 
   const handleData = () => {
-    setAgencia([]);
+    setAgency([]);
     setBueno([]);
     setMalo([]);
+    if (dataSource.length === 0) return;
     dataSource.map((res) => {
-      setAgencia((agencia) => [...agencia, res.nombre]);
+      setAgency((agency) => [...agency, res.name]);
 
       let count = 0;
       let count2 = 0;
@@ -28,7 +29,7 @@ const useHookBarChart = (dataSource) => {
     });
   };
 
-  return [bueno, malo, agencia];
+  return [bueno, malo, agency];
 };
 
 export default useHookBarChart;

@@ -21,7 +21,7 @@ export default function Camera() {
   const [open, setOpen] = useState(false);
   const getServer = useApi(apiServer.GetServer);
   const [dataRow, setDataRow] = useState([]);
-  const [data, getData] = useHookCamera(setDataRow);
+  const [data, getData, setData] = useHookCamera(setDataRow);
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -35,7 +35,7 @@ export default function Camera() {
     <>
       <MainLayout>
         <div className="cabecera">
-          <SearchField id="camera" data={data} setData={setDataRow} />
+          <SearchField id="camera" data={dataRow} setData={setData} />
           {getServer.data.length > 0 ? (
             <ListItem className="list" button component={Link} to="/camera/add">
               <ListItemIcon>
@@ -58,7 +58,7 @@ export default function Camera() {
         <Body>
           <div style={{ height: 500, width: "100%" }}>
             <DataGrid
-              rows={dataRow}
+              rows={data}
               columns={ColumnsCam}
               rowHeight={30}
               headerHeight={30}
@@ -83,7 +83,8 @@ export default function Camera() {
         <LayoutDetailCamera
           item={selectedRow}
           handleClose={handleClose}
-          getData={getData}
+          data={data}
+          setData={setData}
         />
       </BasicModal>
     </>

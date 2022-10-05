@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import { Grid } from "@mui/material";
 import SwitchField from "../field/SwitchField";
 import DatePickerField from "../field/DatePickerField";
+import PickerDate from "../field/PickerDate";
 import FieldSelect from "../field/FieldSelect";
 import SubmitButton from "../field/SubmitButton";
 import Text from "../field/Text";
@@ -13,6 +14,10 @@ import Loader from "../../Loader";
 import "./DetailCamera.scss";
 
 export default function DetailCamera({ item, handleClose, data, setData }) {
+  const [dateInst, setDateInst] = useState(item[0].dateInstallation);
+  const [dateBuy, setDateBuy] = useState(item[0].dateBuy);
+  const [idAgency, setIdAgency] = useState(item[0].agencyId);
+  const [idServer, setIdServer] = useState(item[0].serverId);
   const [submit, image, checkedMic, mic, handleChangeMic] = useHookDetailCamera(
     item[0],
     data,
@@ -28,7 +33,7 @@ export default function DetailCamera({ item, handleClose, data, setData }) {
     <LayoutForm item={item[0]} onSubmit={handleSubmit}>
       <Grid container spacing={2}>
         <Grid item xs={12} display="flex" justifyContent="flex-end">
-          <RefreshData item={item[0]} />
+          <RefreshData source="camera" item={item[0]} />
           <SwitchField id="retired" label="Retirar" value={item[0].retired} />
         </Grid>
         <Grid item xs={4}>
@@ -37,17 +42,17 @@ export default function DetailCamera({ item, handleClose, data, setData }) {
           <Text name="assetId" label="ActiveNumber" sm={4} />
           <Text name="user" label="User" />
           <Text name="password" label="Pass" type="Password" />
-          <FieldSelect type="server" id={item[0].serverId} />
-          <FieldSelect type="agency" id={item[0].agenciaId} />
+          <FieldSelect type="server" id={idServer} setId={setIdServer} />
+          <FieldSelect type="agency" id={idAgency} setId={setIdAgency} />
         </Grid>
 
         <Grid item xs={4}>
-          <FieldSelect type="brand" id={item[0].brandId} />
-          <Text name="model" label="Model" sm={6} />
-          <Text name="type" label="Type" sm={6} />
-          <Text name="mac" label="Mac" sm={4} />
-          <Text name="serialNumber" label="Serial" sm={12} />
-          <Text name="firmwareVersion" label="Firmware" sm={3} />
+          <FieldSelect type="brand" id={item[0].brandId} disabled />
+          <Text name="model" label="Model" sm={6} disabled />
+          <Text name="type" label="Type" sm={6} disabled />
+          <Text name="mac" label="Mac" sm={4} disabled />
+          <Text name="serialNumber" label="Serial" sm={12} disabled />
+          <Text name="firmwareVersion" label="Firmware" sm={3} disabled />
           <Text name="deviceDescription" label="Description" sm={4} />
         </Grid>
         <Grid item xs={4}>
@@ -62,8 +67,8 @@ export default function DetailCamera({ item, handleClose, data, setData }) {
         </Grid>
 
         <Grid item xs={4}>
-          <Text name="ubicacionFisica" label="Location" sm={4} />
-          <Text name="ubicacionConexion" label="Connection" sm={2} />
+          <Text name="location" label="Location" sm={4} />
+          <Text name="connection" label="Connection" sm={2} />
           <Text name="patchPanel" label="PatchPanel" sm={2} />
         </Grid>
         <Grid item xs={4}>
@@ -73,16 +78,28 @@ export default function DetailCamera({ item, handleClose, data, setData }) {
         </Grid>
         <Grid item xs={4}>
           <Text name="portChannel" label="PortChannel" sm={2} />
-          <DatePickerField
+          <PickerDate
+            name="dateBuy"
+            label="Buy Date"
+            value={dateBuy}
+            setValue={setDateBuy}
+          />
+          <PickerDate
+            name="dateInstallation"
+            label="Installation Date"
+            value={dateInst}
+            setValue={setDateInst}
+          />
+          {/* <DatePickerField
             id="buy"
             label="Date Buys"
-            dateValue={item[0].fechaCompra}
-          />
-          <DatePickerField
+            dateValue={item[0].dateBuy}
+          /> */}
+          {/* <DatePickerField
             id="installation"
             label="Installation Date"
-            dateValue={item[0].fechaInstalacion}
-          />
+            dateValue={item[0].dateInstallation}
+          /> */}
           {mic ? (
             <SwitchField
               handleChange={handleChangeMic}

@@ -53,22 +53,15 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 export default function SearchField({ id, data, setData }) {
   const handleChange = (e) => {
     const newData = data.filter((x) =>
-      id === "camera"
+      id === "device"
         ? x.name.toLowerCase().includes(e.target.value.toLowerCase()) ||
           x.model.toLowerCase().includes(e.target.value.toLowerCase()) ||
           x.brand.name.toLowerCase().includes(e.target.value.toLowerCase()) ||
           x.ipAddress.toLowerCase().includes(e.target.value.toLowerCase()) ||
           x.serialNumber.toLowerCase().includes(e.target.value.toLowerCase()) ||
           x.assetId?.toLowerCase().includes(e.target.value.toLowerCase())
-        : id === "server"
-        ? x.nombre.toLowerCase().includes(e.target.value.toLowerCase()) ||
-          x.modelo.toLowerCase().includes(e.target.value.toLowerCase()) ||
-          x.brand.name.toLowerCase().includes(e.target.value.toLowerCase()) ||
-          x.ipAddress.toLowerCase().includes(e.target.value.toLowerCase()) ||
-          x.serialNumber.toLowerCase().includes(e.target.value.toLowerCase()) ||
-          x.assetId?.toLowerCase().includes(e.target.value.toLowerCase())
-        : x.nombre.toLowerCase().includes(e.target.value.toLowerCase()) ||
-          x.ciudad.toLowerCase().includes(e.target.value.toLowerCase())
+        : x.name.toLowerCase().includes(e.target.value.toLowerCase()) ||
+          x.city.toLowerCase().includes(e.target.value.toLowerCase())
     );
     setData(newData);
   };

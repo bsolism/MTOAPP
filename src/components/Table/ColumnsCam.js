@@ -10,8 +10,8 @@ const columnsCam = [
     },
   },
   { field: "name", headerName: "Nombre", width: 150 },
-  { field: "ubicacionFisica", headerName: "Ubicación", width: 220 },
-  { field: "type", headerName: "Tipo", width: 100 },
+  { field: "location", headerName: "Ubicación", width: 160 },
+  { field: "type", headerName: "Tipo", width: 80 },
   {
     field: "brand",
     headerName: "Marca",
@@ -20,11 +20,11 @@ const columnsCam = [
       return params.value.name;
     },
   },
-  { field: "model", headerName: "Modelo", width: 150 },
+  { field: "model", headerName: "Modelo", width: 100 },
   {
     field: "ipAddress",
     headerName: "Dirección IP",
-    width: 140,
+    width: 110,
     renderCell: (params) => {
       return (
         <a href={"http://" + params.value} target="_blank">
@@ -38,7 +38,7 @@ const columnsCam = [
     headerName: "Servidor",
     width: 100,
     renderCell: (params) => {
-      return params.value ? params.value.nombre : "Not Server";
+      return params.value ? params.value.name : "Not Server";
     },
   },
   {

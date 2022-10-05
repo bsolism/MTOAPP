@@ -26,9 +26,7 @@ const useHookServer = (setDataRow) => {
             if (resp.status === 200) {
               if (dataRes[index].engravedDays !== parseInt(resp.data.content)) {
                 dataRes[index].engravedDays = parseInt(resp.data.content);
-                apiServer.PutSever(dataRes[index]).then((res) => {
-                  console.log(res);
-                });
+                apiServer.PutSever(dataRes[index]).then((res) => {});
               }
             }
           });
@@ -40,7 +38,7 @@ const useHookServer = (setDataRow) => {
       setData(dataRes);
     }
   };
-  return [data, setData];
+  return [data, getData, setData];
 };
 
 export default useHookServer;
