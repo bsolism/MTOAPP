@@ -35,7 +35,7 @@ export default function Camera() {
     <>
       <MainLayout>
         <div className="cabecera">
-          <SearchField id="camera" data={dataRow} setData={setData} />
+          <SearchField id="device" data={dataRow} setData={setData} />
           {getServer.data.length > 0 ? (
             <ListItem className="list" button component={Link} to="/camera/add">
               <ListItemIcon>

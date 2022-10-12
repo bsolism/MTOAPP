@@ -15,6 +15,7 @@ export default function Text({
   ...props
 }) {
   const { setFieldValue, values } = useFormikContext();
+
   const handleChange = (e) => {
     if (type === "number") {
       setFieldValue(name, parseInt(e.target.value));

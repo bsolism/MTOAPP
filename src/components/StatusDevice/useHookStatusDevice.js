@@ -13,7 +13,7 @@ const useHookStatusDevice = (dataEvent, dataAg) => {
     if (dataEvent.length > 0) {
       const data = dataEvent.filter((x) => x.camera.retired === false);
       data.map((e) => {
-        const ag = dataAg.filter((x) => x.id === e.camera.agenciaId);
+        const ag = dataAg.filter((x) => x.id === e.camera.agencyId);
         const dat = MappData(
           e.camera,
           e.camera.server,
@@ -30,9 +30,9 @@ const useHookStatusDevice = (dataEvent, dataAg) => {
       id: camera.id,
       name: camera.name,
       ipAddress: camera.ipAddress,
-      server: server.nombre,
-      channel: server.brandId === 1 ? camera.portChannel : "n/a",
-      agency: agency.nombre,
+      server: server.name,
+      channel: server.brand.name === "Vivotek" ? camera.portChannel : "n/a",
+      agency: agency.name,
       comment: comment,
       dateTime: dateTime,
     };

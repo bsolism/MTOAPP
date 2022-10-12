@@ -34,8 +34,8 @@ const useHookServer = (setDataRow) => {
 
         return res;
       });
-      setDataRow(dataRes);
       setData(dataRes);
+      setDataRow(dataRes);
     }
   };
   return [data, getData, setData];

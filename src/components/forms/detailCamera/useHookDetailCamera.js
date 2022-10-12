@@ -18,55 +18,61 @@ const useHookDetailCamera = (cam, data, setData) => {
   const [mic, setMic] = useState();
 
   useEffect(() => {
+    const getImage = async () => {
+      if (cam.server.brand.name === "Hikvision") {
+        await apiHikvision.GetImageCam(cam).then((res) => {
+          setImage(res);
+        });
+      }
+      if (
+        cam.brand.name === "Vivotek" &&
+        cam.server.brand.name !== "Hikvision"
+      ) {
+        await apiVivotek.GetImageCam(cam).then((res) => {
+          setImage(res);
+        });
+      }
+      if (
+        cam.brand.name === "Geovision" &&
+        cam.server.brand.name !== "Hikvision"
+      ) {
+        await apiGeovision.GetImageCam(cam).then((res) => {
+          setImage(res);
+        });
+      }
+    };
     getImage();
-    checkMic();
-  }, []);
+    //checkMic();
+  }, [cam]);
 
-  const checkMic = async () => {
-    if (cam.brand.name === "Hikvision") {
-      await apiHikvision.GetCapabilities(cam).then((res) => {
-        if (res.status === 200) {
-          var xmlData = new XMLParser().parseFromString(res.data);
-          xmlData.children.map((x) => {
-            if (x.name === "Audio") {
-              setMic(true);
-              x.children.map((xs) => {
-                if (xs.name === "enabled") {
-                  if (xs.value === "false") {
-                    setCheckedMic(false);
+  useEffect(() => {
+    const checkMic = async () => {
+      if (cam.brand.name === "Hikvision") {
+        await apiHikvision.GetCapabilities(cam).then((res) => {
+          if (res.status === 200) {
+            var xmlData = new XMLParser().parseFromString(res.data);
+            xmlData.children.map((x) => {
+              if (x.name === "Audio") {
+                setMic(true);
+                x.children.map((xs) => {
+                  if (xs.name === "enabled") {
+                    if (xs.value === "false") {
+                      setCheckedMic(false);
+                    }
                   }
-                }
-              });
-            }
-          });
-        } else {
-          toast.warning(res.data);
-        }
-      });
-    }
-  };
-
-  const getImage = async () => {
-    if (cam.server.brand.name === "Hikvision") {
-      await apiHikvision.GetImageCam(cam).then((res) => {
-        console.log(res);
-        setImage(res);
-      });
-    }
-    if (cam.brand.name === "Vivotek" && cam.server.brand.name !== "Hikvision") {
-      await apiVivotek.GetImageCam(cam).then((res) => {
-        setImage(res);
-      });
-    }
-    if (
-      cam.brand.name === "Geovision" &&
-      cam.server.brand.name !== "Hikvision"
-    ) {
-      await apiGeovision.GetImageCam(cam).then((res) => {
-        setImage(res);
-      });
-    }
-  };
+                  return xs;
+                });
+              }
+              return x;
+            });
+          } else {
+            toast.warning(res.data);
+          }
+        });
+      }
+    };
+    checkMic();
+  }, [cam]);
 
   const submit = (values) => {
     if (!_.isEqual(values, cam)) {
@@ -116,7 +122,6 @@ const useHookDetailCamera = (cam, data, setData) => {
         values.password = passEncryp(values.serialNumber, values.password);
       }
       apiCamera.PutCamera(values).then((res) => {
-        console.log(res);
         if (res === undefined) toast.warning("Update error");
         if (res.status === 200) {
           data.map((val, index) => {
@@ -125,6 +130,7 @@ const useHookDetailCamera = (cam, data, setData) => {
               newArr[index] = values;
               setData(newArr);
             }
+            return val;
           });
           toast("Update Complete");
         }
@@ -148,13 +154,11 @@ const useHookDetailCamera = (cam, data, setData) => {
             if (res.status !== 200) {
               toast("Exception Name: " + res.data);
             }
-            console.log(res);
           });
         await apiHikvision.updateNameOSD(values).then((res) => {
           if (res.status !== 200) {
             toast("Exception OSD: " + res.data);
           }
-          console.log(res);
         });
       }
       if (item.brand.name === "Vivotek") {
@@ -175,9 +179,7 @@ const useHookDetailCamera = (cam, data, setData) => {
       type: false,
       logType: "Operation",
     };
-    apiLog.PostLog(value).then((res) => {
-      console.log(res);
-    });
+    apiLog.PostLog(value).then((res) => {});
   };
 
   return [submit, image, checkedMic, mic, handleChangeMic];

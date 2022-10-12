@@ -21,7 +21,7 @@ export default function Sever() {
   const [selectedRow, setSelectedRow] = useState();
   const [open, setOpen] = useState(false);
   const [dataRow, setDataRow] = useState([]);
-  const [data, setData] = useHookServer(setDataRow);
+  const [data, getData, setData] = useHookServer(setDataRow);
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);

@@ -24,9 +24,11 @@ const PostFile = (value) => {
   return axios
     .post(url, data, { headers: { Accept: "application/pdf;base64" } })
     .then(function (response) {
+      console.log(response);
       return response;
     })
     .catch(function (error) {
+      console.log(error);
       return error.response;
     });
 };

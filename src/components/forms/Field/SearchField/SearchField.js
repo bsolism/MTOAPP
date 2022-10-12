@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { styled, alpha } from "@mui/material/styles";
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
@@ -36,23 +36,19 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   color: "inherit",
   "& .MuiInputBase-input": {
     padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
     paddingLeft: `calc(1em + ${theme.spacing(4)})`,
     transition: theme.transitions.create("width"),
     width: "80%",
 
     [theme.breakpoints.up("sm")]: {
       width: "50ch",
-      // "&:focus": {
-      //   width: "60ch",
-      // },
     },
   },
 }));
 
 export default function SearchField({ id, data, setData }) {
   const handleChange = (e) => {
-    const newData = data.filter((x) =>
+    var newData = data.filter((x) =>
       id === "device"
         ? x.name.toLowerCase().includes(e.target.value.toLowerCase()) ||
           x.model.toLowerCase().includes(e.target.value.toLowerCase()) ||

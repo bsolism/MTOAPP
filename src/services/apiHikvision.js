@@ -29,7 +29,6 @@ const GetImageCam = (data) => {
   return axios
     .post(url, data, { responseType: "arraybuffer" })
     .then(function (response) {
-      console.log(response);
       return btoa(
         new Uint8Array(response.data).reduce(
           (data, byte) => data + String.fromCharCode(byte),

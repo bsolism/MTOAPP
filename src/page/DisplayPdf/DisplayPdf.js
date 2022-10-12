@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Document, Page } from "react-pdf/dist/esm/entry.webpack";
 import { Stack, Button, IconButton } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import { apiCamera, apiServer, apiDataSheet } from "../../services";
+import { apiDataSheet } from "../../services";
 import { toast } from "react-toastify";
 import { ArrowBackIos, ArrowForwardIos } from "@mui/icons-material";
 
@@ -21,21 +21,19 @@ export default function DisplayPdf({ item, type }) {
   };
 
   useEffect(() => {
+    const getData = async () => {
+      await apiDataSheet.GetDataSheet(item[0].id).then((res) => {
+        if (res.status === 200) {
+          setFile(apiDataSheet.GetPdf(res.data.dataSheetName));
+        }
+      });
+    };
     getData();
-  }, []);
-
-  const getData = async () => {
-    await apiDataSheet.GetDataSheet(item[0].id).then((res) => {
-      console.log(res);
-      if (res.status === 200) {
-        setFile(apiDataSheet.GetPdf(res.data.dataSheetName));
-      }
-    });
-  };
+  }, [item]);
 
   const handleChange = ({ target }) => {
     const fileReader = new FileReader();
-    const name = target.accept.includes("PDF") ? "pdf" : "image";
+    //const name = target.accept.includes("PDF") ? "pdf" : "image";
 
     fileReader.readAsDataURL(target.files[0]);
 
@@ -48,7 +46,6 @@ export default function DisplayPdf({ item, type }) {
       deviceId: item[0].id,
       file: file,
     };
-    console.log(data);
     await apiDataSheet.PostFile(data).then((res) => {
       console.log(res);
       if (res.status === 200) {
